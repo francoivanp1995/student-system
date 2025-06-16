@@ -6,8 +6,8 @@ public class Curso {
 	
     private String id;
     private String nombre;
-    private double precio;
+    private int precio;
     private int cupoMaximo;
-    private double notaAprobacion;
+    private int notaAprobacion;
     private List<Inscripcion> inscripciones;
 }
