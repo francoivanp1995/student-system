@@ -1,6 +1,8 @@
 package main;
 
+import datos.Excepcion.InitException;
 import datos.Excepcion.PanelException;
+import datos.Init;
 import presentacion.FrameInicio;
 import presentacion.PanelManager;
 
@@ -8,15 +10,12 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		PanelManager panelManager = new PanelManager();
-		new FrameInicio(panelManager);
-
 		try {
-			panelManager.iniciar();
-		} catch (PanelException e) {
-			e.printStackTrace();
+			Init init = new Init();
+			init.iniciar();
+		} catch (Exception e){
+			System.out.println("Error al iniciar componentes");
 		}
 
-		panelManager.showFrame();
 	}
 }
