@@ -1,4 +1,4 @@
-package Servicios;
+package datos;
 
 import datos.Excepcion.DatabaseException;
 

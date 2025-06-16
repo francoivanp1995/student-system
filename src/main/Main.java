@@ -1,21 +1,21 @@
 package main;
 
-import datos.Excepcion.InitException;
-import datos.Excepcion.PanelException;
-import datos.Init;
-import presentacion.FrameInicio;
-import presentacion.PanelManager;
+import datos.Excepcion.TablaException;
+import datos.Excepcion.UIException;
+
+import javax.swing.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-
 		try {
-			Init init = new Init();
-			init.iniciar();
-		} catch (Exception e){
-			System.out.println("Error al iniciar componentes");
+			AppManager app = new AppManager();
+		} catch (TablaException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error al iniciar tablas", JOptionPane.ERROR_MESSAGE);
+		} catch (UIException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error al iniciar interfaz", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage(), "Error general", JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 }

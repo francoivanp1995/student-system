@@ -1,9 +1,7 @@
-package Servicios;
+package datos;
 
 import datos.Excepcion.DatabaseException;
-import datos.TableManager;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 
 public class DBInit {
@@ -14,7 +12,7 @@ public class DBInit {
         this.tableCreator = tableCreator;
     }
 
-    public void inicializarDB(Connection c) throws DatabaseException{
+    public void crearTabla(Connection c) throws DatabaseException{
         tableCreator.crearTabla(c);
     }
 }
