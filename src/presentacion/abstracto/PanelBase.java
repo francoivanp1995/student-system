@@ -20,6 +20,8 @@ public abstract class PanelBase extends JPanel{
 	public PanelBase(PanelManager panelManager) {
 		this.panelManager = panelManager;
 		setLayout(new BorderLayout());
+		setUIComponentes();
+		construirPanel();
 	}
 	
 	protected void setBotonera(PanelBotonera panelBotonera) {
@@ -27,8 +29,9 @@ public abstract class PanelBase extends JPanel{
 		add(panelBotonera, BorderLayout.SOUTH);
 	}
 
-	protected abstract void construirPanel();
+	protected abstract JPanel construirPanel();
 	protected abstract void setUIComponentes();
+	protected abstract JPanel crearTitulo();
 
 	protected void mostrarError(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
