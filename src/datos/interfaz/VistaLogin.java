@@ -8,4 +8,5 @@ public interface VistaLogin {
     char[] getContrasena();
     void limpiar();
     void setListener(ActionListener listener);
+
 }

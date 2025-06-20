@@ -35,12 +35,14 @@ public class AppManager {
 
     public void iniciarPanelManager() throws UIException {
         try {
+            System.out.println("Aca llego. es el iniciador de panel manager");
             UIIniciador ui = new UIIniciador();
             ui.iniciarFrame();
+            System.out.println("Aca no llego. es el iniciador de panel manager. Luego del iniciar frame");
         } catch (PanelException e) {
             throw new UIException("Error con el inicio de la UI: " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new UIException("Error inesperado: " + e.getMessage(), e);
+            throw new UIException("Error inesperado desde el iniciador de Panel manager: " + e.getMessage(), e);
         }
     }
 }

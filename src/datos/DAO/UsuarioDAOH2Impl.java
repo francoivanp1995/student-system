@@ -5,10 +5,7 @@ import datos.Excepcion.DAOException;
 import datos.Excepcion.DatabaseException;
 import datos.Excepcion.UsuarioExcepction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UsuarioDAOH2Impl implements UsuarioDAO{
 
@@ -39,23 +36,36 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
 
         try {
             c = new DBManager().connect();
+
+            Statement debugStmt = c.createStatement();
+            ResultSet debugRs = debugStmt.executeQuery("SELECT nombre_de_usuario, contrasenia FROM usuarios");
+            System.out.println("Contenido de la tabla USUARIOS:");
+            while (debugRs.next()) {
+                System.out.println("Usuario: " + debugRs.getString("nombre_de_usuario") +
+                        ", Contraseña: " + debugRs.getString("contrasenia"));
+            }
+            debugRs.close();
+            debugStmt.close();
+
+
+
             String sql = """
-                    SELECT id, nombre, email, rol 
-                    FROM usuarios 
-                    WHERE nombreDeUsuario = ? AND contrasenia = ?
+                    SELECT dni, nombre, email, tipo
+                    FROM usuarios
+                    WHERE nombre_de_usuario = ? AND contrasenia = ?
                 """;
             stmt = c.prepareStatement(sql);
             stmt.setString(1, nombreUsuario);
             stmt.setString(2, contrasenia);
+            System.out.println("Probando login con: " + nombreUsuario + " / " + contrasenia);
             rs = stmt.executeQuery();
-
             if (rs.next()) {
-                String id = rs.getString("id");
+                String dni = rs.getString("dni");
                 String nombre = rs.getString("nombre");
                 String email = rs.getString("email");
-                RolUsuario rol = RolUsuario.valueOf(rs.getString("rol").toUpperCase());
+                RolUsuario rol = RolUsuario.valueOf(rs.getString("tipo").toUpperCase());
 
-                return crearUsuarioPorRol(id, nombre, email, rol);
+                return crearUsuarioPorRol(dni, nombre, email, rol);
             } else {
                 return null;
             }
@@ -73,11 +83,11 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
         }
     }
 
-    private Usuario crearUsuarioPorRol(String id, String nombre, String email, RolUsuario rol) {
+    private Usuario crearUsuarioPorRol(String dni, String nombre, String email, RolUsuario rol) {
         return switch (rol) {
-            case ALUMNO -> new Alumno(id, nombre, email, rol);
-            case PROFESOR -> new Profesor(id, nombre, email, rol);
-            case ADMINISTRADOR -> new Administrador(id, nombre, email, rol);
+            case ALUMNO -> new Alumno(dni, nombre, email, rol);
+            case PROFESOR -> new Profesor(dni, nombre, email, rol);
+            case ADMINISTRADOR -> new Administrador(dni, nombre, email, rol);
         };
     }
 }

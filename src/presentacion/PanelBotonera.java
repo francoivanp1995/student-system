@@ -9,16 +9,17 @@ import java.util.Map;
 public class PanelBotonera extends JPanel {
 
     private Map<String, JButton> botones;
+    private String actionCommand;
 
     public PanelBotonera() {
         botones = new LinkedHashMap<>();
         setLayout(new GridLayout(1, 0, 10, 10));
     }
 
-    public void agregarBoton(String texto) {
+    public void agregarBoton(String texto, String actionCommand) {
         if (botones.containsKey(texto)) return;
-
         JButton boton = new JButton(texto);
+        boton.setActionCommand(actionCommand);
         botones.put(texto, boton);
         add(boton);
         revalidate();

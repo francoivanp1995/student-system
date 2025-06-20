@@ -7,7 +7,7 @@ import javax.swing.*;
 import presentacion.PanelBotonera;
 import presentacion.PanelManager;
 
-public abstract class PanelBase extends JPanel{
+public abstract class PanelBase extends JPanel implements MensajeUI{
 
 	protected PanelManager panelManager;
 	protected PanelBotonera panelBotonera;
@@ -21,7 +21,6 @@ public abstract class PanelBase extends JPanel{
 		this.panelManager = panelManager;
 		setLayout(new BorderLayout());
 		setUIComponentes();
-		construirPanel();
 	}
 	
 	protected void setBotonera(PanelBotonera panelBotonera) {
@@ -33,15 +32,15 @@ public abstract class PanelBase extends JPanel{
 	protected abstract void setUIComponentes();
 	protected abstract JPanel crearTitulo();
 
-	protected void mostrarError(String mensaje) {
+	public void mostrarError(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	protected void mostrarAdvertencia(String mensaje) {
+	public void mostrarAdvertencia(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje, "Advertencia", JOptionPane.WARNING_MESSAGE);
 	}
 
-	protected void mostrarInfo(String mensaje) {
+	public void mostrarInfo(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje, "Información", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

@@ -15,7 +15,7 @@ public class Main {
 		} catch (UIException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error al iniciar interfaz", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage(), "Error general", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error inesperado desde el main: " + e.getMessage(), "Error general", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

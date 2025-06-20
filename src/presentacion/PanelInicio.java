@@ -11,19 +11,23 @@ import java.awt.event.ActionListener;
 
 public class PanelInicio extends PanelBase implements VistaLogin {
 
-	private JTextField loginCampo = new JTextField(15);
-	private JPasswordField passwordCampo = new JPasswordField(15);
-	private PanelBotonera panelBotonera;
+	private JTextField loginCampo;
+	private JPasswordField passwordCampo;
+	protected final String btnIniciar = "Iniciar sesion";
+	protected final String btnCancelar = "Cancelar";
+	protected final String iniciarCommand = "INICIAR";
+	protected final String cancelarCommand = "CANCELAR";
 
 	public PanelInicio(PanelManager panelManager) {
 		super(panelManager);
+		System.out.println("Instanciando PanelInicio: " + System.identityHashCode(this));
 		crearBotonera();
 	}
 
 	private void crearBotonera() {
 		panelBotonera = new PanelBotonera();
-		panelBotonera.agregarBoton("Iniciar sesión");
-		panelBotonera.agregarBoton("Cancelar");
+		panelBotonera.agregarBoton(btnIniciar,iniciarCommand);
+		panelBotonera.agregarBoton(btnCancelar,cancelarCommand);
 		setBotonera(panelBotonera);
 	}
 
@@ -31,6 +35,7 @@ public class PanelInicio extends PanelBase implements VistaLogin {
 	protected void setUIComponentes() {
 		add(crearTitulo(), BorderLayout.NORTH);
 		add(construirPanel(), BorderLayout.CENTER);
+		System.out.println("Estoy en el setUI Componentes");
 	}
 
 	@Override
@@ -43,7 +48,6 @@ public class PanelInicio extends PanelBase implements VistaLogin {
 
 	@Override
 	protected JPanel construirPanel() {
-
 		JPanel formularioPanel = new JPanel(new GridBagLayout());
 		formularioPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -56,17 +60,23 @@ public class PanelInicio extends PanelBase implements VistaLogin {
 		gbc.gridy = 0;
 		formularioPanel.add(new JLabel("Usuario:"), gbc);
 
+		System.out.println("Aca llego en PanelInicio antes de agregar loginCampo al formulario");
 		gbc.gridx = 1;
 		loginCampo = new JTextField(15);
-		formularioPanel.add(loginCampo, gbc);
+		System.out.println("loginCampo en construirPanel: " + System.identityHashCode(loginCampo));
 
+		formularioPanel.add(loginCampo, gbc);
+		System.out.println("Aca llego en PanelInicio despues de agregar loginCampo al formulario");
 		// Contraseña
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		formularioPanel.add(new JLabel("Contraseña:"), gbc);
+		formularioPanel.add(new JLabel("Contrasenia:"), gbc);
 
+		System.out.println("Aca llego en PanelInicio antes de agregar passwordCampo al formulario");
 		gbc.gridx = 1;
 		passwordCampo = new JPasswordField(15);
+		System.out.println("passwordCampo en construirPanel: " + System.identityHashCode(passwordCampo));
+
 		formularioPanel.add(passwordCampo, gbc);
 
 		return formularioPanel;
@@ -84,12 +94,15 @@ public class PanelInicio extends PanelBase implements VistaLogin {
 
 	@Override
 	public void limpiar() {
+		System.out.println("loginCampo en limpiar: " + System.identityHashCode(loginCampo));
+		System.out.println("passwordCampo en limpiar: " + System.identityHashCode(passwordCampo));
 		loginCampo.setText("");
 		passwordCampo.setText("");
 	}
 
 	@Override
 	public void setListener(ActionListener listener) {
+		System.out.println("Estoy en el ActionListener");
 		panelBotonera.agregarListener(listener);
 	}
 }
