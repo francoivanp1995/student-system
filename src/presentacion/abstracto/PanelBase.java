@@ -20,7 +20,8 @@ public abstract class PanelBase extends JPanel implements MensajeUI{
 	public PanelBase(PanelManager panelManager) {
 		this.panelManager = panelManager;
 		setLayout(new BorderLayout());
-		setUIComponentes();
+		System.out.println("PanelBase antes de setUIComponentes");
+//		setUIComponentes();
 	}
 	
 	protected void setBotonera(PanelBotonera panelBotonera) {

@@ -29,7 +29,7 @@ public class ControladorLogin implements ActionListener {
                 try {
                     servicioUsuario.login();
                 } catch (CredencialesInvalidaException ex) {
-                    panelInicio.mostrarError(ex.getMessage()); // <--- Mostrás al usuario
+                    panelInicio.mostrarError(ex.getMessage());
                 } catch (PanelException ex) {
                     panelInicio.mostrarError("Error al cambiar de pantalla: " + ex.getMessage());
                 } catch (SQLException | DatabaseException ex) {

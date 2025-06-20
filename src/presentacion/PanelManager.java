@@ -16,7 +16,7 @@ public class PanelManager implements ObtenerPanel {
 	private PanelPrincipalProfesor panelPrincipalProfesor;
 
 	public PanelManager() {
-		// Frame se setea externamente desde FrameInicio
+
 	}
 
 	public void setFrame(JFrame frame) {
@@ -27,6 +27,7 @@ public class PanelManager implements ObtenerPanel {
 		System.out.println("Aca llego en PanelManager antes de panelInicio = new PanelINicio()");
 		panelInicio = new PanelInicio(this);
 		mostrarPanel(panelInicio);
+
 	}
 
 	private void mostrarPanel(JPanel panel) throws PanelException {
