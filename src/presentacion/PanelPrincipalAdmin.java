@@ -1,20 +1,18 @@
 package presentacion;
 
-import datos.interfaz.Panel;
-import datos.interfaz.VistaLogin;
 import presentacion.abstracto.PanelBase;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class PanelPrincipalAdmin extends PanelBase implements Panel {
+public class PanelPrincipalAdmin extends PanelBase {
 
-    protected final String crearCurso  = "Crear Curso";
-    protected final String crearAlumno  = "Crear Alumno";
-    protected final String cerrarSesion  = "CerrarSesion";
-    protected final String crearCursoCommand  = "CURSO";
-    protected final String crearAlumnoCommand  = "ALUMNO";
+    protected final String TextoGestionarCurso  = "GESTIONAR CURSO";
+    protected final String TextoGestionarUsuario  = "GESTIONAR USUARIO";
+    protected final String cerrarSesionTexto  = "CerrarSesion";
+    protected final String TextoGestionarCursoCommand  = "CURSO";
+    protected final String TextoGestionarUsuarioCommand  = "USUARIO";
     protected final String cerrarSesionCommand  = "CERRAR";
     protected final String regresar = "Regresar";
     protected final String regresarCommand  = "Regresar";
@@ -26,46 +24,67 @@ public class PanelPrincipalAdmin extends PanelBase implements Panel {
 
     public PanelPrincipalAdmin(PanelManager panelManager) {
         super(panelManager);
-        crearBotonera();
-        setUIComponentes();
+//        crearBotonera();
+        setUIComponentesBase();
     }
 
     @Override
-    protected JPanel construirPanel() {
+    protected void agregarBotonera(PanelBotonera panelBotonera) {
+        botoneraSur = new PanelBotonera();
+        botoneraSur.agregarBoton(regresar,regresarCommand);
+        botoneraSur.agregarBoton(cancelar,cancelarCommand);
+        add(botoneraSur,BorderLayout.SOUTH);
+
+        botoneraCentro = new PanelBotonera();
+        botoneraCentro.agregarBoton(TextoGestionarCurso,TextoGestionarCursoCommand);
+        botoneraCentro.agregarBoton(TextoGestionarUsuario,TextoGestionarUsuarioCommand);
+        add(botoneraCentro,BorderLayout.CENTER);
+    }
+
+    @Override
+    protected JPanel panelCentral() {
         JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
         centro.add(botoneraCentro);
         return centro;
     }
 
     @Override
-    protected void setUIComponentes() {
-        add(crearTitulo(), BorderLayout.NORTH);
-        add(construirPanel(), BorderLayout.CENTER);
+    protected void setUIComponentesBase() {
+        botoneraCentro = new PanelBotonera();
+        agregarBotonera(botoneraCentro);
+
+        botoneraSur = new PanelBotonera();
+        agregarBotonera(botoneraSur);
+
+        add(panelSuperior(), BorderLayout.NORTH);
+        add(panelCentral(), BorderLayout.CENTER);
+        add(botoneraSur, BorderLayout.SOUTH);
+
     }
 
     @Override
-    protected JPanel crearTitulo() {
+    protected JPanel panelSuperior() {
         JPanel tituloPanel = new JPanel();
         JLabel nombreTitulo = new JLabel("Panel Administrador");
         tituloPanel.add(nombreTitulo);
         return tituloPanel;
     }
 
-    @Override
-    public void crearBotonera() {
-        botoneraSur = new PanelBotonera();
-        botoneraSur.agregarBoton(regresar,regresarCommand);
-        botoneraSur.agregarBoton(cancelar,cancelarCommand);
-
-        System.out.println("Botonera inferior creada: " + botoneraSur);
-        setBotonera(botoneraSur);
-
-        botoneraCentro = new PanelBotonera();
-        botoneraCentro.agregarBoton(crearCurso,crearCursoCommand);
-        botoneraCentro.agregarBoton(crearAlumno,crearAlumnoCommand);
-        System.out.println("Botonera centro creada: " + botoneraCentro);
-
-    }
+//    @Override
+//    public void crearBotonera() {
+//        botoneraSur = new PanelBotonera();
+//        botoneraSur.agregarBoton(regresar,regresarCommand);
+//        botoneraSur.agregarBoton(cancelar,cancelarCommand);
+//
+//        System.out.println("Botonera inferior creada: " + botoneraSur);
+//        setBotonera(botoneraSur);
+//
+//        botoneraCentro = new PanelBotonera();
+//        botoneraCentro.agregarBoton(TextoGestionarCurso,TextoGestionarCursoCommand);
+//        botoneraCentro.agregarBoton(TextoGestionarUsuario,TextoGestionarUsuarioCommand);
+//        System.out.println("Botonera centro creada: " + botoneraCentro);
+//
+//    }
 
     public void setListener(ActionListener listener) {
         botoneraCentro.agregarListener(listener);

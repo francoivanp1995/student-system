@@ -12,17 +12,22 @@ public class PanelPrincipalProfesor extends PanelBase {
     }
 
     @Override
-    protected JPanel construirPanel() {
+    protected void agregarBotonera(PanelBotonera panelBotonera) {
+
+    }
+
+    @Override
+    protected JPanel panelCentral() {
         return null;
     }
 
     @Override
-    protected void setUIComponentes() {
+    protected void setUIComponentesBase() {
 
     }
 
     @Override
-    protected JPanel crearTitulo() {
+    protected JPanel panelSuperior() {
         return null;
     }
 }

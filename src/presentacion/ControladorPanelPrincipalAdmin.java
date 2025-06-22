@@ -31,7 +31,16 @@ public class ControladorPanelPrincipalAdmin implements ActionListener {
                     panelPrincipalAdmin.mostrarError("Error inesperado: " + ex.getMessage());
                 }
                 break;
-            case "ALUMNO":
+            case "USUARIO":
+                System.exit(0);
+                break;
+            case "REGRESAR":
+                try {
+
+                } catch (Exception e1){
+
+            }
+            case "CANCELAR":
                 System.exit(0);
                 break;
         }

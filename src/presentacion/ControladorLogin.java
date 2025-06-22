@@ -4,8 +4,6 @@ import Servicios.ServicioUsuario;
 import datos.Excepcion.CredencialesInvalidaException;
 import datos.Excepcion.DatabaseException;
 import datos.Excepcion.PanelException;
-import datos.Excepcion.ValidacionException;
-import presentacion.abstracto.MensajeUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
