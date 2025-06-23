@@ -44,6 +44,5 @@ public class ServicioUsuario {
         } catch (Exception e) {
             throw new RuntimeException(e); // si querés manejar otras excepciones
         }
-
     }
 }

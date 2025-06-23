@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import datos.Excepcion.PanelException;
+import datos.Gestionar;
 import datos.RolUsuario;
 import datos.interfaz.ObtenerPanel;
 
@@ -14,6 +15,8 @@ public class PanelManager implements ObtenerPanel {
 	private PanelPrincipalAdmin panelPrincipalAdmin;
 	private PanelPrincipalAlumno panelPrincipalAlumno;
 	private PanelPrincipalProfesor panelPrincipalProfesor;
+	private PanelGestionarCurso panelGestionarCurso;
+	private PanelGestionUsuario panelGestionarUsuario;
 
 	public PanelManager() {
 
@@ -45,8 +48,11 @@ public class PanelManager implements ObtenerPanel {
 		System.out.println("Estoy en el mostrarPanelPorRol");
 		switch (rol) {
 			case ADMINISTRADOR -> {
-				if (panelPrincipalAdmin == null)
+				if (panelPrincipalAdmin == null) {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
+					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
+					panelPrincipalAdmin.setListener(controlador);
+				}
 				mostrarPanel(panelPrincipalAdmin);
 			}
 			case PROFESOR -> {
@@ -58,6 +64,21 @@ public class PanelManager implements ObtenerPanel {
 				if (panelPrincipalAlumno == null)
 					panelPrincipalAlumno = new PanelPrincipalAlumno(this);
 				mostrarPanel(panelPrincipalAlumno);
+			}
+		}
+	}
+
+	public void mostrarPanelGestionar(Gestionar gestion) throws PanelException {
+		switch (gestion){
+			case CURSO -> {
+				if(panelGestionarCurso == null)
+					panelGestionarCurso = new PanelGestionarCurso(this);
+				mostrarPanel(panelGestionarCurso);
+			}
+			case USUARIO -> {
+				if(panelGestionarUsuario == null)
+					panelGestionarUsuario = new PanelGestionUsuario(this);
+				mostrarPanel(panelGestionarUsuario);
 			}
 		}
 	}
@@ -84,5 +105,10 @@ public class PanelManager implements ObtenerPanel {
 	@Override
 	public PanelPrincipalProfesor getPanelPrincipalProfesor() {
 		return panelPrincipalProfesor;
+	}
+
+	@Override
+	public PanelGestionarCurso getPanelGestionarCurso() {
+		return panelGestionarCurso;
 	}
 }

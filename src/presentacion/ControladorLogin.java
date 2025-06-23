@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import static datos.Comandos.CANCELAR;
+import static datos.Comandos.INICIAR;
+
 public class ControladorLogin implements ActionListener {
 
     private final ServicioUsuario servicioUsuario;
@@ -23,7 +26,7 @@ public class ControladorLogin implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("Estoy en el action performed");
         switch (e.getActionCommand()) {
-            case "INICIAR":
+            case INICIAR:
                 try {
                     servicioUsuario.login();
                 } catch (CredencialesInvalidaException ex) {
@@ -37,7 +40,7 @@ public class ControladorLogin implements ActionListener {
                 }
                 panelInicio.limpiar();
                 break;
-            case "CANCELAR":
+            case CANCELAR:
                 panelInicio.limpiar();
                 System.exit(0);
                 break;

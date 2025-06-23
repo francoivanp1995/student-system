@@ -10,5 +10,5 @@ public interface CursoDAO {
     void actualizarCurso(Curso unCurso);
     Curso muestraCurso(String nombreCurso);
     List<Curso> listaTodosLosCursos();
-    boolean buscarCurso(String unCurso);
+    void buscarCurso(String unCurso);
 }

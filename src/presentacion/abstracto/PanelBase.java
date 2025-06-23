@@ -11,8 +11,7 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 
 	protected PanelManager panelManager;
 	protected PanelBotonera panelBotonera;
-	
-	
+
 	public PanelBase() {
 		
 	}
@@ -20,15 +19,15 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 	public PanelBase(PanelManager panelManager) {
 		this.panelManager = panelManager;
 		setLayout(new BorderLayout());
-		System.out.println("PanelBase antes de setUIComponentes");
+
 	}
 	
 	protected void setBotoneraEnPanel(PanelBotonera panelBotonera) {
 		this.panelBotonera = panelBotonera;
-		agregarBotonera(panelBotonera);
+		agregarBotonABotonera();
 	}
 
-	protected abstract void agregarBotonera(PanelBotonera panelBotonera);
+	protected abstract void agregarBotonABotonera();
 	protected abstract void setUIComponentesBase();
 	protected abstract JPanel panelSuperior();
 	protected abstract JPanel panelCentral();

@@ -1,46 +1,58 @@
 package presentacion;
 
 import Servicios.ServicioAdmin;
-import Servicios.ServicioUsuario;
-import datos.Excepcion.CredencialesInvalidaException;
-import datos.Excepcion.DatabaseException;
 import datos.Excepcion.PanelException;
+import datos.Gestionar;
+import datos.RolUsuario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+
+import static datos.Comandos.*;
 
 public class ControladorPanelPrincipalAdmin implements ActionListener {
 
+    private PanelManager panelManager;
     private final ServicioAdmin servicioAdmin;
     private final PanelPrincipalAdmin panelPrincipalAdmin;
 
+
     public ControladorPanelPrincipalAdmin(PanelPrincipalAdmin panelPrincipalAdmin, PanelManager panelManager) {
         this.panelPrincipalAdmin = panelPrincipalAdmin;
+        this.panelManager = panelManager;
         this.servicioAdmin = new ServicioAdmin(panelPrincipalAdmin,panelManager);
+        this.panelPrincipalAdmin.setListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Estoy en el action performed");
+        System.out.println("Estoy en el action performed de CONTROLADOR PANEL PRINCIPAL ADMIN");
         switch (e.getActionCommand()) {
-            case "CURSO":
+            case CURSO:
                 try {
-                    System.out.println("Aca en el curso desde controladorPanelPrincipal");
-                } catch (Exception ex) {
-                    panelPrincipalAdmin.mostrarError("Error inesperado: " + ex.getMessage());
+                    panelManager.mostrarPanelGestionar(Gestionar.CURSO);
+                } catch (PanelException ex) {
+                    panelPrincipalAdmin.mostrarError("Error al cambiar a gestión de curso: " + ex.getMessage());
                 }
                 break;
-            case "USUARIO":
-                System.exit(0);
-                break;
-            case "REGRESAR":
+
+            case USUARIO:
                 try {
+                    panelManager.mostrarPanelGestionar(Gestionar.USUARIO);
+                } catch (PanelException ex) {
+                    panelPrincipalAdmin.mostrarError("Error al cambiar a gestión de usuario: " + ex.getMessage());
+                }
+                break;
 
-                } catch (Exception e1){
+            case REGRESAR:
+                try {
+                    panelManager.mostrarPanelPorRol(RolUsuario.ADMINISTRADOR); // o panelInicio si querés volver ahí
+                } catch (PanelException ex) {
+                    panelPrincipalAdmin.mostrarError("Error al regresar: " + ex.getMessage());
+                }
+                break;
 
-            }
-            case "CANCELAR":
+            case CANCELAR:
                 System.exit(0);
                 break;
         }

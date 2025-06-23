@@ -12,7 +12,7 @@ public class PanelPrincipalAlumno extends PanelBase {
     }
 
     @Override
-    protected void agregarBotonera(PanelBotonera panelBotonera) {
+    protected void agregarBotonABotonera() {
 
     }
 

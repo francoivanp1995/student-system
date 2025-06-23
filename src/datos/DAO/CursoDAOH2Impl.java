@@ -31,7 +31,7 @@ public class CursoDAOH2Impl implements CursoDAO{
     }
 
     @Override
-    public boolean buscarCurso(String unCurso) {
-        return false;
+    public void buscarCurso(String unCurso) {
+
     }
 }
