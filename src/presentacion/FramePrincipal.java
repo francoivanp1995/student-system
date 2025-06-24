@@ -2,13 +2,13 @@ package presentacion;
 
 import javax.swing.*;
 
-public class FrameInicio {
+public class FramePrincipal {
 
     private JFrame frame;
     private PanelManager panelManager;
     private static final String nombreSistema = "SISTEMA DE ALUMNOS";
 
-    public FrameInicio(PanelManager panelManager) {
+    public FramePrincipal(PanelManager panelManager) {
         this.panelManager = panelManager;
         frame = new JFrame(nombreSistema);
         configurarFrame();

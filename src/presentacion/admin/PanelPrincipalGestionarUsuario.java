@@ -1,14 +1,15 @@
-package presentacion;
+package presentacion.admin;
 
+import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
 
 import javax.swing.*;
 
-public class PanelGestionUsuario extends PanelBase {
+public class PanelPrincipalGestionarUsuario extends PanelBase {
 
     private static PanelManager panelManager;
 
-    public PanelGestionUsuario(PanelManager panelManager){
+    public PanelPrincipalGestionarUsuario(PanelManager panelManager){
         this.panelManager = panelManager;
     }
 

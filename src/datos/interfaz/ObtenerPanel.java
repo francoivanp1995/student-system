@@ -1,6 +1,9 @@
 package datos.interfaz;
 
 import presentacion.*;
+import presentacion.admin.PanelPrincipalAdmin;
+import presentacion.admin.PanelPrincipalGestionar;
+import presentacion.alumno.PanelPrincipalAlumno;
 
 public interface ObtenerPanel {
 
@@ -8,5 +11,6 @@ public interface ObtenerPanel {
     PanelPrincipalAdmin getPanelPrincipalAdmin();
     PanelPrincipalAlumno getPanelPrincipalAlumno();
     PanelPrincipalProfesor getPanelPrincipalProfesor();
-    PanelGestionarCurso getPanelGestionarCurso();
+    PanelPrincipalGestionar getPanelGestionarCurso();
+    PanelPrincipalGestionar getPanelGestionarUsuario();
 }

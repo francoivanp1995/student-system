@@ -1,8 +1,9 @@
-package presentacion;
+package presentacion.admin;
 
-import datos.Curso;
+import presentacion.PanelBotonera;
+import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
-import java.util.List;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
 import static datos.Comandos.CANCELAR;
 import static datos.Comandos.REGRESAR;
 
-public class PanelGestionarCurso extends PanelBase {
+public class PanelPrincipalGestionarCurso extends PanelBase {
 
     private JTable tablaCursos;
     private DefaultTableModel modeloTabla;
@@ -30,37 +31,9 @@ public class PanelGestionarCurso extends PanelBase {
     private final String textoRegresar = REGRESAR;
     private final String textoCancelar = CANCELAR;
 
-    public PanelGestionarCurso(PanelManager panelManager) {
+    public PanelPrincipalGestionarCurso(PanelManager panelManager) {
         super(panelManager);
         setUIComponentesBase();
-//        setLayout(new BorderLayout());
-//
-//        // Columnas basadas en la tabla CURSOS
-//        String[] columnas = { "ID", "Nombre", "Cupo", "Precio", "Nota Aprobación", "Profesor DNI" };
-//        modeloTabla = new DefaultTableModel(columnas, 0) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) {
-//                return false;
-//            }
-//        };
-//        tablaCursos = new JTable(modeloTabla);
-//        JScrollPane scrollPane = new JScrollPane(tablaCursos);
-//
-//        // Botones
-//        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-//        botonAgregar = new JButton("Agregar");
-//        botonEditar = new JButton("Editar");
-//        botonEliminar = new JButton("Eliminar");
-//        botonVolver = new JButton("Volver");
-//
-//        panelBotones.add(botonAgregar);
-//        panelBotones.add(botonEditar);
-//        panelBotones.add(botonEliminar);
-//        panelBotones.add(botonVolver);
-//
-//        add(new JLabel("Gestión de Cursos", SwingConstants.CENTER), BorderLayout.NORTH);
-//        add(scrollPane, BorderLayout.CENTER);
-//        add(panelBotones, BorderLayout.SOUTH);
     }
 
     @Override

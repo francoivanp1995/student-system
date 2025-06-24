@@ -1,12 +1,21 @@
 package presentacion;
 
+import presentacion.admin.ControladorGestionar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.table.AbstractTableModel;
 
+import Servicios.ServicioAdmin;
+import datos.CursoTableModel;
 import datos.Excepcion.PanelException;
 import datos.Gestionar;
 import datos.RolUsuario;
+import datos.UsuarioTableModel;
 import datos.interfaz.ObtenerPanel;
+import presentacion.admin.ControladorPanelPrincipalAdmin;
+import presentacion.admin.PanelPrincipalAdmin;
+import presentacion.admin.PanelPrincipalGestionar;
+import presentacion.alumno.PanelPrincipalAlumno;
 
 public class PanelManager implements ObtenerPanel {
 
@@ -15,8 +24,11 @@ public class PanelManager implements ObtenerPanel {
 	private PanelPrincipalAdmin panelPrincipalAdmin;
 	private PanelPrincipalAlumno panelPrincipalAlumno;
 	private PanelPrincipalProfesor panelPrincipalProfesor;
-	private PanelGestionarCurso panelGestionarCurso;
-	private PanelGestionUsuario panelGestionarUsuario;
+	private PanelPrincipalGestionar panelPrincipalGestionarCurso;
+	private PanelPrincipalGestionar panelGestionarUsuario;
+
+	//para probar
+	private ServicioAdmin servicioAdmin;
 
 	public PanelManager() {
 
@@ -50,6 +62,7 @@ public class PanelManager implements ObtenerPanel {
 			case ADMINISTRADOR -> {
 				if (panelPrincipalAdmin == null) {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
+					servicioAdmin = new ServicioAdmin(panelPrincipalAdmin, this);
 					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
 					panelPrincipalAdmin.setListener(controlador);
 				}
@@ -69,19 +82,34 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelGestionar(Gestionar gestion) throws PanelException {
-		switch (gestion){
+		System.out.println("Entró a mostrarPanelGestionar con: " + gestion);
+		if (servicioAdmin == null) {
+			System.out.println("servicioAdmin ES NULL !!!");
+			throw new PanelException("servicioAdmin no ha sido inicializado");
+		}
+		switch (gestion) {
 			case CURSO -> {
-				if(panelGestionarCurso == null)
-					panelGestionarCurso = new PanelGestionarCurso(this);
-				mostrarPanel(panelGestionarCurso);
+				if (panelPrincipalGestionarCurso == null) {
+					AbstractTableModel modelo = new CursoTableModel();
+					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos");
+					new ControladorGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
+				}
+				System.out.println("Estoy dentro del case curso, luego del if para mostrar Panel principal gestionar curso");
+				mostrarPanel(panelPrincipalGestionarCurso);
+				System.out.println("Estoy dentro del case curso, LUEGO DE MOSTRAR PANEL");
+
 			}
 			case USUARIO -> {
-				if(panelGestionarUsuario == null)
-					panelGestionarUsuario = new PanelGestionUsuario(this);
+				if (panelGestionarUsuario == null) {
+					AbstractTableModel modelo = new UsuarioTableModel();
+					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios");
+					new ControladorGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
+				}
 				mostrarPanel(panelGestionarUsuario);
 			}
 		}
 	}
+
 
 	public void showFrame() {
 		frame.setVisible(true);
@@ -108,7 +136,12 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	@Override
-	public PanelGestionarCurso getPanelGestionarCurso() {
-		return panelGestionarCurso;
+	public PanelPrincipalGestionar getPanelGestionarCurso() {
+		return null;
+	}
+
+	@Override
+	public PanelPrincipalGestionar getPanelGestionarUsuario() {
+		return null;
 	}
 }

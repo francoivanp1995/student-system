@@ -1,10 +1,9 @@
-
 package datos;
 
 import java.util.List;
 
 public class Curso {
-	
+
     private String id;
     private String nombre;
     private int precio;
@@ -12,51 +11,36 @@ public class Curso {
     private int notaAprobacion;
     private List<Inscripcion> inscripciones;
 
-    public String getId(){
-        return id;
+    // Getters
+    public String getId() { return id; }
+    public String getNombre() { return nombre; }
+    public int getPrecio() { return precio; }
+    public int getCupoMaximo() { return cupoMaximo; }
+    public int getNotaAprobacion() { return notaAprobacion; }
+    public List<Inscripcion> getInscripciones() { return inscripciones; }
+
+    // Setters
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getNombre(){
-        return nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public int getPrecio(){
-        return precio;
+    public void setPrecio(int precio) {
+        this.precio = precio;
     }
 
-    public int getCupoMaximo(){
-        return cupoMaximo;
+    public void setCupoMaximo(int cupoMaximo) {
+        this.cupoMaximo = cupoMaximo;
     }
 
-    public int getNotaAprobacion(){
-        return notaAprobacion;
+    public void setNotaAprobacion(int notaAprobacion) {
+        this.notaAprobacion = notaAprobacion;
     }
 
-    public List<Inscripcion> getInscripciones(){
-        return inscripciones;
-    }
-
-    public void setId(){
-        
-    }
-
-    public void setNombre(){
-
-    }
-
-    public void setPrecio(){
-
-    }
-
-    public void setCupoMaximo(){
-
-    }
-
-    public void setNotaAprobacion(){
-
-    }
-
-    public void setInscripciones(){
-
+    public void setInscripciones(List<Inscripcion> inscripciones) {
+        this.inscripciones = inscripciones;
     }
 }

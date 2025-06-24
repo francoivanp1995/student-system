@@ -1,9 +1,10 @@
-package presentacion;
+package presentacion.admin;
 
 import Servicios.ServicioAdmin;
 import datos.Excepcion.PanelException;
 import datos.Gestionar;
 import datos.RolUsuario;
+import presentacion.PanelManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

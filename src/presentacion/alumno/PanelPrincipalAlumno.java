@@ -1,5 +1,6 @@
-package presentacion;
+package presentacion.alumno;
 
+import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
 
 import javax.swing.*;

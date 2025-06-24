@@ -1,0 +1,121 @@
+package presentacion.admin;
+
+import presentacion.PanelBotonera;
+import presentacion.PanelManager;
+import presentacion.abstracto.PanelBase;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.awt.event.ActionListener;
+
+public class PanelPrincipalGestionar extends PanelBase {
+
+    private JTable tabla;
+    private JScrollPane scrollPane;
+    private AbstractTableModel tableModel;
+    private PanelBotonera botoneraCentro, botoneraSur;
+    private final String textoCrear = "CREAR", crearComando = "CREAR";
+    private final String textoLeer = "LEER", leerComando = "LEER";
+    private final String textoActualizar = "ACTUALIZAR", actualizarComando = "ACTUALIZAR";
+    private final String textoEliminar = "ELIMINAR", eliminarComando = "ELIMINAR";
+    private final String textoRegresar = "REGRESAR", textoCancelar = "CANCELAR";
+    private final String textoReporte = "MOSTRAR REPORTE", textoExportarReporte = "EXPORTAR REPORTE";
+    private final String textoReporteComando = "MOSTRARREPORTE", textoExportarReporteComando = "EXPORTARREPORTE";
+
+    private final String titulo;
+
+    public PanelPrincipalGestionar(PanelManager panelManager, AbstractTableModel modelo, String titulo) {
+        super(panelManager);
+        this.tableModel = modelo;
+        this.titulo = titulo;
+        setUIComponentesBase();
+    }
+
+    @Override
+    protected void setUIComponentesBase() {
+        setLayout(new BorderLayout());
+
+        botoneraCentro = new PanelBotonera(new GridLayout(2, 3, 10, 10)); // dos filas de tres botones
+        botoneraSur = new PanelBotonera();
+
+        agregarBotonABotonera();
+
+        add(panelSuperior(), BorderLayout.NORTH);
+
+        add(panelInferior(), BorderLayout.SOUTH);
+    }
+
+    private JPanel panelInferior() {
+        JPanel inferior = new JPanel(new BorderLayout());
+
+        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        centro.add(botoneraCentro);
+
+        JPanel sur = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        sur.add(botoneraSur);
+
+        inferior.add(centro, BorderLayout.NORTH);
+        inferior.add(sur, BorderLayout.SOUTH);
+
+        return inferior;
+    }
+
+    protected void agregarBotonABotonera() {
+        botoneraCentro.agregarBoton(textoCrear, crearComando);
+        botoneraCentro.agregarBoton(textoLeer, leerComando);
+        botoneraCentro.agregarBoton(textoActualizar, actualizarComando);
+        botoneraCentro.agregarBoton(textoEliminar, eliminarComando);
+        botoneraCentro.agregarBoton(textoExportarReporte,textoExportarReporteComando);
+        botoneraCentro.agregarBoton(textoReporte,textoReporteComando);
+
+        botoneraSur.agregarBoton(textoRegresar, textoRegresar);
+        botoneraSur.agregarBoton(textoCancelar, textoCancelar);
+    }
+
+    @Override
+    protected JPanel panelSuperior() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel label = new JLabel(titulo.toUpperCase());
+        panel.add(label);
+        return panel;
+    }
+
+    @Override
+    protected JPanel panelCentral() {
+        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        centro.add(botoneraCentro);
+        return centro;
+    }
+
+    public void setListener(ActionListener listener) {
+        botoneraCentro.agregarListener(listener);
+        botoneraSur.agregarListener(listener);
+    }
+
+    public int getFilaSeleccionada() {
+        return tabla.getSelectedRow();
+    }
+
+    public JTable getTabla() {
+        return tabla;
+    }
+
+    public void actualizarModelo(AbstractTableModel nuevoModelo) {
+        this.tableModel = nuevoModelo;
+        if (tabla == null) {
+            tabla = new JTable(tableModel);
+            scrollPane = new JScrollPane(tabla);
+            add(scrollPane, BorderLayout.CENTER);
+        } else {
+            tabla.setModel(nuevoModelo);
+        }
+
+        revalidate();
+        repaint();
+    }
+
+    public PanelManager getPanelManager(){
+        return panelManager;
+    }
+}

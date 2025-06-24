@@ -11,9 +11,13 @@ public class PanelBotonera extends JPanel {
     private Map<String, JButton> botones;
     private String actionCommand;
 
-    public PanelBotonera() {
+    public PanelBotonera(LayoutManager layout) {
         botones = new LinkedHashMap<>();
-        setLayout(new GridLayout(1, 0, 10, 10));
+        setLayout(layout);
+    }
+
+    public PanelBotonera() {
+        this(new GridLayout(1, 0, 10, 10)); // 1 fila, N columnas
     }
 
     public void agregarBoton(String texto, String actionCommand) {

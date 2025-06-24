@@ -1,6 +1,7 @@
-package presentacion;
+package presentacion.admin;
 
-import datos.Usuario;
+import presentacion.PanelBotonera;
+import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
 
 import javax.swing.*;

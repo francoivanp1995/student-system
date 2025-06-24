@@ -4,13 +4,13 @@ import datos.Excepcion.PanelException;
 
 public class UIIniciador {
     private PanelManager panelManager;
-    private FrameInicio frameInicio;
+    private FramePrincipal frameInicio;
     private ControladorLogin controladorLogin;
     private PanelInicio panelInicio;
 
     public UIIniciador() {
         this.panelManager = new PanelManager();
-        this.frameInicio = new FrameInicio(panelManager);
+        this.frameInicio = new FramePrincipal(panelManager);
     }
 
     public void iniciarFrame() throws PanelException {
