@@ -29,16 +29,14 @@ public class AppManager {
         } catch (DatabaseException e) {
             throw new TablaException("Error al crear la base de datos: " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new TablaException("Error inesperado: " + e.getMessage(), e);
+            throw new TablaException("Error inesperado desde el iniciador de Creacion Tablas: " + e.getMessage(), e);
         }
     }
 
     public void iniciarPanelManager() throws UIException {
         try {
-            System.out.println("Aca llego. es el iniciador de panel manager");
             UIIniciador ui = new UIIniciador();
             ui.iniciarFrame();
-            System.out.println("Aca no llego. es el iniciador de panel manager. Luego del iniciar frame");
         } catch (PanelException e) {
             throw new UIException("Error con el inicio de la UI: " + e.getMessage(), e);
         } catch (Exception e) {

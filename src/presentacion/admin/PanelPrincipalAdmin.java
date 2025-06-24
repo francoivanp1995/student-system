@@ -58,7 +58,6 @@ public class PanelPrincipalAdmin extends PanelBase {
     }
 
     public void setListener(ActionListener listener) {
-        System.out.println("Estoy en el listener de Panel Principal Admin");
         botoneraCentro.agregarListener(listener);
         botoneraSur.agregarListener(listener);
     }

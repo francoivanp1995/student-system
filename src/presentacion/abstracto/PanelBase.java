@@ -1,9 +1,10 @@
 package presentacion.abstracto;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.*;
 
+import datos.interfaz.InterfacePanelBase;
 import presentacion.PanelBotonera;
 import presentacion.PanelManager;
 
@@ -20,6 +21,11 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 		this.panelManager = panelManager;
 		setLayout(new BorderLayout());
 
+	}
+
+	public PanelBase(PanelManager panelManager,LayoutManager layout) {
+		this.panelManager = panelManager;
+		setLayout(layout);
 	}
 	
 	protected void setBotoneraEnPanel(PanelBotonera panelBotonera) {

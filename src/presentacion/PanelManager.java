@@ -43,7 +43,6 @@ public class PanelManager implements ObtenerPanel {
 		System.out.println("Aca llego en PanelManager antes de panelInicio = new PanelINicio()");
 		panelInicio = new PanelInicio(this);
 		mostrarPanel(panelInicio);
-
 	}
 
 	private void mostrarPanel(JPanel panel) throws PanelException {
@@ -95,10 +94,7 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos");
 					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
 				}
-				System.out.println("Estoy dentro del case curso, luego del if para mostrar Panel principal gestionar curso");
 				mostrarPanel(panelPrincipalGestionarCurso);
-				System.out.println("Estoy dentro del case curso, LUEGO DE MOSTRAR PANEL");
-
 			}
 			case USUARIO -> {
 				if (panelGestionarUsuario == null) {
