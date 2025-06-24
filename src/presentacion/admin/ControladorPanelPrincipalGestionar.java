@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ControladorGestionar implements ActionListener {
+import static datos.Comandos.*;
+
+public class ControladorPanelPrincipalGestionar implements ActionListener {
 
     private final PanelPrincipalGestionar panel;
     private final ServicioAdmin servicioAdmin;
@@ -20,7 +22,7 @@ public class ControladorGestionar implements ActionListener {
     private PanelManager panelManager;
 
 
-    public ControladorGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol) {
+    public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol) {
         System.out.println(">> Creando ControladorGestionar para: " + tipo);
         this.panel = panel;
         this.servicioAdmin = servicioAdmin;
@@ -46,8 +48,8 @@ public class ControladorGestionar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "LEER" -> cargarDatos();
-            case "CREAR" -> {
+            case LEER -> cargarDatos();
+            case CREAR -> {
                 if (tipo == Gestionar.CURSO) {
 //                    servicioAdmin.crearCurso(new Curso("Nuevo", 0, 0.0, 0.0, null));
                 } else if (tipo == Gestionar.USUARIO) {
@@ -55,7 +57,7 @@ public class ControladorGestionar implements ActionListener {
                 }
 
             }
-            case "ELIMINAR" -> {
+            case ELIMINAR -> {
                 int fila = panel.getFilaSeleccionada();
                 if (fila >= 0) {
                     if (tipo == Gestionar.CURSO) {
@@ -68,7 +70,7 @@ public class ControladorGestionar implements ActionListener {
 
                 }
             }
-            case "REGRESAR" -> {
+            case REGRESAR -> {
                 try {
                     panel.getPanelManager().mostrarPanelPorRol(rol);
 
@@ -79,7 +81,7 @@ public class ControladorGestionar implements ActionListener {
             case "MOSTRARREPORTE" -> {
                 cargarDatos();
             }
-            case "CANCELAR" -> System.exit(0);
+            case CANCELAR -> System.exit(0);
         }
     }
 }

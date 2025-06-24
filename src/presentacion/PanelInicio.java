@@ -14,10 +14,7 @@
 
 		private JTextField loginCampo;
 		private JPasswordField passwordCampo;
-		private final String textoBotonIniciar = "INICIAR SESION";
-		private final String textoBotonCancelar = "CANCELAR";
-		private final String iniciarCommand = INICIAR;
-		private final String cancelarCommand = CANCELAR;
+		private static final String labelPanel = "SISTEMA DE ALUMNOS";
 
 		public PanelInicio(PanelManager panelManager) {
 			super(panelManager);
@@ -26,8 +23,8 @@
 
 		@Override
 		protected void agregarBotonABotonera() {
-			panelBotonera.agregarBoton(textoBotonIniciar, iniciarCommand);
-			panelBotonera.agregarBoton(textoBotonCancelar, cancelarCommand);
+			panelBotonera.agregarBoton(INICIAR, INICIAR);
+			panelBotonera.agregarBoton(CANCELAR, CANCELAR);
 		}
 
 		@Override
@@ -42,7 +39,7 @@
 		@Override
 		protected JPanel panelSuperior() {
 			JPanel tituloPanel = new JPanel();
-			JLabel nombreTitulo = new JLabel("SISTEMA DE ALUMNOS");
+			JLabel nombreTitulo = new JLabel(labelPanel);
 			tituloPanel.add(nombreTitulo);
 			return tituloPanel;
 		}

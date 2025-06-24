@@ -4,6 +4,7 @@ import presentacion.*;
 import presentacion.admin.PanelPrincipalAdmin;
 import presentacion.admin.PanelPrincipalGestionar;
 import presentacion.alumno.PanelPrincipalAlumno;
+import presentacion.profesor.PanelPrincipalProfesor;
 
 public interface ObtenerPanel {
 

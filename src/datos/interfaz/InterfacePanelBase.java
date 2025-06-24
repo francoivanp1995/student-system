@@ -1,4 +1,4 @@
-package presentacion.abstracto;
+package datos.interfaz;
 
 public interface InterfacePanelBase {
     void mostrarError(String mensaje);

@@ -12,19 +12,18 @@ import java.sql.SQLException;
 import static datos.Comandos.CANCELAR;
 import static datos.Comandos.INICIAR;
 
-public class ControladorLogin implements ActionListener {
+public class ControladorPanelInicio implements ActionListener {
 
     private final ServicioUsuario servicioUsuario;
     private final PanelInicio panelInicio;
 
-    public ControladorLogin(PanelInicio panelInicio, PanelManager panelManager) {
+    public ControladorPanelInicio(PanelInicio panelInicio, PanelManager panelManager) {
         this.panelInicio = panelInicio;
         this.servicioUsuario = new ServicioUsuario(panelInicio, panelManager);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Estoy en el action performed");
         switch (e.getActionCommand()) {
             case INICIAR:
                 try {

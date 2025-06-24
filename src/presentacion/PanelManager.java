@@ -1,6 +1,6 @@
 package presentacion;
 
-import presentacion.admin.ControladorGestionar;
+import presentacion.admin.ControladorPanelPrincipalGestionar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
@@ -16,6 +16,7 @@ import presentacion.admin.ControladorPanelPrincipalAdmin;
 import presentacion.admin.PanelPrincipalAdmin;
 import presentacion.admin.PanelPrincipalGestionar;
 import presentacion.alumno.PanelPrincipalAlumno;
+import presentacion.profesor.PanelPrincipalProfesor;
 
 public class PanelManager implements ObtenerPanel {
 
@@ -92,7 +93,7 @@ public class PanelManager implements ObtenerPanel {
 				if (panelPrincipalGestionarCurso == null) {
 					AbstractTableModel modelo = new CursoTableModel();
 					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos");
-					new ControladorGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
+					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
 				}
 				System.out.println("Estoy dentro del case curso, luego del if para mostrar Panel principal gestionar curso");
 				mostrarPanel(panelPrincipalGestionarCurso);
@@ -103,7 +104,7 @@ public class PanelManager implements ObtenerPanel {
 				if (panelGestionarUsuario == null) {
 					AbstractTableModel modelo = new UsuarioTableModel();
 					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios");
-					new ControladorGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
+					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
 				}
 				mostrarPanel(panelGestionarUsuario);
 			}

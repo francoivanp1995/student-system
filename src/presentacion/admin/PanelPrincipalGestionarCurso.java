@@ -9,8 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static datos.Comandos.CANCELAR;
-import static datos.Comandos.REGRESAR;
+import static datos.Comandos.*;
 
 public class PanelPrincipalGestionarCurso extends PanelBase {
 
@@ -20,16 +19,7 @@ public class PanelPrincipalGestionarCurso extends PanelBase {
     private PanelBotonera botoneraSur;
     private PanelBotonera botoneraCentro;
     private PanelManager panelManager;
-    private final String textoCrear  = "CREAR";
-    private final String crearComando  = "CREAR";
-    private final String textoLeer  = "LEER";
-    private final String leerComando  = "LEER";
-    private final String textoActualizar  = "ACTUALIZAR";
-    private final String actualizarComando  = "ACTUALIZAR";
-    private final String textoEliminar  = "ELIMINAR";
-    private final String eliminarComando  = "ELIMINAR";
-    private final String textoRegresar = REGRESAR;
-    private final String textoCancelar = CANCELAR;
+    private static final String labelPanel = "GESTIONAR CURSO";
 
     public PanelPrincipalGestionarCurso(PanelManager panelManager) {
         super(panelManager);
@@ -38,12 +28,12 @@ public class PanelPrincipalGestionarCurso extends PanelBase {
 
     @Override
     protected void agregarBotonABotonera() {
-        botoneraSur.agregarBoton(textoRegresar,REGRESAR);
-        botoneraSur.agregarBoton(textoCancelar, CANCELAR);
-        botoneraCentro.agregarBoton(textoCrear,crearComando);
-        botoneraCentro.agregarBoton(textoLeer,leerComando);
-        botoneraCentro.agregarBoton(textoActualizar,actualizarComando);
-        botoneraCentro.agregarBoton(textoEliminar,eliminarComando);
+        botoneraSur.agregarBoton(REGRESAR,REGRESAR);
+        botoneraSur.agregarBoton(CANCELAR, CANCELAR);
+        botoneraCentro.agregarBoton(CREAR,CREAR);
+        botoneraCentro.agregarBoton(LEER,LEER);
+        botoneraCentro.agregarBoton(ACTUALIZAR,ACTUALIZAR);
+        botoneraCentro.agregarBoton(ELIMINAR,ELIMINAR);
     }
 
     @Override
@@ -60,7 +50,7 @@ public class PanelPrincipalGestionarCurso extends PanelBase {
     @Override
     protected JPanel panelSuperior() {
         JPanel tituloPanel = new JPanel();
-        JLabel nombreTitulo = new JLabel("GESTIONAR CURSO");
+        JLabel nombreTitulo = new JLabel(labelPanel);
         tituloPanel.add(nombreTitulo);
         return tituloPanel;
     }

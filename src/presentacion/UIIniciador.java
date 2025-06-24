@@ -5,7 +5,7 @@ import datos.Excepcion.PanelException;
 public class UIIniciador {
     private PanelManager panelManager;
     private FramePrincipal frameInicio;
-    private ControladorLogin controladorLogin;
+    private ControladorPanelInicio controladorPanelInicio;
     private PanelInicio panelInicio;
 
     public UIIniciador() {
@@ -18,9 +18,9 @@ public class UIIniciador {
         System.out.println("Aca llego en iniciarFrame antes de panelManager.iniciar");
         panelManager.iniciar();
         panelInicio = panelManager.getPanelInicio();
-        controladorLogin = new ControladorLogin(panelInicio,panelManager);
+        controladorPanelInicio = new ControladorPanelInicio(panelInicio,panelManager);
         System.out.println("Aca NO LLEGO en UI iniciador");
-        panelInicio.setListener(controladorLogin);
+        panelInicio.setListener(controladorPanelInicio);
         panelManager.showFrame();
     }
 }

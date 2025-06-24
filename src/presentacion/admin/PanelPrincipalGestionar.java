@@ -9,17 +9,14 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static datos.Comandos.*;
+
 public class PanelPrincipalGestionar extends PanelBase {
 
     private JTable tabla;
     private JScrollPane scrollPane;
     private AbstractTableModel tableModel;
     private PanelBotonera botoneraCentro, botoneraSur;
-    private final String textoCrear = "CREAR", crearComando = "CREAR";
-    private final String textoLeer = "LEER", leerComando = "LEER";
-    private final String textoActualizar = "ACTUALIZAR", actualizarComando = "ACTUALIZAR";
-    private final String textoEliminar = "ELIMINAR", eliminarComando = "ELIMINAR";
-    private final String textoRegresar = "REGRESAR", textoCancelar = "CANCELAR";
     private final String textoReporte = "MOSTRAR REPORTE", textoExportarReporte = "EXPORTAR REPORTE";
     private final String textoReporteComando = "MOSTRARREPORTE", textoExportarReporteComando = "EXPORTARREPORTE";
 
@@ -62,15 +59,15 @@ public class PanelPrincipalGestionar extends PanelBase {
     }
 
     protected void agregarBotonABotonera() {
-        botoneraCentro.agregarBoton(textoCrear, crearComando);
-        botoneraCentro.agregarBoton(textoLeer, leerComando);
-        botoneraCentro.agregarBoton(textoActualizar, actualizarComando);
-        botoneraCentro.agregarBoton(textoEliminar, eliminarComando);
+        botoneraCentro.agregarBoton(CREAR, CREAR);
+        botoneraCentro.agregarBoton(LEER, LEER);
+        botoneraCentro.agregarBoton(ACTUALIZAR, ACTUALIZAR);
+        botoneraCentro.agregarBoton(ELIMINAR, ELIMINAR);
         botoneraCentro.agregarBoton(textoExportarReporte,textoExportarReporteComando);
         botoneraCentro.agregarBoton(textoReporte,textoReporteComando);
 
-        botoneraSur.agregarBoton(textoRegresar, textoRegresar);
-        botoneraSur.agregarBoton(textoCancelar, textoCancelar);
+        botoneraSur.agregarBoton(REGRESAR, REGRESAR);
+        botoneraSur.agregarBoton(CANCELAR, CANCELAR);
     }
 
     @Override

@@ -12,15 +12,9 @@ import static datos.Comandos.*;
 
 public class PanelPrincipalAdmin extends PanelBase {
 
-    private final String TextoGestionarCurso  = "GESTIONAR CURSO";
-    private final String TextoGestionarUsuario  = "GESTIONAR USUARIO";
-    private final String regresar = "Regresar";
-    private final String cancelar = "Cancelar";
-    private final String regresarCommand  = REGRESAR;
-    private final String TextoGestionarCursoCommand  = CURSO;
-    private final String TextoGestionarUsuarioCommand  = USUARIO;
-    private final String cancelarCommand  = CANCELAR;
-
+    private static final String TextoGestionarCurso  = "GESTIONAR CURSO";
+    private static final String TextoGestionarUsuario  = "GESTIONAR USUARIO";
+    private static final String labelPanel = "PANEL ADMINISTRADOR";
     private PanelBotonera botoneraCentro;
     private PanelBotonera botoneraSur;
 
@@ -31,10 +25,10 @@ public class PanelPrincipalAdmin extends PanelBase {
 
     @Override
     protected void agregarBotonABotonera() {
-        botoneraSur.agregarBoton(regresar,regresarCommand);
-        botoneraSur.agregarBoton(cancelar,cancelarCommand);
-        botoneraCentro.agregarBoton(TextoGestionarCurso,TextoGestionarCursoCommand);
-        botoneraCentro.agregarBoton(TextoGestionarUsuario,TextoGestionarUsuarioCommand);
+        botoneraSur.agregarBoton(REGRESAR,REGRESAR);
+        botoneraSur.agregarBoton(CANCELAR,CANCELAR);
+        botoneraCentro.agregarBoton(TextoGestionarCurso,CURSO);
+        botoneraCentro.agregarBoton(TextoGestionarUsuario,USUARIO);
     }
 
     @Override
@@ -58,7 +52,7 @@ public class PanelPrincipalAdmin extends PanelBase {
     @Override
     protected JPanel panelSuperior() {
         JPanel tituloPanel = new JPanel();
-        JLabel nombreTitulo = new JLabel("Panel Administrador");
+        JLabel nombreTitulo = new JLabel(labelPanel);
         tituloPanel.add(nombreTitulo);
         return tituloPanel;
     }
