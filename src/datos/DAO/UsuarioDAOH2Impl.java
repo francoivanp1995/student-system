@@ -90,4 +90,45 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             case ADMINISTRADOR -> new Administrador(dni, nombre, email, rol);
         };
     }
+
+    public Usuario buscarUsuarioPorDni(String dni) throws DAOException, DatabaseException {
+        Connection c = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            c = new DBManager().connect();
+
+            String sql = """
+                SELECT dni, nombre, email, tipo
+                FROM usuarios
+                WHERE dni = ?
+            """;
+            stmt = c.prepareStatement(sql);
+            stmt.setString(1, dni);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String email = rs.getString("email");
+                RolUsuario rol = RolUsuario.valueOf(rs.getString("tipo").toUpperCase());
+
+                return crearUsuarioPorRol(dni, nombre, email, rol);
+            } else {
+                return null; // No se encontró usuario
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (c != null) c.close();
+            } catch (SQLException e) {
+                throw new DatabaseException("Error al cerrar recursos", e);
+            }
+        }
+    }
+
 }

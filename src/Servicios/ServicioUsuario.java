@@ -27,22 +27,6 @@ public class ServicioUsuario {
         this.panelManager = panelManager;
     }
 
-    public void login() throws CredencialesInvalidaException, SQLException, DatabaseException, PanelException {
-        String usuario = panelInicio.getUsuario();
-        String contrasenia = new String(panelInicio.getContrasena());
-        try {
-            Usuario u = usuarioDAO.autenticarUsuario(usuario, contrasenia);
-            if (u == null) {
-                throw new CredencialesInvalidaException("Credenciales inválidas. Por favor intente de nuevo.");
-            }
-            panelManager.mostrarPanelPorRol(u.getRol());
-        } catch (DAOException | DatabaseException | CredencialesInvalidaException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public Usuario login(String usuario, String contrasenia)
             throws CredencialesInvalidaException, DAOException, DatabaseException {
 

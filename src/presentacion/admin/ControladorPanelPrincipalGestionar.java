@@ -1,9 +1,11 @@
 package presentacion.admin;
 
 import datos.*;
+import datos.Excepcion.*;
 import presentacion.PanelManager;
 import Servicios.ServicioAdmin;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -39,6 +41,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                 panel.actualizarModelo(new CursoTableModel(cursos));
             }
             case USUARIO -> {
+                //Esto no es pedido. Pero podria ser bueno.
 //                List<Usuario> usuarios = servicio.obtenerTodosLosUsuarios();
 //                panel.actualizarModelo(new UsuarioTableModel(usuarios));
             }
@@ -51,6 +54,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
             case LEER -> cargarDatos();
             case CREAR -> {
                 if (tipo == Gestionar.CURSO) {
+                    crearCurso();
 //                    servicioAdmin.crearCurso(new Curso("Nuevo", 0, 0.0, 0.0, null));
                 } else if (tipo == Gestionar.USUARIO) {
 //                    servicio.crearUsuario(new Usuario("nuevo", "user", "pass", null));
@@ -82,6 +86,43 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                 cargarDatos();
             }
             case CANCELAR -> System.exit(0);
+        }
+    }
+
+    private Curso mostrarFormularioCurso() throws CursoException{
+        PanelFormularioCurso panelFormulario = new PanelFormularioCurso();
+
+        int resultado = JOptionPane.showConfirmDialog(
+                panel,
+                panelFormulario,
+                "Crear nuevo curso",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            return panelFormulario.construirEntidad();
+        }
+
+        return null;
+    }
+
+    private void crearCurso() {
+        try {
+            Curso nuevoCurso = mostrarFormularioCurso();
+
+            if (nuevoCurso != null) {
+                servicioAdmin.validarCurso(nuevoCurso);
+                servicioAdmin.crearCurso(nuevoCurso);
+                panel.mostrarInfo("Curso creado exitosamente.");
+                cargarDatos();
+            }
+        } catch (CursoException e) {
+            panel.mostrarError("Validación: " + e.getMessage());
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al guardar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
         }
     }
 }

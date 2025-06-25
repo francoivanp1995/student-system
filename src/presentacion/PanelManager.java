@@ -1,20 +1,14 @@
 package presentacion;
 
-import presentacion.admin.ControladorPanelPrincipalGestionar;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import datos.*;
+import presentacion.admin.*;
+
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 import Servicios.ServicioAdmin;
-import datos.CursoTableModel;
 import datos.Excepcion.PanelException;
-import datos.Gestionar;
-import datos.RolUsuario;
-import datos.UsuarioTableModel;
 import datos.interfaz.ObtenerPanel;
-import presentacion.admin.ControladorPanelPrincipalAdmin;
-import presentacion.admin.PanelPrincipalAdmin;
-import presentacion.admin.PanelPrincipalGestionar;
 import presentacion.alumno.PanelPrincipalAlumno;
 import presentacion.profesor.PanelPrincipalProfesor;
 
@@ -106,7 +100,6 @@ public class PanelManager implements ObtenerPanel {
 			}
 		}
 	}
-
 
 	public void showFrame() {
 		frame.setVisible(true);
