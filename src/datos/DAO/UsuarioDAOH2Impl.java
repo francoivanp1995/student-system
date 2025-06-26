@@ -12,50 +12,36 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
 
     @Override
     public void crearUsuario(Usuario unUsuario) throws DAOException {
-        String sql = """
-        INSERT INTO usuarios (dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """;
-        try (Connection c = DBManager.connect();
-             PreparedStatement stmt = c.prepareStatement(sql)) {
-
-            String[] nombreApellido = unUsuario.getNombre().split(" ", 2);
-            String nombre = nombreApellido.length > 0 ? nombreApellido[0] : "";
-            String apellido = nombreApellido.length > 1 ? nombreApellido[1] : "";
-
+        Connection c = DBManager.connect();
+        String sql = "INSERT INTO usuarios (dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmt = c.prepareStatement(sql);
             stmt.setString(1, unUsuario.getId());
-            stmt.setString(2, nombre);
-            stmt.setString(3, apellido);
+            stmt.setString(2, unUsuario.getNombre());
+            stmt.setString(3, unUsuario.getApellido());
             stmt.setString(4, unUsuario.getEmail());
             stmt.setString(5, unUsuario.getRol().name());
             stmt.setString(6, unUsuario.getNombreUsuario());
             stmt.setString(7, unUsuario.getContrasenia());
-            // Contraseña por defecto (idealmente debería enviarse)
 
             stmt.executeUpdate();
+            c.commit();
 
         } catch (SQLException e) {
             try {
                 throw new DatabaseException("Error al crear el usuario", e);
             } catch (DatabaseException ex) {
                 throw new RuntimeException(ex);
-            }
+            } //Agregar finally
         }
     }
 
     @Override
     public void actualizarUsuario(Usuario unUsuario) throws DAOException {
-        Connection conn = null;
+        Connection conn = DBManager.connect();
+        String sql = "UPDATE USUARIOS SET nombre = ?, email = ?, tipo = ? WHERE dni = ?";
         PreparedStatement stmt = null;
         try {
-            conn = DBManager.connect();
-
-            String sql = """
-                UPDATE USUARIOS
-                SET nombre = ?, email = ?, tipo = ?
-                WHERE dni = ?
-            """;
-
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, unUsuario.getNombre());
             stmt.setString(2, unUsuario.getEmail());
@@ -66,7 +52,7 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             if (filas == 0) {
                 throw new DatabaseException("No se encontró el usuario con DNI: " + unUsuario.getId());
             }
-
+            conn.commit();
         } catch (SQLException e) {
             try {
                 throw new DatabaseException("Error al actualizar usuario: " + e.getMessage(), e);
@@ -104,7 +90,7 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             if (filas == 0) {
                 throw new DAOException("No se encontró el usuario a eliminar: " + unUsuario.getId());
             }
-
+            conn.commit();
         } catch (SQLException e) {
             throw new DAOException("Error al eliminar usuario: " + e.getMessage(), e);
         } finally {

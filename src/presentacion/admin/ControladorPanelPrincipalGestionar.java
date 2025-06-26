@@ -164,8 +164,10 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
             Usuario nuevoUsuario = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(), "Crear nuevo Usuario");
 
             if (nuevoUsuario != null) {
+                System.out.println("Estoy en el if de crear usuario porque no es null");
                 servicioAdmin.validarUsuario(nuevoUsuario);
                 servicioAdmin.crearUsuario(nuevoUsuario);
+                System.out.println("Estoy en el if de crear usuario LUEGO DE validar y crearUsuario porque no es null");
                 panel.mostrarInfo("Usuario creado exitosamente.");
             }
         } catch (CursoException e) {
