@@ -29,7 +29,8 @@ public class ServicioAdmin {
     public List<Curso> obtenerTodosLosCursos() throws ServicioException{
         try {
            return cursoDAO.listaTodosLosCursos();
-        } catch (DatabaseException e){
+        } catch (DAOException e){
+            e.printStackTrace();
             throw new ServicioException(e);
         }
     }
@@ -37,15 +38,17 @@ public class ServicioAdmin {
     public void crearCurso(Curso curso) throws ServicioException {
         try {
             cursoDAO.crearCurso(curso);
-        } catch (DatabaseException e) {
-            throw new ServicioException("Error al guardar el curso en la base de datos." + e.getMessage(), e);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new ServicioException(e);
         }
     }
 
     public void eliminarCurso(String curso) throws ServicioException {
         try {
             cursoDAO.eliminarCurso(curso);
-        } catch (DatabaseException e) {
+        } catch (DAOException e) {
+            e.printStackTrace();
             throw new ServicioException(e);
         }
     }
@@ -53,48 +56,27 @@ public class ServicioAdmin {
     public void actualizarCurso(Curso curso) throws ServicioException {
         try {
             cursoDAO.actualizarCurso(curso);
-        } catch (DatabaseException e) {
-            throw new ServicioException("Error al actualizar curso: " + e.getMessage(), e);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new ServicioException("Error al actualizar curso: ", e);
         }
-    }
-
-    public void usuario(){
-        //todo
     }
 
     public void validarCurso(Curso nuevoCurso) throws ServicioException {
         try {
             validadorCurso.validar(nuevoCurso);
         } catch (CursoException e) {
-            throw new ServicioException("Error al actualizar curso: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new ServicioException("Error al validar el curso: ", e);
         }
     }
 
     public List<Usuario> obtenerTodosLosUsuarios() throws ServicioException {
         try {
             return usuarioDAO.listaTodosLosUsuarios();
-        } catch (DatabaseException e) {
-            throw new ServicioException("Error al obtener todos los usuarios: " + e.getMessage(), e);
-        }
-    }
-
-    public Profesor buscarProfesorPorDni(String dni) throws ServicioException {
-        try {
-            Usuario usuario = null;
-            try {
-                usuario = usuarioDAO.buscarUsuarioPorDni(dni);
-            } catch (DatabaseException e) {
-                throw new RuntimeException(e);
-            }
-            if (usuario == null) {
-                throw new ServicioException("No existe un usuario con DNI: " + dni);
-            }
-            if (!(usuario instanceof Profesor)) {
-                throw new ServicioException("El usuario con DNI " + dni + " no es un profesor.");
-            }
-            return (Profesor) usuario;
         } catch (DAOException e) {
-            throw new ServicioException("Error al buscar profesor: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new ServicioException("Error al obtener todos los usuarios: ", e);
         }
     }
 
@@ -102,6 +84,7 @@ public class ServicioAdmin {
         try {
             usuarioDAO.crearUsuario(usuario);
         } catch (DAOException e) {
+            e.printStackTrace();
             throw new ServicioException(e);
         }
     };
@@ -109,18 +92,27 @@ public class ServicioAdmin {
     public void validarUsuario(Usuario usuario){
         try {
             validarUsuario.validar(usuario);
-        } catch (UsuarioExcepction e) {
+        } catch (ValidacionException e) {
+            e.printStackTrace();
             throw new ServicioException(e);
         }
     };
 
     public void eliminarUsuario(Usuario usuario) throws ServicioException {
-
-        //Chequear esto el catch
-        usuarioDAO.eliminarUsuario(usuario);
+        try {
+            usuarioDAO.eliminarUsuario(usuario);
+        } catch (DAOException e){
+            e.printStackTrace();
+            throw new ServicioException(e);
+        }
     }
 
     public void actualizarUsuario(Usuario usuario) throws ServicioException {
-        usuarioDAO.actualizarUsuario(usuario);
+        try {
+            usuarioDAO.actualizarUsuario(usuario);
+        } catch (DAOException e){
+            e.printStackTrace();
+            throw new ServicioException(e);
+        }
     }
 }

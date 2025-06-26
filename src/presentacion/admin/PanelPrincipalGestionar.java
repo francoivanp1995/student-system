@@ -27,50 +27,38 @@ public class PanelPrincipalGestionar extends PanelBase {
         super(panelManager);
         this.tableModel = modelo;
         this.titulo = titulo;
-//        this.tabla = new JTable(new CursoTableModel());
-//        add(new JScrollPane(tabla));
         setUIComponentesBase();
     }
 
     @Override
     protected void setUIComponentesBase() {
         setLayout(new BorderLayout());
-
         botoneraCentro = new PanelBotonera(new GridLayout(2, 3, 10, 10)); // dos filas de tres botones
         botoneraSur = new PanelBotonera();
-
         agregarBotonABotonera();
         tabla = new JTable();
         add(new JScrollPane(tabla));
-
         add(panelSuperior(), BorderLayout.NORTH);
-
         add(panelInferior(), BorderLayout.SOUTH);
     }
 
     private JPanel panelInferior() {
         JPanel inferior = new JPanel(new BorderLayout());
-
         JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         centro.add(botoneraCentro);
-
         JPanel sur = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         sur.add(botoneraSur);
-
         inferior.add(centro, BorderLayout.NORTH);
         inferior.add(sur, BorderLayout.SOUTH);
-
         return inferior;
     }
 
     protected void agregarBotonABotonera() {
         botoneraCentro.agregarBoton(CREAR, CREAR);
-//        botoneraCentro.agregarBoton(LEER, LEER);
         botoneraCentro.agregarBoton(ACTUALIZAR, ACTUALIZAR);
         botoneraCentro.agregarBoton(ELIMINAR, ELIMINAR);
         botoneraCentro.agregarBoton(textoExportarReporte,textoExportarReporteComando);
         botoneraCentro.agregarBoton(textoReporte,textoReporteComando);
-
         botoneraSur.agregarBoton(REGRESAR, REGRESAR);
         botoneraSur.agregarBoton(CANCELAR, CANCELAR);
     }
@@ -112,7 +100,6 @@ public class PanelPrincipalGestionar extends PanelBase {
         } else {
             tabla.setModel(nuevoModelo);
         }
-
         revalidate();
         repaint();
     }

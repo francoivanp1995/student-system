@@ -93,7 +93,6 @@
 
 		@Override
 		public void setListener(ActionListener listener) {
-			System.out.println("Estoy en el ActionListener");
 			panelBotonera.agregarListener(listener);
 		}
 	}

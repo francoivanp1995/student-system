@@ -47,30 +47,20 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             stmt.setString(2, unUsuario.getEmail());
             stmt.setString(3, unUsuario.getRol().name());
             stmt.setString(4, unUsuario.getId());
-
             int filas = stmt.executeUpdate();
             if (filas == 0) {
-                throw new DatabaseException("No se encontró el usuario con DNI: " + unUsuario.getId());
+                throw new DAOException("No se encontró el usuario con DNI: " + unUsuario.getId());
             }
             conn.commit();
         } catch (SQLException e) {
-            try {
-                throw new DatabaseException("Error al actualizar usuario: " + e.getMessage(), e);
-            } catch (DatabaseException ex) {
-                throw new RuntimeException(ex);
-            }
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                try {
-                    throw new DatabaseException("Error al cerrar conexión", e);
-                } catch (DatabaseException ex) {
-                    throw new RuntimeException(ex);
-                }
+                throw new DAOException(e);
             }
         }
     }
@@ -81,24 +71,24 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
         PreparedStatement stmt = null;
         try {
             conn = DBManager.connect();
-
             String sql = "DELETE FROM USUARIOS WHERE dni = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, unUsuario.getId());
-
             int filas = stmt.executeUpdate();
             if (filas == 0) {
                 throw new DAOException("No se encontró el usuario a eliminar: " + unUsuario.getId());
             }
             conn.commit();
         } catch (SQLException e) {
-            throw new DAOException("Error al eliminar usuario: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar conexión", e);
+                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
     }
@@ -108,7 +98,7 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
         return usuario;
     }
 
-    public Usuario autenticarUsuario(String nombreUsuario, String contrasenia) throws DAOException, DatabaseException {
+    public Usuario autenticarUsuario(String nombreUsuario, String contrasenia) throws DAOException{
         Connection c = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -118,15 +108,12 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
 
             Statement debugStmt = c.createStatement();
             ResultSet debugRs = debugStmt.executeQuery("SELECT nombre_de_usuario, contrasenia FROM usuarios");
-            System.out.println("Contenido de la tabla USUARIOS:");
             while (debugRs.next()) {
                 System.out.println("Usuario: " + debugRs.getString("nombre_de_usuario") +
                         ", Contraseña: " + debugRs.getString("contrasenia"));
             }
             debugRs.close();
             debugStmt.close();
-
-
 
             String sql = """
                     SELECT dni, nombre, apellido, email, tipo
@@ -151,14 +138,15 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             }
 
         } catch (SQLException e) {
-            throw new DatabaseException(e);
+            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
                 if (c != null) c.close();
             } catch (SQLException e) {
-                throw new DatabaseException("Error al cerrar recursos", e);
+                throw new DAOException(e);
             }
         }
     }
@@ -171,50 +159,52 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
         };
     }
 
-    public Usuario buscarUsuarioPorDni(String dni) throws DAOException, DatabaseException {
-        Connection c = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+//    public Usuario buscarUsuarioPorDni(String dni) throws DAOException {
+//        Connection c = null;
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            c = new DBManager().connect();
+//
+//            String sql = """
+//                SELECT dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia
+//                FROM usuarios
+//                WHERE dni = ?
+//            """;
+//            stmt = c.prepareStatement(sql);
+//            stmt.setString(1, dni);
+//            rs = stmt.executeQuery();
+//
+//            if (rs.next()) {
+//                String nombre = rs.getString("nombre");
+//                String apellido = rs.getString("apellido");
+//                String email = rs.getString("email");
+//                String nombreUsuario = rs.getString("nombre_de_usuario");
+//                String contrasenia = rs.getString("contrasenia");
+//                RolUsuario rol = RolUsuario.valueOf(rs.getString("tipo").toUpperCase());
+//
+//                return crearUsuarioPorRol(dni, nombre, apellido, email, rol,nombreUsuario,contrasenia);
+//            } else {
+//                return null;
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new DAOException(e);
+//        } finally {
+//            try {
+//                if (rs != null) rs.close();
+//                if (stmt != null) stmt.close();
+//                if (c != null) c.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                throw new DAOException(e);
+//            }
+//        }
+//    }
 
-        try {
-            c = new DBManager().connect();
-
-            String sql = """
-                SELECT dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia
-                FROM usuarios
-                WHERE dni = ?
-            """;
-            stmt = c.prepareStatement(sql);
-            stmt.setString(1, dni);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                String email = rs.getString("email");
-                String nombreUsuario = rs.getString("nombre_de_usuario");
-                String contrasenia = rs.getString("contrasenia");
-                RolUsuario rol = RolUsuario.valueOf(rs.getString("tipo").toUpperCase());
-
-                return crearUsuarioPorRol(dni, nombre, apellido, email, rol,nombreUsuario,contrasenia);
-            } else {
-                return null; // No se encontró usuario
-            }
-
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (c != null) c.close();
-            } catch (SQLException e) {
-                throw new DatabaseException("Error al cerrar recursos", e);
-            }
-        }
-    }
-
-    public List<Usuario> listaTodosLosUsuarios() throws DatabaseException {
+    public List<Usuario> listaTodosLosUsuarios() throws DAOException {
         List<Usuario> usuarios = new ArrayList<>();
         Connection connection = DBManager.connect();
         String sql = "SELECT dni, apellido, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia FROM USUARIOS";
@@ -236,22 +226,22 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
                     case ADMINISTRADOR -> usuario = new Administrador(dni, nombre, apellido, email, rol, nombreUsuario, contrasenia);
                     case ALUMNO -> usuario = new Alumno(dni, nombre, apellido, email, rol,nombreUsuario ,contrasenia );
                     case PROFESOR -> usuario = new Profesor(dni, nombre, apellido, email, rol, nombreUsuario, contrasenia);
-                    default -> throw new DatabaseException("Rol desconocido: " + rolString);
+                    default -> throw new DAOException("Rol desconocido: " + rolString);
                 }
 
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error al listar usuarios: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new DAOException(e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new DatabaseException("Error al cerrar conexión: " + e.getMessage(), e);
+                e.printStackTrace();
+                throw new DAOException(e);
             }
         }
-
         return usuarios;
     }
-
 }

@@ -38,6 +38,7 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 	protected abstract JPanel panelSuperior();
 	protected abstract JPanel panelCentral();
 
+
 	public void mostrarError(String mensaje) {
 		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
