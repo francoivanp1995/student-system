@@ -28,8 +28,12 @@ public class ServicioAdmin {
         this.panelManager = panelManager;
     }
 
-    public List<Curso> obtenerTodosLosCursos() throws ServicioException {
-        return cursoDAO.listaTodosLosCursos();
+    public List<Curso> obtenerTodosLosCursos() throws ServicioException{
+        try {
+           return cursoDAO.listaTodosLosCursos();
+        } catch (DatabaseException e){
+            throw new ServicioException(e);
+        }
     }
 
     public void crearCurso(Curso curso) throws ServicioException {
@@ -40,12 +44,20 @@ public class ServicioAdmin {
         }
     }
 
-    public void eliminarCurso(Curso curso) {
-        cursoDAO.eliminarCurso(curso);
+    public void eliminarCurso(String curso) throws ServicioException {
+        try {
+            cursoDAO.eliminarCurso(curso);
+        } catch (DatabaseException e) {
+            throw new ServicioException(e);
+        }
     }
 
-    public void actualizarCurso(Curso curso) {
-        cursoDAO.actualizarCurso(curso);
+    public void actualizarCurso(Curso curso) throws ServicioException {
+        try {
+            cursoDAO.actualizarCurso(curso);
+        } catch (DatabaseException e) {
+            throw new ServicioException("Error al actualizar curso: " + e.getMessage(), e);
+        }
     }
 
     public void usuario(){

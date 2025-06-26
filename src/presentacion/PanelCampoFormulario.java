@@ -32,4 +32,8 @@ public class PanelCampoFormulario extends JPanel {
     public JLabel getEtiqueta() {
         return etiqueta;
     }
+
+    public void setEditable(boolean editable) {
+        campoTexto.setEditable(editable);
+    }
 }

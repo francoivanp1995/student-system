@@ -4,8 +4,8 @@ import datos.*;
 import datos.Excepcion.*;
 import presentacion.PanelManager;
 import Servicios.ServicioAdmin;
+import presentacion.abstracto.FormularioUtilidad;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         switch (tipo) {
             case CURSO -> {
                 List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
-                panel.actualizarModelo(new CursoTableModel(cursos));
+                panel.actualizarModelo(new CursoTableModel(servicioAdmin.obtenerTodosLosCursos()));
             }
             case USUARIO -> {
                 //Esto no es pedido. Pero podria ser bueno.
@@ -51,33 +51,34 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case LEER -> cargarDatos();
+            case ACTUALIZAR -> {
+                if (tipo == Gestionar.CURSO) {
+                    actualizarCurso();
+                    cargarDatos();
+                } else if (tipo == Gestionar.USUARIO){
+
+                }
+            }
             case CREAR -> {
                 if (tipo == Gestionar.CURSO) {
                     crearCurso();
-//                    servicioAdmin.crearCurso(new Curso("Nuevo", 0, 0.0, 0.0, null));
+                    cargarDatos();
                 } else if (tipo == Gestionar.USUARIO) {
 //                    servicio.crearUsuario(new Usuario("nuevo", "user", "pass", null));
                 }
 
             }
             case ELIMINAR -> {
-                int fila = panel.getFilaSeleccionada();
-                if (fila >= 0) {
-                    if (tipo == Gestionar.CURSO) {
-                        Curso c = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
-//                        servicio.eliminarCurso(c.getId());
-                    } else {
-                        Usuario u = ((UsuarioTableModel) panel.getTabla().getModel()).getUsuarioAt(fila);
-//                        servicio.eliminarUsuario(u.getId());
-                    }
-
+                if (tipo == Gestionar.CURSO){
+                    eliminarCurso();
+                    cargarDatos();
+                } else if (tipo == Gestionar.USUARIO) {
+                    
                 }
             }
             case REGRESAR -> {
                 try {
                     panel.getPanelManager().mostrarPanelPorRol(rol);
-
                 } catch (Exception ex) {
                     panel.mostrarError("Error al regresar: " + ex.getMessage());
                 }
@@ -89,38 +90,73 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         }
     }
 
-    private Curso mostrarFormularioCurso() throws CursoException{
-        PanelFormularioCurso panelFormulario = new PanelFormularioCurso();
-
-        int resultado = JOptionPane.showConfirmDialog(
-                panel,
-                panelFormulario,
-                "Crear nuevo curso",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE
-        );
-
-        if (resultado == JOptionPane.OK_OPTION) {
-            return panelFormulario.construirEntidad();
-        }
-
-        return null;
-    }
-
     private void crearCurso() {
         try {
-            Curso nuevoCurso = mostrarFormularioCurso();
+            Curso nuevoCurso = FormularioUtilidad.mostrarFormulario(new PanelFormularioCursoCrear(), "Crear nuevo curso");
 
             if (nuevoCurso != null) {
                 servicioAdmin.validarCurso(nuevoCurso);
                 servicioAdmin.crearCurso(nuevoCurso);
                 panel.mostrarInfo("Curso creado exitosamente.");
-                cargarDatos();
             }
         } catch (CursoException e) {
             panel.mostrarError("Validación: " + e.getMessage());
         } catch (ServicioException e) {
             panel.mostrarError("Error al guardar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
+        }
+    }
+
+    private void eliminarCurso() {
+        try {
+            int fila = panel.getFilaSeleccionada();
+            System.out.println("Fila seleccionada: " + fila);
+
+            if (fila >= 0) {
+                Curso curso = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
+                System.out.println("Curso seleccionado: " + curso);
+                System.out.println("Nombre del curso: " + curso.getNombre());
+                servicioAdmin.eliminarCurso(curso.getNombre());
+                panel.mostrarInfo("Curso eliminado exitosamente.");
+            } else {
+                panel.mostrarError("Debe seleccionar un curso para eliminar.");
+            }
+        } catch (CursoException e) {
+            panel.mostrarError("Validación: " + e.getMessage());
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al eliminar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
+        }
+    }
+
+    private void actualizarCurso() {
+        try {
+            int fila = panel.getFilaSeleccionada();
+            System.out.println("Fila seleccionada: " + fila);
+
+            if (fila >= 0) {
+                Curso cursoOriginal = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
+                System.out.println("Curso seleccionado: " + cursoOriginal);
+
+                Curso cursoActualizado = FormularioUtilidad.mostrarFormulario(
+                        new PanelFormularioCursoCrear(cursoOriginal),
+                        "Actualizar curso"
+                );
+
+                if (cursoActualizado != null) {
+                    servicioAdmin.validarCurso(cursoActualizado);
+                    servicioAdmin.actualizarCurso(cursoActualizado);
+                    panel.mostrarInfo("Curso actualizado exitosamente.");
+                }
+            } else {
+                panel.mostrarError("Debe seleccionar un curso para actualizar.");
+            }
+        } catch (CursoException e) {
+            panel.mostrarError("Validación: " + e.getMessage());
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al actualizar el curso: " + e.getMessage());
         } catch (Exception e) {
             panel.mostrarError("Error inesperado: " + e.getMessage());
         }
