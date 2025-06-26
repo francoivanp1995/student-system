@@ -25,13 +25,13 @@ public class PanelCampoFormulario extends JPanel {
         campoTexto.setText(texto);
     }
 
-    public JTextField getCampoTexto() {
-        return campoTexto;
-    }
-
-    public JLabel getEtiqueta() {
-        return etiqueta;
-    }
+//    public JTextField getCampoTexto() {
+//        return campoTexto;
+//    }
+//
+//    public JLabel getEtiqueta() {
+//        return etiqueta;
+//    }
 
     public void setEditable(boolean editable) {
         campoTexto.setEditable(editable);

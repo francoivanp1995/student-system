@@ -45,7 +45,7 @@ public class PanelFormularioCursoCrear extends PanelFormularioBase<Curso> {
     }
 
     @Override
-    public Curso construirEntidad() {
+    public Curso construirUIForm() {
         String nombre = campoNombre.getTexto().trim();
         String textoCupo = campoCupo.getTexto().trim();
         String textoPrecio = campoPrecio.getTexto().trim();

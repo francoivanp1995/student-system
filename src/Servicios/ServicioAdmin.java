@@ -2,13 +2,11 @@ package Servicios;
 
 import datos.DAO.CursoDAOH2Impl;
 import datos.DAO.UsuarioDAOH2Impl;
-import datos.Excepcion.CursoException;
-import datos.Excepcion.DAOException;
-import datos.Excepcion.DatabaseException;
-import datos.Excepcion.ServicioException;
+import datos.Excepcion.*;
 import datos.Profesor;
 import datos.Usuario;
 import datos.Validacion.ValidarCurso;
+import datos.Validacion.ValidarUsuario;
 import presentacion.PanelManager;
 import presentacion.admin.PanelPrincipalAdmin;
 import datos.Curso;
@@ -21,7 +19,7 @@ public class ServicioAdmin {
     private final CursoDAOH2Impl cursoDAO = new CursoDAOH2Impl();
     private final UsuarioDAOH2Impl usuarioDAO = new UsuarioDAOH2Impl();
     private ValidarCurso validadorCurso;
-
+    private ValidarUsuario validarUsuario;
 
     public ServicioAdmin(PanelPrincipalAdmin panelPrincipalAdmin, PanelManager panelManager) {
         this.panelPrincipalAdmin = panelPrincipalAdmin;
@@ -64,13 +62,21 @@ public class ServicioAdmin {
         //todo
     }
 
-    public void validarCurso(Curso nuevoCurso) throws CursoException {
-        validadorCurso.validar(nuevoCurso);
+    public void validarCurso(Curso nuevoCurso) throws ServicioException {
+        try {
+            validadorCurso.validar(nuevoCurso);
+        } catch (CursoException e) {
+            throw new ServicioException("Error al actualizar curso: " + e.getMessage(), e);
+        }
     }
 
-//    public List<Usuario> obtenerTodosLosUsuarios() {
-//        return cursoDAO.listaTodosLosUsuarios();
-//    }
+    public List<Usuario> obtenerTodosLosUsuarios() throws ServicioException {
+        try {
+            return usuarioDAO.listaTodosLosUsuarios();
+        } catch (DatabaseException e) {
+            throw new ServicioException("Error al obtener todos los usuarios: " + e.getMessage(), e);
+        }
+    }
 
     public Profesor buscarProfesorPorDni(String dni) throws ServicioException {
         try {
@@ -90,5 +96,31 @@ public class ServicioAdmin {
         } catch (DAOException e) {
             throw new ServicioException("Error al buscar profesor: " + e.getMessage(), e);
         }
+    }
+
+    public void crearUsuario(Usuario usuario) throws ServicioException{
+        try {
+            usuarioDAO.crearUsuario(usuario);
+        } catch (DAOException e) {
+            throw new ServicioException(e);
+        }
+    };
+
+    public void validarUsuario(Usuario usuario){
+        try {
+            validarUsuario.validar(usuario);
+        } catch (UsuarioExcepction e) {
+            throw new ServicioException(e);
+        }
+    };
+
+    public void eliminarUsuario(Usuario usuario) throws ServicioException {
+
+        //Chequear esto el catch
+        usuarioDAO.eliminarUsuario(usuario);
+    }
+
+    public void actualizarUsuario(Usuario usuario) throws ServicioException {
+        usuarioDAO.actualizarUsuario(usuario);
     }
 }

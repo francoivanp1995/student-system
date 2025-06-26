@@ -14,7 +14,7 @@ public class FormularioUtilidad {
         );
 
         if (resultado == JOptionPane.OK_OPTION) {
-            return formulario.construirEntidad();
+            return formulario.construirUIForm();
         }
 
         return null;

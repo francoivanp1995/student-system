@@ -63,4 +63,5 @@ public class CursoTableModel extends AbstractTableModel {
     public Curso getCursoAt(int rowIndex) {
         return contenido.get(rowIndex);
     }
+
 }

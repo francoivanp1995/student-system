@@ -42,8 +42,8 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
             }
             case USUARIO -> {
                 //Esto no es pedido. Pero podria ser bueno.
-//                List<Usuario> usuarios = servicio.obtenerTodosLosUsuarios();
-//                panel.actualizarModelo(new UsuarioTableModel(usuarios));
+                List<Usuario> usuarios = servicioAdmin.obtenerTodosLosUsuarios();
+                panel.actualizarModelo(new UsuarioTableModel(servicioAdmin.obtenerTodosLosUsuarios()));
             }
         }
     }
@@ -56,7 +56,8 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                     actualizarCurso();
                     cargarDatos();
                 } else if (tipo == Gestionar.USUARIO){
-
+                    actualizarUsuario();
+                    cargarDatos();
                 }
             }
             case CREAR -> {
@@ -64,16 +65,17 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                     crearCurso();
                     cargarDatos();
                 } else if (tipo == Gestionar.USUARIO) {
-//                    servicio.crearUsuario(new Usuario("nuevo", "user", "pass", null));
+                    crearUsuario();
+                    cargarDatos();
                 }
-
             }
             case ELIMINAR -> {
                 if (tipo == Gestionar.CURSO){
                     eliminarCurso();
                     cargarDatos();
                 } else if (tipo == Gestionar.USUARIO) {
-                    
+                    eliminarUsuario();
+                    cargarDatos();
                 }
             }
             case REGRESAR -> {
@@ -135,20 +137,82 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         try {
             int fila = panel.getFilaSeleccionada();
             System.out.println("Fila seleccionada: " + fila);
-
             if (fila >= 0) {
                 Curso cursoOriginal = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
                 System.out.println("Curso seleccionado: " + cursoOriginal);
-
-                Curso cursoActualizado = FormularioUtilidad.mostrarFormulario(
-                        new PanelFormularioCursoCrear(cursoOriginal),
-                        "Actualizar curso"
-                );
-
+                Curso cursoActualizado = FormularioUtilidad.mostrarFormulario(new PanelFormularioCursoCrear(cursoOriginal),"Actualizar curso");
                 if (cursoActualizado != null) {
                     servicioAdmin.validarCurso(cursoActualizado);
                     servicioAdmin.actualizarCurso(cursoActualizado);
                     panel.mostrarInfo("Curso actualizado exitosamente.");
+                }
+            } else {
+                panel.mostrarError("Debe seleccionar un curso para actualizar.");
+            }
+        } catch (CursoException e) {
+            panel.mostrarError("Validación: " + e.getMessage());
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al actualizar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
+        }
+    }
+
+    private void crearUsuario() {
+        //Todo, no esta creando el usuario en la base de datos.
+        try {
+            Usuario nuevoUsuario = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(), "Crear nuevo Usuario");
+
+            if (nuevoUsuario != null) {
+                servicioAdmin.validarUsuario(nuevoUsuario);
+                servicioAdmin.crearUsuario(nuevoUsuario);
+                panel.mostrarInfo("Usuario creado exitosamente.");
+            }
+        } catch (CursoException e) {
+            panel.mostrarError("Validación: " + e.getMessage());
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al guardar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
+        }
+    }
+
+
+    private void eliminarUsuario(){
+        //TODO, no esta eliminando el usuario seleccionado.
+        try {
+            int fila = panel.getFilaSeleccionada();
+            System.out.println("Fila seleccionada: " + fila);
+
+            if (fila >= 0) {
+                Usuario usuario = ((UsuarioTableModel) panel.getTabla().getModel()).getUsuarioAt(fila);
+                System.out.println("Curso seleccionado: " + usuario);
+                System.out.println("Nombre del curso: " + usuario.getNombre());
+                servicioAdmin.eliminarUsuario(usuario);
+                panel.mostrarInfo("Curso eliminado exitosamente.");
+            } else {
+                panel.mostrarError("Debe seleccionar un curso para eliminar.");
+            }
+        } catch (ServicioException e) {
+            panel.mostrarError("Error al eliminar el curso: " + e.getMessage());
+        } catch (Exception e) {
+            panel.mostrarError("Error inesperado: " + e.getMessage());
+        }
+    }
+
+    private void actualizarUsuario() {
+        //Todo, no esta dandome los datos ya del usuario.
+        try {
+            int fila = panel.getFilaSeleccionada();
+            System.out.println("Fila seleccionada: " + fila);
+            if (fila >= 0) {
+                Usuario usuarioOriginal = ((UsuarioTableModel) panel.getTabla().getModel()).getUsuarioAt(fila);
+                System.out.println("Usuario seleccionado: " + usuarioOriginal);
+                Usuario usuarioActualizado = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(usuarioOriginal),"Actualizar usuario");
+                if (usuarioActualizado != null) {
+                    servicioAdmin.validarUsuario(usuarioActualizado);
+                    servicioAdmin.actualizarUsuario(usuarioActualizado);
+                    panel.mostrarInfo("Usuario actualizado exitosamente.");
                 }
             } else {
                 panel.mostrarError("Debe seleccionar un curso para actualizar.");

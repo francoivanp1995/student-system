@@ -18,7 +18,7 @@ public class PanelFormuarioCursoEliminar extends PanelFormularioBase<String> {
     }
 
     @Override
-    public String construirEntidad() {
+    public String construirUIForm() {
         String nombre = campoNombre.getTexto().trim();
         if (nombre.isEmpty()) {
             throw new CursoException("Debe ingresar un nombre.");

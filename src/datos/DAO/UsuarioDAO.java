@@ -8,9 +8,9 @@ import datos.Usuario;
 
 public interface UsuarioDAO {
 
-    void crearUsuario(Alumno unUsuario) throws DAOException;
-    void actualizarUsuario(Alumno unUsuario) throws DAOException;
-    void eliminarUsuario(Alumno unUsuario) throws DAOException;
+    void crearUsuario(Usuario unUsuario) throws DAOException;
+    void actualizarUsuario(Usuario unUsuario) throws DAOException;
+    void eliminarUsuario(Usuario unUsuario) throws DAOException;
     Usuario buscarUsuario(Usuario usuario) throws DAOException;
     public Usuario autenticarUsuario(String nombreUsuario, String contrasenia) throws DAOException, DatabaseException;
 }
