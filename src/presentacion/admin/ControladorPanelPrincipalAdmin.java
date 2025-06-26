@@ -27,7 +27,6 @@ public class ControladorPanelPrincipalAdmin implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Estoy en el action performed de CONTROLADOR PANEL PRINCIPAL ADMIN");
         switch (e.getActionCommand()) {
             case CURSO:
                 try {

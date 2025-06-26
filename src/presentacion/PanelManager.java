@@ -1,20 +1,14 @@
 package presentacion;
 
-import presentacion.admin.ControladorPanelPrincipalGestionar;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import datos.*;
+import presentacion.admin.*;
+
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 import Servicios.ServicioAdmin;
-import datos.CursoTableModel;
 import datos.Excepcion.PanelException;
-import datos.Gestionar;
-import datos.RolUsuario;
-import datos.UsuarioTableModel;
 import datos.interfaz.ObtenerPanel;
-import presentacion.admin.ControladorPanelPrincipalAdmin;
-import presentacion.admin.PanelPrincipalAdmin;
-import presentacion.admin.PanelPrincipalGestionar;
 import presentacion.alumno.PanelPrincipalAlumno;
 import presentacion.profesor.PanelPrincipalProfesor;
 
@@ -43,7 +37,6 @@ public class PanelManager implements ObtenerPanel {
 		System.out.println("Aca llego en PanelManager antes de panelInicio = new PanelINicio()");
 		panelInicio = new PanelInicio(this);
 		mostrarPanel(panelInicio);
-
 	}
 
 	private void mostrarPanel(JPanel panel) throws PanelException {
@@ -95,10 +88,7 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos");
 					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
 				}
-				System.out.println("Estoy dentro del case curso, luego del if para mostrar Panel principal gestionar curso");
 				mostrarPanel(panelPrincipalGestionarCurso);
-				System.out.println("Estoy dentro del case curso, LUEGO DE MOSTRAR PANEL");
-
 			}
 			case USUARIO -> {
 				if (panelGestionarUsuario == null) {
@@ -110,7 +100,6 @@ public class PanelManager implements ObtenerPanel {
 			}
 		}
 	}
-
 
 	public void showFrame() {
 		frame.setVisible(true);

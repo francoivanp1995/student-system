@@ -14,12 +14,9 @@ public class UIIniciador {
     }
 
     public void iniciarFrame() throws PanelException {
-
-        System.out.println("Aca llego en iniciarFrame antes de panelManager.iniciar");
         panelManager.iniciar();
         panelInicio = panelManager.getPanelInicio();
         controladorPanelInicio = new ControladorPanelInicio(panelInicio,panelManager);
-        System.out.println("Aca NO LLEGO en UI iniciador");
         panelInicio.setListener(controladorPanelInicio);
         panelManager.showFrame();
     }

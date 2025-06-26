@@ -2,11 +2,18 @@ package datos;
 
 public class Alumno extends Usuario{
 
+	private int limiteCursos;
 
-	public Alumno(String id, String nombre, String email, RolUsuario rol) {
-		super(id, nombre, email, rol);
+	public Alumno(String id, String nombre, String apellido, String email, RolUsuario rol,String nombreUsuario, String contrasenia) {
+		super(id, nombre, apellido, email, rol, nombreUsuario, contrasenia);
 		// TODO Auto-generated constructor stub
 	}
 
-	
+	public int getLimiteCursos() {
+		return limiteCursos;
+	}
+
+	public void setLimiteCursos(Integer limiteCursos) {
+		this.limiteCursos = limiteCursos;
+	}
 }

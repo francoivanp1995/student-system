@@ -46,10 +46,11 @@ public class CursoTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Curso curso = contenido.get(rowIndex);
+        int cantidad = curso.getInscripciones() == null ? 0 : curso.getInscripciones().size();
         return switch (columnIndex) {
             case COLUMNA_NOMBRE -> curso.getNombre();
-            case COLUMNA_ANOTADOS -> curso.getInscripciones();
-            case COLUMNA_RECAUDACION -> curso.getPrecio();
+            case COLUMNA_ANOTADOS -> cantidad;
+            case COLUMNA_RECAUDACION -> cantidad * curso.getPrecio();
             default -> "";
         };
     }
@@ -62,4 +63,5 @@ public class CursoTableModel extends AbstractTableModel {
     public Curso getCursoAt(int rowIndex) {
         return contenido.get(rowIndex);
     }
+
 }

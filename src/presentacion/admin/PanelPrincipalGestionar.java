@@ -1,5 +1,6 @@
 package presentacion.admin;
 
+import datos.CursoTableModel;
 import presentacion.PanelBotonera;
 import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
@@ -26,6 +27,8 @@ public class PanelPrincipalGestionar extends PanelBase {
         super(panelManager);
         this.tableModel = modelo;
         this.titulo = titulo;
+//        this.tabla = new JTable(new CursoTableModel());
+//        add(new JScrollPane(tabla));
         setUIComponentesBase();
     }
 
@@ -37,6 +40,8 @@ public class PanelPrincipalGestionar extends PanelBase {
         botoneraSur = new PanelBotonera();
 
         agregarBotonABotonera();
+        tabla = new JTable();
+        add(new JScrollPane(tabla));
 
         add(panelSuperior(), BorderLayout.NORTH);
 
@@ -60,7 +65,7 @@ public class PanelPrincipalGestionar extends PanelBase {
 
     protected void agregarBotonABotonera() {
         botoneraCentro.agregarBoton(CREAR, CREAR);
-        botoneraCentro.agregarBoton(LEER, LEER);
+//        botoneraCentro.agregarBoton(LEER, LEER);
         botoneraCentro.agregarBoton(ACTUALIZAR, ACTUALIZAR);
         botoneraCentro.agregarBoton(ELIMINAR, ELIMINAR);
         botoneraCentro.agregarBoton(textoExportarReporte,textoExportarReporteComando);
@@ -95,7 +100,7 @@ public class PanelPrincipalGestionar extends PanelBase {
     }
 
     public JTable getTabla() {
-        return tabla;
+        return this.tabla;
     }
 
     public void actualizarModelo(AbstractTableModel nuevoModelo) {

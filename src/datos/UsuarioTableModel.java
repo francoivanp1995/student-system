@@ -20,6 +20,10 @@ public class UsuarioTableModel extends AbstractTableModel {
         this.contenido = new ArrayList<>();
     }
 
+    public UsuarioTableModel(List<Usuario> usuarios) {
+        this.contenido = usuarios;
+    }
+
     @Override
     public int getRowCount() {
         return contenido.size();
