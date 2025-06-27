@@ -2,6 +2,7 @@ package datos.DAO;
 
 import datos.Curso;
 import datos.DBManager;
+import datos.Excepcion.DAOException;
 import datos.Excepcion.DatabaseException;
 
 import java.sql.Connection;
@@ -12,10 +13,9 @@ import java.util.List;
 
 public class CursoDAOH2Impl implements CursoDAO{
     @Override
-    public void crearCurso(Curso unCurso) throws DatabaseException{
+    public void crearCurso(Curso unCurso) throws DAOException {
         Connection connection = DBManager.connect();
         String sql = "INSERT INTO CURSOS (nombre, cupo, precio, nota_aprobacion, profesor_dni) VALUES (?, ?, ?, ?, ?)";
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, unCurso.getNombre());
@@ -29,9 +29,8 @@ public class CursoDAOH2Impl implements CursoDAO{
             try {
                 connection.rollback();
             } catch (SQLException rollbackEx) {
-                throw new DatabaseException("Error al hacer rollback: " + rollbackEx.getMessage(), rollbackEx);
+                throw new DAOException(rollbackEx);
             }
-            throw new DatabaseException("Error al crear curso" + e.getMessage(),e);
         } finally {
             try {
                 connection.close();
@@ -42,41 +41,34 @@ public class CursoDAOH2Impl implements CursoDAO{
     }
 
     @Override
-    public void eliminarCurso(String unCurso) throws DatabaseException {
+    public void eliminarCurso(String unCurso) throws DAOException {
         Connection connection = DBManager.connect();
         String sql = "DELETE FROM CURSOS WHERE nombre = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, unCurso);
             int afectados = ps.executeUpdate();
-            if (afectados == 0) throw new DatabaseException("No se encontró un curso con ese nombre.");
+            if (afectados == 0) throw new DAOException("No se encontró un curso con ese nombre.");
             connection.commit();
         } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                throw new DAOException(ex);
             }
-            throw new DatabaseException("Error al eliminar el curso: " + e.getMessage(), e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
 
     @Override
-    public void actualizarCurso(Curso unCurso) throws DatabaseException {
+    public void actualizarCurso(Curso unCurso) throws DAOException {
         Connection connection = DBManager.connect();
-        String sql = """
-        UPDATE CURSOS 
-        SET cupo = ?, 
-            precio = ?, 
-            nota_aprobacion = ?, 
-            profesor_dni = ?
-        WHERE nombre = ?
-        """;
+        String sql = "UPDATE CURSOS SET cupo = ?, precio = ?, nota_aprobacion = ?, profesor_dni = ? WHERE nombre = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, unCurso.getCupoMaximo());
@@ -86,20 +78,20 @@ public class CursoDAOH2Impl implements CursoDAO{
             ps.setString(5, unCurso.getNombre());
 
             int filas = ps.executeUpdate();
-            if (filas == 0) throw new DatabaseException("No se encontró un curso con ese nombre.");
+            if (filas == 0) throw new DAOException("No se encontró un curso con ese nombre.");
             connection.commit();
         } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                throw new DatabaseException("Error al hacer rollback: " + ex.getMessage(), ex);
+                ex.printStackTrace();
+                throw new DAOException(ex);
             }
-            throw new DatabaseException("Error al actualizar curso: " + e.getMessage(), e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new DatabaseException("Error al cerrar conexión: " + e.getMessage(), e);
+                e.printStackTrace();
             }
         }
     }
@@ -110,7 +102,7 @@ public class CursoDAOH2Impl implements CursoDAO{
     }
 
     @Override
-    public List<Curso> listaTodosLosCursos() throws DatabaseException {
+    public List<Curso> listaTodosLosCursos() throws DAOException {
         List<Curso> cursos = new ArrayList<>();
         Connection connection = DBManager.connect();
         String sql = "SELECT nombre, cupo, precio, nota_aprobacion, profesor_dni FROM CURSOS";
@@ -128,12 +120,12 @@ public class CursoDAOH2Impl implements CursoDAO{
                 cursos.add(curso);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error al listar cursos: " + e.getMessage(), e);
+            throw new DAOException("Error al listar cursos: " + e.getMessage(), e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new DatabaseException("Error al cerrar conexión: " + e.getMessage(), e);
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
             }
         }
 
@@ -143,5 +135,46 @@ public class CursoDAOH2Impl implements CursoDAO{
     @Override
     public void buscarCurso(String unCurso) {
 
+    }
+
+    public List<Curso> listaCursosConCantidadInscritos() throws DAOException {
+        List<Curso> cursos = new ArrayList<>();
+        Connection connection = DBManager.connect();
+
+        String sql = """
+        SELECT c.id, c.nombre, c.cupo, c.precio, c.nota_aprobacion, c.profesor_dni, 
+               COUNT(i.id) AS cantidad_inscritos
+        FROM CURSOS c
+        LEFT JOIN INSCRIPCIONES i ON c.id = i.curso_id
+        GROUP BY c.id, c.nombre, c.cupo, c.precio, c.nota_aprobacion, c.profesor_dni
+        """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            var rs = ps.executeQuery();
+            while (rs.next()) {
+                Curso curso = new Curso();
+                curso.setId(rs.getString("id"));  // si id es bigint, cambia a rs.getLong y adapta el tipo en Curso
+                curso.setNombre(rs.getString("nombre"));
+                curso.setCupoMaximo(rs.getInt("cupo"));
+                curso.setPrecio(rs.getInt("precio")); // si usas DECIMAL(10,2), usa rs.getDouble o rs.getBigDecimal
+                curso.setNotaAprobacion(rs.getInt("nota_aprobacion"));
+                curso.setId(rs.getString("profesor_dni"));
+
+                // Guardar cantidad inscritos en una propiedad temporal, o crear método getInscripciones que retorne lista dummy con esa cantidad
+                curso.setCantidadInscritos(rs.getInt("cantidad_inscritos"));
+
+                cursos.add(curso);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error al listar cursos con inscritos: " + e.getMessage(), e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
+        }
+
+        return cursos;
     }
 }

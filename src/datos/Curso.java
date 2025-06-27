@@ -10,6 +10,7 @@ public class Curso {
     private int cupoMaximo;
     private int notaAprobacion;
     private List<Inscripcion> inscripciones;
+    private int cantidadInscritos;
 
     public Curso(String nombre, int cupoMaximo, int precio, int notaAprobacion, String profesorDni  ){
         this.nombre = nombre;
@@ -19,7 +20,18 @@ public class Curso {
         this.id = profesorDni;
     }
 
-    // Getters
+    public Curso(){
+
+    }
+
+    public int getCantidadInscritos() {
+        return cantidadInscritos;
+    }
+
+    public void setCantidadInscritos(int cantidadInscritos) {
+        this.cantidadInscritos = cantidadInscritos;
+    }
+
     public String getId() { return id; }
     public String getNombre() { return nombre; }
     public int getPrecio() { return precio; }
@@ -27,7 +39,7 @@ public class Curso {
     public int getNotaAprobacion() { return notaAprobacion; }
     public List<Inscripcion> getInscripciones() { return inscripciones; }
 
-    // Setters
+
     public void setId(String id) {
         this.id = id;
     }

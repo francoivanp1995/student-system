@@ -34,7 +34,6 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void iniciar() throws PanelException {
-		System.out.println("Aca llego en PanelManager antes de panelInicio = new PanelINicio()");
 		panelInicio = new PanelInicio(this);
 		mostrarPanel(panelInicio);
 	}
@@ -51,7 +50,7 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelPorRol(RolUsuario rol) throws PanelException {
-		System.out.println("Estoy en el mostrarPanelPorRol");
+		//Chequear exception aca.
 		switch (rol) {
 			case ADMINISTRADOR -> {
 				if (panelPrincipalAdmin == null) {
@@ -76,7 +75,6 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelGestionar(Gestionar gestion) throws PanelException {
-		System.out.println("Entró a mostrarPanelGestionar con: " + gestion);
 		if (servicioAdmin == null) {
 			System.out.println("servicioAdmin ES NULL !!!");
 			throw new PanelException("servicioAdmin no ha sido inicializado");
@@ -85,7 +83,7 @@ public class PanelManager implements ObtenerPanel {
 			case CURSO -> {
 				if (panelPrincipalGestionarCurso == null) {
 					AbstractTableModel modelo = new CursoTableModel();
-					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos");
+					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos",Gestionar.CURSO);
 					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
 				}
 				mostrarPanel(panelPrincipalGestionarCurso);
@@ -93,7 +91,7 @@ public class PanelManager implements ObtenerPanel {
 			case USUARIO -> {
 				if (panelGestionarUsuario == null) {
 					AbstractTableModel modelo = new UsuarioTableModel();
-					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios");
+					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios",Gestionar.USUARIO);
 					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
 				}
 				mostrarPanel(panelGestionarUsuario);

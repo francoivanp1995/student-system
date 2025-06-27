@@ -19,13 +19,12 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
     private final PanelCampoFormulario campoContrasenia;
 
     public PanelFormularioUsuarioCrear() {
-        this(null); // Reutiliza el constructor que acepta Curso
+        this(null);
     }
 
 
     public PanelFormularioUsuarioCrear(Usuario usuario) {
         setLayout(new GridLayout(8, 1, 10, 10));
-
         campoDNI = new PanelCampoFormulario("DNI:");
         campoNombre = new PanelCampoFormulario("Nombre:");
         campoApellido = new PanelCampoFormulario("Apellido:");
@@ -34,7 +33,6 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
         campoLimiteCursos = new PanelCampoFormulario("Limite Cursos:");
         campoEmail = new PanelCampoFormulario("Email:");
         campoContrasenia = new PanelCampoFormulario("Contrasenia:");
-
 
         add(campoDNI);
         add(campoNombre);
@@ -45,11 +43,17 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
         add(campoEmail);
         add(campoContrasenia);
 
-
+        if (usuario != null){
+            campoDNI.setTexto(usuario.getId());
+            campoNombre.setTexto(usuario.getNombre());
+            campoApellido.setTexto(usuario.getApellido());
+            campoNombreUsuario.setTexto(usuario.getNombreUsuario());
+            campoTipo.setTexto(usuario.getRol().name());
+            campoEmail.setTexto(usuario.getEmail());
+        }
     }
 
     public Usuario construirUIForm() {
-
         String dni = campoDNI.getTexto().trim();
         String nombre = campoNombre.getTexto().trim();
         String apellido = campoApellido.getTexto().trim();
@@ -57,8 +61,8 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
         String tipo = campoTipo.getTexto().trim();
         String email = campoEmail.getTexto().trim();
         String contrasenia = campoContrasenia.getTexto().trim();
-//        String nombreCompleto = nombre + " " + apellido;
 
+        //TODO,Esto es validacion. Debe haber una clase de validacion.
         if (dni.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || nombreUsuario.isEmpty() || tipo.isEmpty() || email.isEmpty() || contrasenia.isEmpty()) {
             try {
                 throw new UsuarioExcepction("Todos los campos deben estar completos.");
@@ -66,10 +70,8 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
                 throw new RuntimeException(e);
             }
         }
-
         try {
             RolUsuario rolUsuario = RolUsuario.valueOf(tipo.toUpperCase());
-
             Usuario usuario;
             switch (rolUsuario) {
                 case ADMINISTRADOR -> usuario = new Administrador(dni, nombre, apellido, email, rolUsuario, nombreUsuario, contrasenia);

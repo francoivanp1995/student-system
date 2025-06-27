@@ -46,13 +46,12 @@ public class ControladorPanelPrincipalAdmin implements ActionListener {
 
             case REGRESAR:
                 try {
-                    panelManager.mostrarPanelPorRol(RolUsuario.ADMINISTRADOR); // o panelInicio si querés volver ahí
+                    panelManager.mostrarPanelPorRol(RolUsuario.ADMINISTRADOR);
                 } catch (PanelException ex) {
                     panelPrincipalAdmin.mostrarError("Error al regresar: " + ex.getMessage());
                 }
                 break;
-
-            case CANCELAR:
+            case CERRAR:
                 System.exit(0);
                 break;
         }

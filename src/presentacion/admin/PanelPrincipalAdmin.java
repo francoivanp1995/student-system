@@ -26,7 +26,7 @@ public class PanelPrincipalAdmin extends PanelBase {
     @Override
     protected void agregarBotonABotonera() {
         botoneraSur.agregarBoton(REGRESAR,REGRESAR);
-        botoneraSur.agregarBoton(CANCELAR,CANCELAR);
+        botoneraSur.agregarBoton(CERRAR, CERRAR);
         botoneraCentro.agregarBoton(TextoGestionarCurso,CURSO);
         botoneraCentro.agregarBoton(TextoGestionarUsuario,USUARIO);
     }

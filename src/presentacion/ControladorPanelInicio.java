@@ -1,13 +1,12 @@
 package presentacion;
 
 import Servicios.ServicioUsuario;
-import datos.Excepcion.CredencialesInvalidaException;
-import datos.Excepcion.DatabaseException;
-import datos.Excepcion.PanelException;
+import datos.Excepcion.ControladorException;
 import datos.Usuario;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static datos.Comandos.CANCELAR;
+import static datos.Comandos.CERRAR;
 import static datos.Comandos.INICIAR;
 
 public class ControladorPanelInicio implements ActionListener {
@@ -31,18 +30,13 @@ public class ControladorPanelInicio implements ActionListener {
                 try {
                     Usuario u = servicioUsuario.login(usuario, contrasenia);
                     panelManager.mostrarPanelPorRol(u.getRol());
-                } catch (CredencialesInvalidaException ex) {
-                    panelInicio.mostrarError(ex.getMessage());
-                } catch (PanelException ex) {
-                    panelInicio.mostrarError("Error al cambiar de pantalla: " + ex.getMessage());
-                } catch (DatabaseException ex) {
-                    panelInicio.mostrarError("Error de base de datos: " + ex.getMessage());
                 } catch (Exception ex) {
-                    panelInicio.mostrarError("Error inesperado: " + ex.getMessage());
+                    ex.printStackTrace();
+                    throw new ControladorException(ex);
                 }
                 panelInicio.limpiar();
                 break;
-            case CANCELAR:
+            case CERRAR:
                 panelInicio.limpiar();
                 System.exit(0);
                 break;

@@ -1,6 +1,7 @@
 package presentacion;
 
 import datos.Excepcion.PanelException;
+import datos.Excepcion.UIException;
 
 public class UIIniciador {
     private PanelManager panelManager;
@@ -13,11 +14,15 @@ public class UIIniciador {
         this.frameInicio = new FramePrincipal(panelManager);
     }
 
-    public void iniciarFrame() throws PanelException {
-        panelManager.iniciar();
-        panelInicio = panelManager.getPanelInicio();
-        controladorPanelInicio = new ControladorPanelInicio(panelInicio,panelManager);
-        panelInicio.setListener(controladorPanelInicio);
-        panelManager.showFrame();
+    public void iniciarFrame() throws UIException {
+        try {
+            panelManager.iniciar();
+            panelInicio = panelManager.getPanelInicio();
+            controladorPanelInicio = new ControladorPanelInicio(panelInicio,panelManager);
+            panelInicio.setListener(controladorPanelInicio);
+            panelManager.showFrame();
+        } catch (PanelException e) {
+            throw new UIException(e);
+        }
     }
 }
