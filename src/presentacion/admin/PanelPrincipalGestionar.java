@@ -1,6 +1,7 @@
 package presentacion.admin;
 
-import datos.CursoTableModel;
+import datos.Gestionar;
+import datos.RolUsuario;
 import presentacion.PanelBotonera;
 import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
@@ -19,14 +20,15 @@ public class PanelPrincipalGestionar extends PanelBase {
     private AbstractTableModel tableModel;
     private PanelBotonera botoneraCentro, botoneraSur;
     private final String textoReporte = "MOSTRAR REPORTE", textoExportarReporte = "EXPORTAR REPORTE";
-    private final String textoReporteComando = "MOSTRARREPORTE", textoExportarReporteComando = "EXPORTARREPORTE";
+    private Gestionar gestionar;
 
     private final String titulo;
 
-    public PanelPrincipalGestionar(PanelManager panelManager, AbstractTableModel modelo, String titulo) {
+    public PanelPrincipalGestionar(PanelManager panelManager, AbstractTableModel modelo, String titulo, Gestionar gestionar) {
         super(panelManager);
         this.tableModel = modelo;
         this.titulo = titulo;
+        this.gestionar = gestionar;
         setUIComponentesBase();
     }
 
@@ -57,10 +59,12 @@ public class PanelPrincipalGestionar extends PanelBase {
         botoneraCentro.agregarBoton(CREAR, CREAR);
         botoneraCentro.agregarBoton(ACTUALIZAR, ACTUALIZAR);
         botoneraCentro.agregarBoton(ELIMINAR, ELIMINAR);
-        botoneraCentro.agregarBoton(textoExportarReporte,textoExportarReporteComando);
-        botoneraCentro.agregarBoton(textoReporte,textoReporteComando);
+        if (gestionar == Gestionar.CURSO) {
+            botoneraCentro.agregarBoton(textoExportarReporte, EXPORTARREPORTE);
+        }
+        botoneraCentro.agregarBoton(textoReporte, MOSTRARREPORTE);
         botoneraSur.agregarBoton(REGRESAR, REGRESAR);
-        botoneraSur.agregarBoton(CANCELAR, CANCELAR);
+        botoneraSur.agregarBoton(CERRAR, CERRAR);
     }
 
     @Override

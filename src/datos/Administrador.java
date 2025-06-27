@@ -11,11 +11,4 @@ public class Administrador extends Usuario{
 		// TODO Auto-generated constructor stub
 	}
 
-	public void crearCurso() {
-		
-	};
-	
-	public void crearAlumno() {
-		
-	};
 }

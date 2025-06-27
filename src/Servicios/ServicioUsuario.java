@@ -3,10 +3,7 @@ package Servicios;
 import datos.*;
 import datos.DAO.UsuarioDAO;
 import datos.DAO.UsuarioDAOH2Impl;
-import datos.Excepcion.CredencialesInvalidaException;
-import datos.Excepcion.DAOException;
-import datos.Excepcion.DatabaseException;
-import datos.Excepcion.PanelException;
+import datos.Excepcion.*;
 import datos.interfaz.VistaLogin;
 import presentacion.PanelInicio;
 import presentacion.PanelManager;
@@ -27,13 +24,15 @@ public class ServicioUsuario {
         this.panelManager = panelManager;
     }
 
-    public Usuario login(String usuario, String contrasenia)
-            throws CredencialesInvalidaException, DAOException, DatabaseException {
-
-        Usuario u = usuarioDAO.autenticarUsuario(usuario, contrasenia);
-        if (u == null) {
-            throw new CredencialesInvalidaException("Credenciales inválidas. Por favor intente de nuevo.");
+    public Usuario login(String usuario, String contrasenia) throws ServicioException {
+        try {
+            Usuario u = usuarioDAO.autenticarUsuario(usuario, contrasenia);
+            if (u == null) {
+                throw new CredencialesInvalidaException("Credenciales inválidas. Por favor intente de nuevo.");
+            }
+            return u;
+        } catch (DAOException e){
+            throw new ServicioException(e);
         }
-        return u;
     }
 }

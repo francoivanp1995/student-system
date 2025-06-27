@@ -7,7 +7,7 @@
 	import java.awt.*;
 	import java.awt.event.ActionListener;
 
-	import static datos.Comandos.CANCELAR;
+	import static datos.Comandos.CERRAR;
 	import static datos.Comandos.INICIAR;
 
 	public class PanelInicio extends PanelBase implements VistaLogin {
@@ -24,7 +24,7 @@
 		@Override
 		protected void agregarBotonABotonera() {
 			panelBotonera.agregarBoton(INICIAR, INICIAR);
-			panelBotonera.agregarBoton(CANCELAR, CANCELAR);
+			panelBotonera.agregarBoton(CERRAR, CERRAR);
 		}
 
 		@Override

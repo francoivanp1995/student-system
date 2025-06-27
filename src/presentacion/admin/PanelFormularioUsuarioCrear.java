@@ -42,6 +42,15 @@ public class PanelFormularioUsuarioCrear extends PanelFormularioBase<Usuario> {
         add(campoLimiteCursos);
         add(campoEmail);
         add(campoContrasenia);
+
+        if (usuario != null){
+            campoDNI.setTexto(usuario.getId());
+            campoNombre.setTexto(usuario.getNombre());
+            campoApellido.setTexto(usuario.getApellido());
+            campoNombreUsuario.setTexto(usuario.getNombreUsuario());
+            campoTipo.setTexto(usuario.getRol().name());
+            campoEmail.setTexto(usuario.getEmail());
+        }
     }
 
     public Usuario construirUIForm() {

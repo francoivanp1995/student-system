@@ -46,11 +46,11 @@ public class PanelFormularioCursoCrear extends PanelFormularioBase<Curso> {
 
     @Override
     public Curso construirUIForm() {
-        String nombre = campoNombre.getTexto().trim();
-        String textoCupo = campoCupo.getTexto().trim();
-        String textoPrecio = campoPrecio.getTexto().trim();
-        String textoNota = campoNotaAprobacion.getTexto().trim();
-        String profesorDni = campoProfesor.getTexto().trim();
+        String nombre = campoNombre.getTexto().trim().toUpperCase();
+        String textoCupo = campoCupo.getTexto().trim().toUpperCase();
+        String textoPrecio = campoPrecio.getTexto().trim().toUpperCase();
+        String textoNota = campoNotaAprobacion.getTexto().trim().toUpperCase();
+        String profesorDni = campoProfesor.getTexto().trim().toUpperCase();
 
         if (nombre.isEmpty() || textoCupo.isEmpty() || textoPrecio.isEmpty() || textoNota.isEmpty() || profesorDni.isEmpty()) {
             throw new CursoException("Todos los campos deben estar completos.");

@@ -3,13 +3,15 @@ package Servicios;
 import datos.DAO.CursoDAOH2Impl;
 import datos.DAO.UsuarioDAOH2Impl;
 import datos.Excepcion.*;
-import datos.Profesor;
 import datos.Usuario;
-import datos.Validacion.ValidarCurso;
-import datos.Validacion.ValidarUsuario;
+import Servicios.Validacion.ValidarCurso;
+import Servicios.Validacion.ValidarUsuario;
 import presentacion.PanelManager;
 import presentacion.admin.PanelPrincipalAdmin;
 import datos.Curso;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class ServicioAdmin {
@@ -31,7 +33,7 @@ public class ServicioAdmin {
            return cursoDAO.listaTodosLosCursos();
         } catch (DAOException e){
             e.printStackTrace();
-            throw new ServicioException(e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -40,7 +42,7 @@ public class ServicioAdmin {
             cursoDAO.crearCurso(curso);
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new ServicioException(e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -49,7 +51,7 @@ public class ServicioAdmin {
             cursoDAO.eliminarCurso(curso);
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new ServicioException(e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -58,7 +60,7 @@ public class ServicioAdmin {
             cursoDAO.actualizarCurso(curso);
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new ServicioException("Error al actualizar curso: ", e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -67,7 +69,7 @@ public class ServicioAdmin {
             validadorCurso.validar(nuevoCurso);
         } catch (CursoException e) {
             e.printStackTrace();
-            throw new ServicioException("Error al validar el curso: ", e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -76,7 +78,7 @@ public class ServicioAdmin {
             return usuarioDAO.listaTodosLosUsuarios();
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new ServicioException("Error al obtener todos los usuarios: ", e);
+            throw new ServicioException(e.getMessage());
         }
     }
 
@@ -85,7 +87,7 @@ public class ServicioAdmin {
             usuarioDAO.crearUsuario(usuario);
         } catch (DAOException e) {
             e.printStackTrace();
-            throw new ServicioException(e);
+            throw new ServicioException(e.getMessage());
         }
     };
 
@@ -113,6 +115,15 @@ public class ServicioAdmin {
         } catch (DAOException e){
             e.printStackTrace();
             throw new ServicioException(e);
+        }
+    }
+
+    public List<Curso> obtenerCursosConCantidadInscritos() throws ServicioException {
+        try {
+            return cursoDAO.listaCursosConCantidadInscritos();
+        } catch (DAOException e) {
+            e.printStackTrace();
+            throw new ServicioException(e.getMessage());
         }
     }
 }

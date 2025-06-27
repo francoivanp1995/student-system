@@ -34,13 +34,12 @@ public class AppManager {
     }
 
     public void iniciarPanelManager() throws UIException {
+        //Chequear Exception
         try {
             UIIniciador ui = new UIIniciador();
             ui.iniciarFrame();
-        } catch (PanelException e) {
-            throw new UIException("Error con el inicio de la UI: " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new UIException("Error inesperado desde el iniciador de Panel manager: " + e.getMessage(), e);
+            throw new UIException("Error con el inicio de la UI: " + e.getMessage(), e);
         }
     }
 }

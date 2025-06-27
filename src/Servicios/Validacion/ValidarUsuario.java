@@ -1,8 +1,5 @@
-package datos.Validacion;
+package Servicios.Validacion;
 
-import datos.Curso;
-import datos.Excepcion.CursoException;
-import datos.Excepcion.UsuarioExcepction;
 import datos.Excepcion.ValidacionException;
 import datos.Usuario;
 
