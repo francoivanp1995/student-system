@@ -1,5 +1,6 @@
 package presentacion;
 
+import Servicios.ServicioUsuario;
 import datos.*;
 import presentacion.admin.*;
 
@@ -24,6 +25,7 @@ public class PanelManager implements ObtenerPanel {
 
 	//para probar
 	private ServicioAdmin servicioAdmin;
+	private ServicioUsuario servicioUsuario;
 
 	public PanelManager() {
 
@@ -57,6 +59,7 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
 					servicioAdmin = new ServicioAdmin(panelPrincipalAdmin, this);
 					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
+					servicioUsuario = new ServicioUsuario(panelInicio, this);
 					panelPrincipalAdmin.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalAdmin);
@@ -75,24 +78,20 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelGestionar(Gestionar gestion) throws PanelException {
-		if (servicioAdmin == null) {
-			System.out.println("servicioAdmin ES NULL !!!");
-			throw new PanelException("servicioAdmin no ha sido inicializado");
-		}
 		switch (gestion) {
 			case CURSO -> {
 				if (panelPrincipalGestionarCurso == null) {
 					AbstractTableModel modelo = new CursoTableModel();
-					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos",Gestionar.CURSO);
-					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
+					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "GESTION DE CURSOS",Gestionar.CURSO);
+					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR,servicioUsuario);
 				}
 				mostrarPanel(panelPrincipalGestionarCurso);
 			}
 			case USUARIO -> {
 				if (panelGestionarUsuario == null) {
 					AbstractTableModel modelo = new UsuarioTableModel();
-					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios",Gestionar.USUARIO);
-					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
+					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "GESTION DE USUARIOS",Gestionar.USUARIO);
+					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR,servicioUsuario);
 				}
 				mostrarPanel(panelGestionarUsuario);
 			}

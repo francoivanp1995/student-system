@@ -1,5 +1,6 @@
 package presentacion.admin;
 
+import Servicios.ServicioUsuario;
 import datos.*;
 import datos.Excepcion.*;
 import presentacion.PanelManager;
@@ -19,15 +20,17 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
 
     private final PanelPrincipalGestionar panel;
     private final ServicioAdmin servicioAdmin;
+    private final ServicioUsuario servicioUsuario;
     private final Gestionar tipo;
     private RolUsuario rol;
 
-    public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol) {
+    public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol, ServicioUsuario servicioUsuario) {
         System.out.println(">> Creando ControladorGestionar para: " + tipo);
         this.panel = panel;
         this.servicioAdmin = servicioAdmin;
         this.tipo = tipo;
         this.rol = rol;
+        this.servicioUsuario = servicioUsuario;
         this.panel.setListener(this);
     }
 
@@ -151,7 +154,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         try {
             Usuario nuevoUsuario = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(), "Crear nuevo Usuario");
             if (nuevoUsuario != null) {
-                servicioAdmin.validarUsuario(nuevoUsuario);
+                servicioUsuario.validarUsuario(nuevoUsuario);
                 servicioAdmin.crearUsuario(nuevoUsuario);
                 panel.mostrarInfo("Usuario creado exitosamente.");
             }
@@ -187,7 +190,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                 Usuario usuarioOriginal = ((UsuarioTableModel) panel.getTabla().getModel()).getUsuarioAt(fila);
                 Usuario usuarioActualizado = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(usuarioOriginal),"Actualizar usuario");
                 if (usuarioActualizado != null) {
-                    servicioAdmin.validarUsuario(usuarioActualizado);
+                    servicioUsuario.validarUsuario(usuarioActualizado);
                     servicioAdmin.actualizarUsuario(usuarioActualizado);
                     panel.mostrarInfo("Usuario actualizado exitosamente.");
                 }

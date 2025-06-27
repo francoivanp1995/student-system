@@ -1,6 +1,7 @@
 package Servicios.Validacion;
 
 import datos.Excepcion.ValidacionException;
+import datos.RolUsuario;
 import datos.Usuario;
 
 public class ValidarUsuario {
@@ -25,8 +26,11 @@ public class ValidarUsuario {
             throw new ValidacionException("El id debe no debe ser en blanco.");
         }
 
-        if (usuario.getRol() == null) {
-            throw new ValidacionException("El rol debe no debe ser en blanco.");
+        if (usuario.getRol() == null ||
+                (usuario.getRol() != RolUsuario.ADMINISTRADOR &&
+                        usuario.getRol() != RolUsuario.ALUMNO &&
+                        usuario.getRol() != RolUsuario.PROFESOR)) {
+            throw new ValidacionException("El rol del usuario es inválido.");
         }
     }
 }
