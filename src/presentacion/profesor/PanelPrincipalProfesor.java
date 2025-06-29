@@ -4,6 +4,7 @@ import presentacion.PanelManager;
 import presentacion.abstracto.PanelBase;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class PanelPrincipalProfesor extends PanelBase {
 
@@ -20,6 +21,11 @@ public class PanelPrincipalProfesor extends PanelBase {
     @Override
     protected JPanel panelCentral() {
         return null;
+    }
+
+    @Override
+    protected void setListener(ActionListener listener) {
+
     }
 
     @Override

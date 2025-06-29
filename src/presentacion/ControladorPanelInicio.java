@@ -33,6 +33,7 @@ public class ControladorPanelInicio implements ActionListener {
                     if (u == null) {
                         panelInicio.mostrarError("Credenciales inválidas. Por favor, intente de nuevo.");
                     } else {
+                        panelManager.setUsuarioLogueado(u);
                         panelManager.mostrarPanelPorRol(u.getRol());
                     }
                 } catch (ServicioException ex) {

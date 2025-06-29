@@ -1,6 +1,7 @@
 package presentacion.abstracto;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -37,6 +38,7 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 	protected abstract void setUIComponentesBase();
 	protected abstract JPanel panelSuperior();
 	protected abstract JPanel panelCentral();
+	protected abstract void setListener(ActionListener listener);
 
 
 	public void mostrarError(String mensaje) {

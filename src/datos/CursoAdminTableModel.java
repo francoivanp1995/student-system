@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CursoTableModel extends AbstractTableModel {
+public class CursoAdminTableModel extends BaseCursoTableModel {
 
     private static final int COLUMNA_NOMBRE = 0;
     private static final int COLUMNA_ANOTADOS = 1;
@@ -13,19 +13,12 @@ public class CursoTableModel extends AbstractTableModel {
     private final String[] nombreColumnas = {"Nombre Curso", "Anotados", "Recaudación"};
     private final Class[] tipoColumnas = {String.class, Integer.class, Double.class};
 
-    private List<Curso> contenido;
-
-    public CursoTableModel() {
-        this.contenido = new ArrayList<>();
+    public CursoAdminTableModel() {
+        super();
     }
 
-    public CursoTableModel(List<Curso> cursos) {
-        this.contenido = cursos;
-    }
-
-    @Override
-    public int getRowCount() {
-        return contenido.size();
+    public CursoAdminTableModel(java.util.List<Curso> cursos) {
+        super(cursos);
     }
 
     @Override

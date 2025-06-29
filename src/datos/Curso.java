@@ -5,6 +5,7 @@ import java.util.List;
 public class Curso {
 
     private String id;
+    private String profesorDni;
     private String nombre;
     private int precio;
     private int cupoMaximo;
@@ -12,12 +13,21 @@ public class Curso {
     private List<Inscripcion> inscripciones;
     private int cantidadInscritos;
 
-    public Curso(String nombre, int cupoMaximo, int precio, int notaAprobacion, String profesorDni  ){
+    public Curso(String nombre, int cupoMaximo, int precio, int notaAprobacion, String profesorDni) {
         this.nombre = nombre;
         this.cupoMaximo = cupoMaximo;
         this.precio = precio;
         this.notaAprobacion = notaAprobacion;
-        this.id = profesorDni;
+        this.profesorDni = profesorDni;
+    }
+
+    public Curso(String id, String nombre, int cupoMaximo, int precio, int notaAprobacion, String profesorDni  ){
+        this.nombre = nombre;
+        this.cupoMaximo = cupoMaximo;
+        this.precio = precio;
+        this.notaAprobacion = notaAprobacion;
+        this.id = id;
+        this.profesorDni = profesorDni;
     }
 
     public Curso(){
@@ -64,6 +74,13 @@ public class Curso {
         this.inscripciones = inscripciones;
     }
 
+    public String getProfesorDni() {
+        return profesorDni;
+    }
+
+    public void setProfesorDni(String profesorDni) {
+        this.profesorDni = profesorDni;
+    }
 //    public void setProfesor(Profesor profesor) {
 //        this.profesor = profesor;
 //    }
