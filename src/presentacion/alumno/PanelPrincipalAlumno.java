@@ -15,7 +15,7 @@ public class PanelPrincipalAlumno extends PanelBase {
 
     private PanelBotonera botoneraSur;
     private PanelBotonera botoneraCentro;
-    private static final String textoVerCurso  = "VER CURSO";
+    private static final String textoVerCurso  = "VER CURSOS";
     private static final String labelPanel = "PANEL ALUMNO";
 
     public PanelPrincipalAlumno(PanelManager panelManager) {

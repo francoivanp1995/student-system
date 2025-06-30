@@ -34,13 +34,24 @@ public class ControladorPanelPrincipalAlumno implements ActionListener {
                 try {
                     panelManager.mostrarPanelCursosAlumno(); // este método debes implementarlo en PanelManager
                 } catch (PanelException ex) {
+                    ex.printStackTrace();
                     panelPrincipalAlumno.mostrarError("Error al mostrar cursos: " + ex.getMessage());
                 }
                 break;
+            case MISINSCRIPCIONES: {
+                try {
+                    panelManager.mostrarMisInscripciones();
+                } catch (PanelException ex) {
+                    ex.printStackTrace();
+                    panelPrincipalAlumno.mostrarError("Error al mostrar mis inscripciones" + ex.getMessage());
+                }
+                break;
+            }
             case REGRESAR:
                 try {
                     panelManager.mostrarPanelPorRol(RolUsuario.ADMINISTRADOR);
                 } catch (PanelException ex) {
+                    ex.printStackTrace();
                     panelPrincipalAlumno.mostrarError("Error al regresar: " + ex.getMessage());
                 }
                 break;

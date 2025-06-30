@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 import static datos.Comandos.*;
 
-public class PanelCursosAlumno extends PanelBase {
+public class PanelInscripcionesAlumno extends PanelBase {
 
     private JTable tabla;
     private JScrollPane scrollPane;
@@ -19,7 +19,7 @@ public class PanelCursosAlumno extends PanelBase {
     private PanelBotonera botoneraCentro, botoneraSur;
     private final String titulo;
 
-    public PanelCursosAlumno(PanelManager panelManager, AbstractTableModel modelo, String titulo) {
+    public PanelInscripcionesAlumno(PanelManager panelManager, AbstractTableModel modelo, String titulo) {
         super(panelManager);
         this.tableModel = modelo;
         this.titulo = titulo;
@@ -29,8 +29,9 @@ public class PanelCursosAlumno extends PanelBase {
     @Override
     protected void setUIComponentesBase() {
         setLayout(new BorderLayout());
-        botoneraCentro = new PanelBotonera(new GridLayout(1, 2, 10, 10)); // una fila de dos botones
+        botoneraCentro = new PanelBotonera(new GridLayout(1, 2, 10, 10));
         botoneraSur = new PanelBotonera();
+
         agregarBotonABotonera();
 
         tabla = new JTable(tableModel);
@@ -54,9 +55,8 @@ public class PanelCursosAlumno extends PanelBase {
         return inferior;
     }
 
+    @Override
     protected void agregarBotonABotonera() {
-        botoneraCentro.agregarBoton(INSCRIBIRSE, INSCRIBIRSE);
-        botoneraCentro.agregarBoton(DESINSCRIBIRSE, DESINSCRIBIRSE);
         botoneraSur.agregarBoton(REGRESAR, REGRESAR);
         botoneraSur.agregarBoton(CERRAR, CERRAR);
     }
@@ -92,18 +92,8 @@ public class PanelCursosAlumno extends PanelBase {
 
     public void actualizarModelo(AbstractTableModel nuevoModelo) {
         this.tableModel = nuevoModelo;
-        if (tabla == null) {
-            tabla = new JTable(tableModel);
-            scrollPane = new JScrollPane(tabla);
-            add(scrollPane, BorderLayout.CENTER);
-        } else {
-            tabla.setModel(nuevoModelo);
-        }
+        tabla.setModel(nuevoModelo);
         revalidate();
         repaint();
-    }
-
-    public PanelManager getPanelManager(){
-        return panelManager;
     }
 }

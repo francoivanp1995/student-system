@@ -89,12 +89,54 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
     @Override
     public void eliminarInscripcion(Usuario alumno, Curso curso) {
+        Connection connection = DBManager.connect();
+        String sql = "DELETE FROM INSCRIPCIONES WHERE alumno_dni = ? AND curso_id = ?";
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, alumno.getId());
+            stmt.setString(2, curso.getId());
+
+            int filasAfectadas = stmt.executeUpdate();
+            if (filasAfectadas == 0) {
+                throw new DAOException("No se encontró una inscripción para eliminar.");
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException("Error al eliminar la inscripción: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public List<Curso> obtenerCursosPorAlumno(Usuario alumno) {
-        return List.of();
+        List<Curso> cursos = new ArrayList<>();
+        Connection connection = DBManager.connect();
+
+        String sql = "SELECT c.id, c.nombre, c.nota_aprobacion " +
+                "FROM INSCRIPCIONES i " +
+                "JOIN CURSOS c ON i.curso_id = c.id " +
+                "WHERE i.alumno_dni = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, alumno.getId());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Curso curso = new Curso();
+                    curso.setId(rs.getString("id"));
+                    curso.setNombre(rs.getString("nombre"));
+//                    curso.setDescripcion(rs.getString("descripcion"));
+                    curso.setNotaAprobacion(rs.getInt("nota_aprobacion"));
+                    cursos.add(curso);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // o usar un logger
+        }
+
+        return cursos;
     }
 
     @Override

@@ -35,7 +35,6 @@ public class ControladorPanelPrincipalAdmin implements ActionListener {
                     panelPrincipalAdmin.mostrarError("Error al cambiar a gestión de curso: " + ex.getMessage());
                 }
                 break;
-
             case USUARIO:
                 try {
                     panelManager.mostrarPanelGestionarAdmin(Gestionar.USUARIO);

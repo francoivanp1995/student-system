@@ -11,10 +11,7 @@ import javax.swing.table.AbstractTableModel;
 import Servicios.ServicioAdmin;
 import datos.Excepcion.PanelException;
 import datos.interfaz.ObtenerPanel;
-import presentacion.alumno.ControladorPanelCursosAlumno;
-import presentacion.alumno.ControladorPanelPrincipalAlumno;
-import presentacion.alumno.PanelCursosAlumno;
-import presentacion.alumno.PanelPrincipalAlumno;
+import presentacion.alumno.*;
 import presentacion.profesor.PanelPrincipalProfesor;
 
 import java.util.List;
@@ -117,6 +114,14 @@ public class PanelManager implements ObtenerPanel {
 		PanelCursosAlumno panelCursosAlumno = new PanelCursosAlumno(this, modelo, "Cursos Disponibles");
 		ControladorPanelCursosAlumno controlador = new ControladorPanelCursosAlumno(panelCursosAlumno,this,servicioAlumno);
 		mostrarPanel(panelCursosAlumno);
+	}
+
+	public void mostrarMisInscripciones() throws PanelException {
+		List<Curso> cursosInscriptos = servicioAlumno.obtenerCursosInscriptos(usuarioLogueado);
+		AbstractTableModel modelo = new CursoAlumnoInscriptoTableModel(cursosInscriptos);
+		PanelInscripcionesAlumno panelInscripciones = new PanelInscripcionesAlumno(this, modelo, "Mis Inscripciones");
+		ControladorPanelInscripcionesAlumno controlador = new ControladorPanelInscripcionesAlumno(panelInscripciones,this);
+		mostrarPanel(panelInscripciones);
 	}
 
 	public void showFrame() {

@@ -32,7 +32,6 @@ public class ControladorPanelCursosAlumno implements ActionListener {
             case DESINSCRIBIRSE:
                 desincribirseCurso();
                 break;
-
             case REGRESAR:
                 try {
                     panelManager.mostrarPanelPorRol(RolUsuario.ALUMNO);
@@ -40,7 +39,6 @@ public class ControladorPanelCursosAlumno implements ActionListener {
                     panelCursosAlumno.mostrarError("Error al regresar: " + ex.getMessage());
                 }
                 break;
-
             case CERRAR:
                 System.exit(0);
                 break;
@@ -73,7 +71,7 @@ public class ControladorPanelCursosAlumno implements ActionListener {
             // Suponiendo que el modelo tiene método para obtener curso por fila
             Curso curso = ((CursoAlumnoTableModel) panelCursosAlumno.getTabla().getModel()).getCursoAt(filaSeleccionada);
             servicioAlumno.desinscribirDeCurso(panelManager.getUsuarioLogueado(), curso);
-            panelCursosAlumno.mostrarInfo("Inscripción exitosa en el curso: " + curso.getNombre());
+            panelCursosAlumno.mostrarInfo("Desinscripcion exitosa en el curso: " + curso.getNombre());
         } catch (Exception ex) {
             panelCursosAlumno.mostrarError("Error al inscribirse: " + ex.getMessage());
         }
