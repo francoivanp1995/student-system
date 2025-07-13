@@ -27,9 +27,10 @@ public class AppManager {
             db.crearTabla(c);
             c.commit();
         } catch (DatabaseException e) {
-            throw new TablaException("Error al crear la base de datos: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new TablaException("Error al crear la base de datos.");
         } catch (Exception e) {
-            throw new TablaException("Error inesperado desde el iniciador de Creacion Tablas: " + e.getMessage(), e);
+            throw new TablaException("Error inesperado desde el iniciador de Creacion Tablas");
         }
     }
 
@@ -39,7 +40,8 @@ public class AppManager {
             UIIniciador ui = new UIIniciador();
             ui.iniciarFrame();
         } catch (Exception e) {
-            throw new UIException("Error con el inicio de la UI: " + e.getMessage(), e);
+            e.printStackTrace();
+            throw new UIException("Error con el inicio de la UI");
         }
     }
 }
