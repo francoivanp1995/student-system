@@ -13,9 +13,10 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
     @Override
     public void crearUsuario(Usuario unUsuario) throws DAOException {
         Connection c = DBManager.connect();
-        String sql = "INSERT INTO usuarios (dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = null;
+        String sql = "INSERT INTO usuarios (dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia, limite_cursos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            PreparedStatement stmt = c.prepareStatement(sql);
+            stmt = c.prepareStatement(sql);
             stmt.setString(1, unUsuario.getId());
             stmt.setString(2, unUsuario.getNombre());
             stmt.setString(3, unUsuario.getApellido());
@@ -23,6 +24,14 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             stmt.setString(5, unUsuario.getRol().name());
             stmt.setString(6, unUsuario.getNombreUsuario());
             stmt.setString(7, unUsuario.getContrasenia());
+
+            //Como estoy poniendo todos los usuarios en una tabla, unicamente tiene sentido para Alumno el limite de curso
+            if (unUsuario instanceof Alumno alumno) {
+                System.out.println("El limite de cursos es: " + alumno.getLimiteCursos());
+                stmt.setInt(8, alumno.getLimiteCursos());
+            } else {
+                stmt.setNull(8, Types.INTEGER);
+            }
 
             stmt.executeUpdate();
             c.commit();
@@ -32,21 +41,35 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
                 throw new DatabaseException("Error al crear el usuario", e);
             } catch (DatabaseException ex) {
                 throw new RuntimeException(ex);
-            } //Agregar finally
+            }
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (c != null) c.close();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
         }
     }
 
     @Override
     public void actualizarUsuario(Usuario unUsuario) throws DAOException {
         Connection conn = DBManager.connect();
-        String sql = "UPDATE USUARIOS SET nombre = ?, email = ?, tipo = ? WHERE dni = ?";
+        String sql = "UPDATE USUARIOS SET nombre = ?, email = ?, tipo = ?, limite_cursos = ? WHERE dni = ?";
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, unUsuario.getNombre());
             stmt.setString(2, unUsuario.getEmail());
             stmt.setString(3, unUsuario.getRol().name());
-            stmt.setString(4, unUsuario.getId());
+
+            if (unUsuario instanceof Alumno alumno) {
+                stmt.setInt(4, alumno.getLimiteCursos());
+            } else {
+                stmt.setNull(4, Types.INTEGER);
+            }
+
+            stmt.setString(5, unUsuario.getId());
             int filas = stmt.executeUpdate();
             if (filas == 0) {
                 throw new DAOException("No se encontró el usuario con DNI: " + unUsuario.getId());
@@ -105,16 +128,6 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
 
         try {
             c = new DBManager().connect();
-
-            Statement debugStmt = c.createStatement();
-            ResultSet debugRs = debugStmt.executeQuery("SELECT nombre_de_usuario, contrasenia FROM usuarios");
-            while (debugRs.next()) {
-                System.out.println("Usuario: " + debugRs.getString("nombre_de_usuario") +
-                        ", Contraseña: " + debugRs.getString("contrasenia"));
-            }
-            debugRs.close();
-            debugStmt.close();
-
             String sql = """
                     SELECT dni, nombre, apellido, email, tipo
                     FROM usuarios
@@ -123,7 +136,6 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
             stmt = c.prepareStatement(sql);
             stmt.setString(1, nombreUsuario);
             stmt.setString(2, contrasenia);
-            System.out.println("Probando login con: " + nombreUsuario + " / " + contrasenia);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 String dni = rs.getString("dni");

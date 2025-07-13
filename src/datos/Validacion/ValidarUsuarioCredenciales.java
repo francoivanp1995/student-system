@@ -1,4 +1,4 @@
-package Servicios.Validacion;
+package datos.Validacion;
 
 public class ValidarUsuarioCredenciales {
 

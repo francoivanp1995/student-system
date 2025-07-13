@@ -1,4 +1,4 @@
-package Servicios.Validacion;
+package datos.Validacion;
 
 import datos.Curso;
 import datos.Excepcion.CursoException;

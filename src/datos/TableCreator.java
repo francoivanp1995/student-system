@@ -71,7 +71,6 @@ public class TableCreator {
     private void ejecutar(Connection c, String sql, String tabla) throws DatabaseException {
         try (Statement s = c.createStatement()) {
             s.execute(sql);
-            System.out.println("Tabla " + tabla + " creada correctamente.");
         } catch (SQLException e) {
             throw new DatabaseException("Error al crear la tabla " + tabla, e);
         }

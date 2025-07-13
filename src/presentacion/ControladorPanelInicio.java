@@ -41,7 +41,7 @@ public class ControladorPanelInicio implements ActionListener {
                     panelInicio.mostrarError(ex.getMessage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    panelInicio.mostrarError("Error inesperado: " + ex.getMessage());
+                    panelInicio.mostrarError("Error inesperado");
                 }
                 panelInicio.limpiar();
                 break;

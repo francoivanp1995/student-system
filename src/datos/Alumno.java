@@ -17,7 +17,7 @@ public class Alumno extends Usuario{
 		return limiteCursos;
 	}
 
-	public void setLimiteCursos(Integer limiteCursos) {
+	public void setLimiteCursos(int limiteCursos) {
 		this.limiteCursos = limiteCursos;
 	}
 }

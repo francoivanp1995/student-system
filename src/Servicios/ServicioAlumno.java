@@ -14,7 +14,6 @@ public class ServicioAlumno {
 
     private final PanelPrincipalAlumno panelPrincipalAlumno;
     private final PanelManager panelManager;
-//    private static final int MAX_CURSOS_ACTIVOS = 3;
     private final InscripcionDAO inscripcionDAO;
 
     public ServicioAlumno(PanelPrincipalAlumno panelPrincipalAlumno, PanelManager panelManager){
@@ -22,12 +21,6 @@ public class ServicioAlumno {
         this.panelManager = panelManager;
         this.inscripcionDAO = new InscripcionDAOH2Impl();
     }
-
-//    public ServicioAlumno() {
-//        this.panelPrincipalAlumno = null;
-//        this.panelManager = null;
-//        this.inscripcionDAO = new InscripcionDAOH2Impl();
-//    }
 
     public void inscribirACurso(Alumno alumno, Curso curso) throws ServicioException {
         validarAlumno(alumno);
