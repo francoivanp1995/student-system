@@ -53,7 +53,7 @@ public class ControladorPanelCursosAlumno implements ActionListener {
         }
         try {
             Curso curso = ((CursoAlumnoTableModel) panelCursosAlumno.getTabla().getModel()).getCursoAt(filaSeleccionada);
-            servicioAlumno.inscribirACurso(panelManager.getUsuarioLogueado(), curso);
+            servicioAlumno.inscribirACurso((Alumno) panelManager.getUsuarioLogueado(), curso);
             panelCursosAlumno.mostrarInfo("Inscripción exitosa en el curso: " + curso.getNombre());
         } catch (Exception ex) {
             panelCursosAlumno.mostrarError("Error al inscribirse: " + ex.getMessage());
@@ -74,18 +74,4 @@ public class ControladorPanelCursosAlumno implements ActionListener {
             panelCursosAlumno.mostrarError("Error al inscribirse: " + ex.getMessage());
         }
     }
-
-//    private void cargarDatos() {
-//        System.out.println(">> Cargando datos para: " + tipo);
-//        switch (Gestionar.CURSO) {
-//            case CURSO -> {
-//                List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
-//                panel.actualizarModelo(new CursoAlumnoTableModel(servicioAdmin.obtenerTodosLosCursos()));
-//            }
-//            case USUARIO -> {
-//                List<Usuario> usuarios = servicioAdmin.obtenerTodosLosUsuarios();
-//                panel.actualizarModelo(new UsuarioTableModel(servicioAdmin.obtenerTodosLosUsuarios()));
-//            }
-//        }
-//    }
 }

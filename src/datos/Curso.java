@@ -87,7 +87,4 @@ public class Curso {
     public void setProfesorDni(String profesorDni) {
         this.profesorDni = profesorDni;
     }
-//    public void setProfesor(Profesor profesor) {
-//        this.profesor = profesor;
-//    }
 }

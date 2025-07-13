@@ -1,12 +1,9 @@
 package Servicios;
 
-import datos.Curso;
+import datos.*;
 import datos.DAO.InscripcionDAO;
 import datos.DAO.InscripcionDAOH2Impl;
 import datos.Excepcion.ServicioException;
-import datos.Inscripcion;
-import datos.RolUsuario;
-import datos.Usuario;
 import datos.interfaz.Panel;
 import presentacion.PanelManager;
 import presentacion.alumno.PanelPrincipalAlumno;
@@ -17,7 +14,7 @@ public class ServicioAlumno {
 
     private final PanelPrincipalAlumno panelPrincipalAlumno;
     private final PanelManager panelManager;
-    private static final int MAX_CURSOS_ACTIVOS = 3;
+//    private static final int MAX_CURSOS_ACTIVOS = 3;
     private final InscripcionDAO inscripcionDAO;
 
     public ServicioAlumno(PanelPrincipalAlumno panelPrincipalAlumno, PanelManager panelManager){
@@ -26,13 +23,13 @@ public class ServicioAlumno {
         this.inscripcionDAO = new InscripcionDAOH2Impl();
     }
 
-    public ServicioAlumno() {
-        this.panelPrincipalAlumno = null;
-        this.panelManager = null;
-        this.inscripcionDAO = new InscripcionDAOH2Impl();
-    }
+//    public ServicioAlumno() {
+//        this.panelPrincipalAlumno = null;
+//        this.panelManager = null;
+//        this.inscripcionDAO = new InscripcionDAOH2Impl();
+//    }
 
-    public void inscribirACurso(Usuario alumno, Curso curso) throws ServicioException {
+    public void inscribirACurso(Alumno alumno, Curso curso) throws ServicioException {
         validarAlumno(alumno);
 
         try {
@@ -41,7 +38,7 @@ public class ServicioAlumno {
             }
 
             if (!puedeInscribirse(alumno)) {
-                throw new ServicioException("No puedes inscribirte: tienes 3 cursos activos sin aprobar.");
+                throw new ServicioException("No puedes inscribirte: tienes cursos activos sin aprobar.");
             }
 
             int inscritos = inscripcionDAO.contarInscripcionesPorCurso(curso);
@@ -69,10 +66,10 @@ public class ServicioAlumno {
         }
     }
 
-    public boolean puedeInscribirse(Usuario alumno) {
+    public boolean puedeInscribirse(Alumno alumno) {
         try {
             int cursosActivos = inscripcionDAO.contarCursosActivosSinAprobar(alumno);
-            return cursosActivos < MAX_CURSOS_ACTIVOS;
+            return cursosActivos < alumno.getLimiteCursos();
         } catch (Exception e) {
             return false;
         }

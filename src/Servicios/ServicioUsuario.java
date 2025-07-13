@@ -36,6 +36,7 @@ public class ServicioUsuario {
         }
     }
 
+    //ToDo
     public void validarUsuario(Usuario usuario){
         try {
             validarUsuario.validar(usuario);

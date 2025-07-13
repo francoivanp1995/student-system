@@ -24,7 +24,6 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
     private RolUsuario rol;
 
     public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol, ServicioUsuario servicioUsuario) {
-        System.out.println(">> Creando ControladorGestionar para: " + tipo);
         this.panel = panel;
         this.servicioAdmin = servicioAdmin;
         this.tipo = tipo;
@@ -83,7 +82,6 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
     }
 
     private void cargarDatos() {
-        System.out.println(">> Cargando datos para: " + tipo);
         switch (tipo) {
             case CURSO -> {
                 List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();

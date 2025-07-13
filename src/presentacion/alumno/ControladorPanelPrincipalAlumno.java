@@ -32,7 +32,7 @@ public class ControladorPanelPrincipalAlumno implements ActionListener {
         switch (e.getActionCommand()) {
             case CURSO:
                 try {
-                    panelManager.mostrarPanelCursosAlumno(); // este método debes implementarlo en PanelManager
+                    panelManager.mostrarPanelCursosAlumno();
                 } catch (PanelException ex) {
                     ex.printStackTrace();
                     panelPrincipalAlumno.mostrarError("Error al mostrar cursos: " + ex.getMessage());

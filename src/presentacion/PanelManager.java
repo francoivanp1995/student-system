@@ -129,14 +129,6 @@ public class PanelManager implements ObtenerPanel {
 		mostrarPanel(panelInscripciones);
 	}
 
-//	public void mostrarInscripcionesDeProfesor() throws PanelException {
-//		List<Inscripcion> inscripciones = servicioProfesor.obtenerInscripcionesPorCurso(usuarioLogueado.getId());
-//		AbstractTableModel modelo = new ModeloAlumnosConCurso(inscripciones);
-//		PanelAlumnosProfesor panel = new PanelAlumnosProfesor(this, modelo, "ALUMNOS INSCRIPTOS");
-//		ControladorPanelAlumnosProfesor controlador = new ControladorPanelAlumnosProfesor(panel, this, servicioProfesor, null);
-//		mostrarPanel(panel);
-//	}
-
 	public void mostrarAlumnosDeMisCursos() throws PanelException {
 			List<Inscripcion> inscripciones = servicioProfesor.obtenerInscripcionesDeTodosMisCursos(usuarioLogueado.getId());
 			ModeloAlumnos modelo = new ModeloAlumnos(inscripciones);
@@ -153,14 +145,6 @@ public class PanelManager implements ObtenerPanel {
 		ControladorPanelCursosProfesor controlador = new ControladorPanelCursosProfesor(panelCursoProfesor,this,servicioProfesor);
 		mostrarPanel(panelCursoProfesor);
 	}
-
-//	public void mostrarPanelAlumnosProfesor() throws PanelException {
-//		List<Inscripcion> inscripciones = servicioProfesor.obtenerInscripcionesDeTodosMisCursos(usuarioLogueado.getId());
-//		AbstractTableModel modelo = new ModeloAlumnosConCurso(inscripciones);
-//		PanelAlumnosProfesor panelAlumnosProfesor = new PanelAlumnosProfesor(this, modelo, "ALUMNOS Y NOTAS");
-//		ControladorPanelAlumnosProfesor controlador = new ControladorPanelAlumnosProfesor(panelAlumnosProfesor, this, servicioProfesor, null); // null porque no filtras por curso
-//		mostrarPanel(panelAlumnosProfesor);
-//	}
 
 	public void showFrame() {
 		frame.setVisible(true);
@@ -197,7 +181,6 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public Usuario getUsuarioLogueado() {
-
 		return usuarioLogueado;
 	}
 

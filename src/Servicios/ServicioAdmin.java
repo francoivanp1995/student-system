@@ -83,7 +83,6 @@ public class ServicioAdmin {
 
     public void crearUsuario(Usuario usuario) throws ServicioException{
         try {
-            System.out.println("Creando usuario: " + usuario.getNombre() + " " + usuario.getApellido());
             usuarioDAO.crearUsuario(usuario);
         } catch (DAOException e) {
             e.printStackTrace();
