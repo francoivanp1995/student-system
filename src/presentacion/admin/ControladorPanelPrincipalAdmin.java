@@ -30,15 +30,14 @@ public class ControladorPanelPrincipalAdmin implements ActionListener {
         switch (e.getActionCommand()) {
             case CURSO:
                 try {
-                    panelManager.mostrarPanelGestionar(Gestionar.CURSO);
+                    panelManager.mostrarPanelGestionarAdmin(Gestionar.CURSO);
                 } catch (PanelException ex) {
                     panelPrincipalAdmin.mostrarError("Error al cambiar a gestión de curso: " + ex.getMessage());
                 }
                 break;
-
             case USUARIO:
                 try {
-                    panelManager.mostrarPanelGestionar(Gestionar.USUARIO);
+                    panelManager.mostrarPanelGestionarAdmin(Gestionar.USUARIO);
                 } catch (PanelException ex) {
                     panelPrincipalAdmin.mostrarError("Error al cambiar a gestión de usuario: " + ex.getMessage());
                 }

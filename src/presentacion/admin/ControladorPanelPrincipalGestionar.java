@@ -1,8 +1,8 @@
 package presentacion.admin;
 
+import Servicios.ServicioUsuario;
 import datos.*;
 import datos.Excepcion.*;
-import presentacion.PanelManager;
 import Servicios.ServicioAdmin;
 import presentacion.abstracto.FormularioUtilidad;
 
@@ -19,30 +19,17 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
 
     private final PanelPrincipalGestionar panel;
     private final ServicioAdmin servicioAdmin;
+    private final ServicioUsuario servicioUsuario;
     private final Gestionar tipo;
     private RolUsuario rol;
 
-    public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol) {
-        System.out.println(">> Creando ControladorGestionar para: " + tipo);
+    public ControladorPanelPrincipalGestionar(PanelPrincipalGestionar panel, ServicioAdmin servicioAdmin, Gestionar tipo, RolUsuario rol, ServicioUsuario servicioUsuario) {
         this.panel = panel;
         this.servicioAdmin = servicioAdmin;
         this.tipo = tipo;
         this.rol = rol;
+        this.servicioUsuario = servicioUsuario;
         this.panel.setListener(this);
-    }
-
-    private void cargarDatos() {
-        System.out.println(">> Cargando datos para: " + tipo);
-        switch (tipo) {
-            case CURSO -> {
-                List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
-                panel.actualizarModelo(new CursoTableModel(servicioAdmin.obtenerTodosLosCursos()));
-            }
-            case USUARIO -> {
-                List<Usuario> usuarios = servicioAdmin.obtenerTodosLosUsuarios();
-                panel.actualizarModelo(new UsuarioTableModel(servicioAdmin.obtenerTodosLosUsuarios()));
-            }
-        }
     }
 
     @Override
@@ -94,6 +81,19 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         }
     }
 
+    private void cargarDatos() {
+        switch (tipo) {
+            case CURSO -> {
+                List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
+                panel.actualizarModelo(new CursoAdminTableModel(servicioAdmin.obtenerTodosLosCursos()));
+            }
+            case USUARIO -> {
+                List<Usuario> usuarios = servicioAdmin.obtenerTodosLosUsuarios();
+                panel.actualizarModelo(new UsuarioTableModel(servicioAdmin.obtenerTodosLosUsuarios()));
+            }
+        }
+    }
+
     private void crearCurso() {
         try {
             Curso nuevoCurso = FormularioUtilidad.mostrarFormulario(new PanelFormularioCursoCrear(), "Crear nuevo curso");
@@ -113,7 +113,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         try {
             int fila = panel.getFilaSeleccionada();
             if (fila >= 0) {
-                Curso curso = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
+                Curso curso = ((CursoAdminTableModel) panel.getTabla().getModel()).getCursoAt(fila);
                 servicioAdmin.eliminarCurso(curso.getNombre());
                 panel.mostrarInfo("Curso eliminado exitosamente.");
             } else {
@@ -130,7 +130,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         try {
             int fila = panel.getFilaSeleccionada();
             if (fila >= 0) {
-                Curso cursoOriginal = ((CursoTableModel) panel.getTabla().getModel()).getCursoAt(fila);
+                Curso cursoOriginal = ((CursoAdminTableModel) panel.getTabla().getModel()).getCursoAt(fila);
                 Curso cursoActualizado = FormularioUtilidad.mostrarFormulario(new PanelFormularioCursoCrear(cursoOriginal),"Actualizar curso");
                 if (cursoActualizado != null) {
                     servicioAdmin.validarCurso(cursoActualizado);
@@ -151,7 +151,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
         try {
             Usuario nuevoUsuario = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(), "Crear nuevo Usuario");
             if (nuevoUsuario != null) {
-                servicioAdmin.validarUsuario(nuevoUsuario);
+                servicioUsuario.validarUsuario(nuevoUsuario);
                 servicioAdmin.crearUsuario(nuevoUsuario);
                 panel.mostrarInfo("Usuario creado exitosamente.");
             }
@@ -187,7 +187,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                 Usuario usuarioOriginal = ((UsuarioTableModel) panel.getTabla().getModel()).getUsuarioAt(fila);
                 Usuario usuarioActualizado = FormularioUtilidad.mostrarFormulario(new PanelFormularioUsuarioCrear(usuarioOriginal),"Actualizar usuario");
                 if (usuarioActualizado != null) {
-                    servicioAdmin.validarUsuario(usuarioActualizado);
+                    servicioUsuario.validarUsuario(usuarioActualizado);
                     servicioAdmin.actualizarUsuario(usuarioActualizado);
                     panel.mostrarInfo("Usuario actualizado exitosamente.");
                 }

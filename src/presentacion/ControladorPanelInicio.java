@@ -2,6 +2,7 @@ package presentacion;
 
 import Servicios.ServicioUsuario;
 import datos.Excepcion.ControladorException;
+import datos.Excepcion.ServicioException;
 import datos.Usuario;
 
 import java.awt.event.ActionEvent;
@@ -29,10 +30,18 @@ public class ControladorPanelInicio implements ActionListener {
                 String contrasenia = new String(panelInicio.getContrasena());
                 try {
                     Usuario u = servicioUsuario.login(usuario, contrasenia);
-                    panelManager.mostrarPanelPorRol(u.getRol());
+                    if (u == null) {
+                        panelInicio.mostrarError("Credenciales inválidas. Por favor, intente de nuevo.");
+                    } else {
+                        panelManager.setUsuarioLogueado(u);
+                        panelManager.mostrarPanelPorRol(u.getRol());
+                    }
+                } catch (ServicioException ex) {
+                    ex.printStackTrace();
+                    panelInicio.mostrarError(ex.getMessage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    throw new ControladorException(ex);
+                    panelInicio.mostrarError("Error inesperado: " + ex.getMessage());
                 }
                 panelInicio.limpiar();
                 break;

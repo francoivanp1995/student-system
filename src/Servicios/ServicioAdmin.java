@@ -21,7 +21,6 @@ public class ServicioAdmin {
     private final CursoDAOH2Impl cursoDAO = new CursoDAOH2Impl();
     private final UsuarioDAOH2Impl usuarioDAO = new UsuarioDAOH2Impl();
     private ValidarCurso validadorCurso;
-    private ValidarUsuario validarUsuario;
 
     public ServicioAdmin(PanelPrincipalAdmin panelPrincipalAdmin, PanelManager panelManager) {
         this.panelPrincipalAdmin = panelPrincipalAdmin;
@@ -88,15 +87,6 @@ public class ServicioAdmin {
         } catch (DAOException e) {
             e.printStackTrace();
             throw new ServicioException(e.getMessage());
-        }
-    };
-
-    public void validarUsuario(Usuario usuario){
-        try {
-            validarUsuario.validar(usuario);
-        } catch (ValidacionException e) {
-            e.printStackTrace();
-            throw new ServicioException(e);
         }
     };
 

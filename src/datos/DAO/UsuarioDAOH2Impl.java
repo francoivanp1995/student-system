@@ -159,51 +159,6 @@ public class UsuarioDAOH2Impl implements UsuarioDAO{
         };
     }
 
-//    public Usuario buscarUsuarioPorDni(String dni) throws DAOException {
-//        Connection c = null;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            c = new DBManager().connect();
-//
-//            String sql = """
-//                SELECT dni, nombre, apellido, email, tipo, nombre_de_usuario, contrasenia
-//                FROM usuarios
-//                WHERE dni = ?
-//            """;
-//            stmt = c.prepareStatement(sql);
-//            stmt.setString(1, dni);
-//            rs = stmt.executeQuery();
-//
-//            if (rs.next()) {
-//                String nombre = rs.getString("nombre");
-//                String apellido = rs.getString("apellido");
-//                String email = rs.getString("email");
-//                String nombreUsuario = rs.getString("nombre_de_usuario");
-//                String contrasenia = rs.getString("contrasenia");
-//                RolUsuario rol = RolUsuario.valueOf(rs.getString("tipo").toUpperCase());
-//
-//                return crearUsuarioPorRol(dni, nombre, apellido, email, rol,nombreUsuario,contrasenia);
-//            } else {
-//                return null;
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new DAOException(e);
-//        } finally {
-//            try {
-//                if (rs != null) rs.close();
-//                if (stmt != null) stmt.close();
-//                if (c != null) c.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//                throw new DAOException(e);
-//            }
-//        }
-//    }
-
     public List<Usuario> listaTodosLosUsuarios() throws DAOException {
         List<Usuario> usuarios = new ArrayList<>();
         Connection connection = DBManager.connect();

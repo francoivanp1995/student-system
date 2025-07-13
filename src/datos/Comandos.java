@@ -11,6 +11,10 @@ public final class Comandos {
     public static final String ACTUALIZAR = "ACTUALIZAR";
     public static final String MOSTRARREPORTE = "MOSTRAR REPORTE";
     public static final String EXPORTARREPORTE = "EXPORTAR REPORTE";
-
+    public static final String INSCRIBIRSE = "INSCRIBIRSE";
+    public static final String DESINSCRIBIRSE = "DESINSCRIBIRSE";
+    public static final String MISINSCRIPCIONES = "MIS INSCRIPCIONES";
+    public static final String ALUMNOS = "ALUMNOS";
+    public static final String GUARDAR = "GUARDAR";
     private Comandos() {}
 }

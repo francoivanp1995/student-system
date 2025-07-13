@@ -16,7 +16,7 @@ public class PanelFormularioCursoCrear extends PanelFormularioBase<Curso> {
     private final PanelCampoFormulario campoProfesor;
 
     public PanelFormularioCursoCrear() {
-        this(null); // Reutiliza el constructor que acepta Curso
+        this(null);
     }
 
     public PanelFormularioCursoCrear(Curso curso) {

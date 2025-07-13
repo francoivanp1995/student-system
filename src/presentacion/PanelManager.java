@@ -1,5 +1,8 @@
 package presentacion;
 
+import Servicios.ServicioAlumno;
+import Servicios.ServicioProfesor;
+import Servicios.ServicioUsuario;
 import datos.*;
 import presentacion.admin.*;
 
@@ -9,8 +12,10 @@ import javax.swing.table.AbstractTableModel;
 import Servicios.ServicioAdmin;
 import datos.Excepcion.PanelException;
 import datos.interfaz.ObtenerPanel;
-import presentacion.alumno.PanelPrincipalAlumno;
-import presentacion.profesor.PanelPrincipalProfesor;
+import presentacion.alumno.*;
+import presentacion.profesor.*;
+
+import java.util.List;
 
 public class PanelManager implements ObtenerPanel {
 
@@ -24,6 +29,10 @@ public class PanelManager implements ObtenerPanel {
 
 	//para probar
 	private ServicioAdmin servicioAdmin;
+	private ServicioUsuario servicioUsuario;
+	private ServicioAlumno servicioAlumno;
+	private ServicioProfesor servicioProfesor;
+	Usuario usuarioLogueado;
 
 	public PanelManager() {
 
@@ -57,6 +66,7 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
 					servicioAdmin = new ServicioAdmin(panelPrincipalAdmin, this);
 					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
+					servicioUsuario = new ServicioUsuario(panelInicio, this);
 					panelPrincipalAdmin.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalAdmin);
@@ -64,39 +74,76 @@ public class PanelManager implements ObtenerPanel {
 			case PROFESOR -> {
 				if (panelPrincipalProfesor == null)
 					panelPrincipalProfesor = new PanelPrincipalProfesor(this);
+					servicioProfesor = new ServicioProfesor(panelPrincipalProfesor,this);
+					ControladorPanelPrincipalProfesor controlador = new ControladorPanelPrincipalProfesor(panelPrincipalProfesor,this);
+					panelPrincipalProfesor.setListener(controlador);
 				mostrarPanel(panelPrincipalProfesor);
 			}
 			case ALUMNO -> {
-				if (panelPrincipalAlumno == null)
+				if (panelPrincipalAlumno == null) {
 					panelPrincipalAlumno = new PanelPrincipalAlumno(this);
+					servicioAlumno = new ServicioAlumno(panelPrincipalAlumno, this);
+					ControladorPanelPrincipalAlumno controlador = new ControladorPanelPrincipalAlumno(panelPrincipalAlumno, this);
+					panelPrincipalAlumno.setListener(controlador);
+				}
 				mostrarPanel(panelPrincipalAlumno);
 			}
 		}
 	}
 
-	public void mostrarPanelGestionar(Gestionar gestion) throws PanelException {
-		if (servicioAdmin == null) {
-			System.out.println("servicioAdmin ES NULL !!!");
-			throw new PanelException("servicioAdmin no ha sido inicializado");
-		}
+	public void mostrarPanelGestionarAdmin(Gestionar gestion) throws PanelException {
 		switch (gestion) {
 			case CURSO -> {
 				if (panelPrincipalGestionarCurso == null) {
-					AbstractTableModel modelo = new CursoTableModel();
-					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "Gestión de Cursos",Gestionar.CURSO);
-					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR);
+					AbstractTableModel modelo = new CursoAdminTableModel();
+					panelPrincipalGestionarCurso = new PanelPrincipalGestionar(this, modelo, "GESTION DE CURSOS",Gestionar.CURSO);
+					new ControladorPanelPrincipalGestionar(panelPrincipalGestionarCurso, servicioAdmin, Gestionar.CURSO,RolUsuario.ADMINISTRADOR,servicioUsuario);
 				}
 				mostrarPanel(panelPrincipalGestionarCurso);
 			}
 			case USUARIO -> {
 				if (panelGestionarUsuario == null) {
 					AbstractTableModel modelo = new UsuarioTableModel();
-					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "Gestión de Usuarios",Gestionar.USUARIO);
-					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR);
+					panelGestionarUsuario = new PanelPrincipalGestionar(this, modelo, "GESTION DE USUARIOS",Gestionar.USUARIO);
+					new ControladorPanelPrincipalGestionar(panelGestionarUsuario, servicioAdmin, Gestionar.USUARIO,RolUsuario.ADMINISTRADOR,servicioUsuario);
 				}
 				mostrarPanel(panelGestionarUsuario);
 			}
 		}
+	}
+
+	public void mostrarPanelCursosAlumno() throws PanelException {
+		servicioAdmin = new ServicioAdmin(panelPrincipalAdmin,this);
+		List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
+		AbstractTableModel modelo = new CursoAlumnoTableModel(cursos);
+		PanelCursosAlumno panelCursosAlumno = new PanelCursosAlumno(this, modelo, "CURSOS DISPONIBLES");
+		ControladorPanelCursosAlumno controlador = new ControladorPanelCursosAlumno(panelCursosAlumno,this,servicioAlumno);
+		mostrarPanel(panelCursosAlumno);
+	}
+
+	public void mostrarMisInscripciones() throws PanelException {
+		List<Curso> cursosInscriptos = servicioAlumno.obtenerCursosInscriptos(usuarioLogueado);
+		AbstractTableModel modelo = new CursoAlumnoInscriptoTableModel(cursosInscriptos);
+		PanelInscripcionesAlumno panelInscripciones = new PanelInscripcionesAlumno(this, modelo, "MIS INSCRIPCIONES");
+		ControladorPanelInscripcionesAlumno controlador = new ControladorPanelInscripcionesAlumno(panelInscripciones,this);
+		mostrarPanel(panelInscripciones);
+	}
+
+	public void mostrarAlumnosDeMisCursos() throws PanelException {
+			List<Inscripcion> inscripciones = servicioProfesor.obtenerInscripcionesDeTodosMisCursos(usuarioLogueado.getId());
+			ModeloAlumnos modelo = new ModeloAlumnos(inscripciones);
+			PanelAlumnosProfesor panelAlumnosProfesor = new PanelAlumnosProfesor(this, modelo, "ALUMNOS Y NOTAS");
+			ControladorPanelAlumnosProfesor controlador = new ControladorPanelAlumnosProfesor(panelAlumnosProfesor, this, servicioProfesor);
+			mostrarPanel(panelAlumnosProfesor);
+	}
+
+	public void mostrarPanelCursosProfesor() throws PanelException {
+		servicioAdmin = new ServicioAdmin(panelPrincipalAdmin,this);
+		List<Curso> cursos = servicioProfesor.obtenerMisCursos(usuarioLogueado.getId());
+		AbstractTableModel modelo = new CursoProfesorTableModel(cursos);
+		PanelCursosProfesor panelCursoProfesor = new PanelCursosProfesor(this, modelo, "CURSOS ASIGNADOS");
+		ControladorPanelCursosProfesor controlador = new ControladorPanelCursosProfesor(panelCursoProfesor,this,servicioProfesor);
+		mostrarPanel(panelCursoProfesor);
 	}
 
 	public void showFrame() {
@@ -131,5 +178,13 @@ public class PanelManager implements ObtenerPanel {
 	@Override
 	public PanelPrincipalGestionar getPanelGestionarUsuario() {
 		return null;
+	}
+
+	public Usuario getUsuarioLogueado() {
+		return usuarioLogueado;
+	}
+
+	public void setUsuarioLogueado(Usuario usuario) {
+		this.usuarioLogueado = usuario;
 	}
 }

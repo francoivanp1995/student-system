@@ -4,9 +4,11 @@ import datos.Curso;
 import datos.DBManager;
 import datos.Excepcion.DAOException;
 import datos.Excepcion.DatabaseException;
+import datos.Inscripcion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +19,17 @@ public class CursoDAOH2Impl implements CursoDAO{
         Connection connection = DBManager.connect();
         String sql = "INSERT INTO CURSOS (nombre, cupo, precio, nota_aprobacion, profesor_dni) VALUES (?, ?, ?, ?, ?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, unCurso.getNombre());
             preparedStatement.setInt(2, unCurso.getCupoMaximo());
             preparedStatement.setInt(3, unCurso.getPrecio());
             preparedStatement.setInt(4, unCurso.getNotaAprobacion());
-            preparedStatement.setString(5, unCurso.getId());
+            preparedStatement.setString(5, unCurso.getProfesorDni());
             preparedStatement.executeUpdate();
+            ResultSet keys = preparedStatement.getGeneratedKeys();
+            if (keys.next()) {
+                unCurso.setId(String.valueOf(keys.getLong(1)));
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -105,18 +111,17 @@ public class CursoDAOH2Impl implements CursoDAO{
     public List<Curso> listaTodosLosCursos() throws DAOException {
         List<Curso> cursos = new ArrayList<>();
         Connection connection = DBManager.connect();
-        String sql = "SELECT nombre, cupo, precio, nota_aprobacion, profesor_dni FROM CURSOS";
-
+        String sql = "SELECT id, nombre, cupo, precio, nota_aprobacion, profesor_dni FROM CURSOS";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             var rs = ps.executeQuery();
             while (rs.next()) {
+                String id = rs.getString("id");
                 String nombre = rs.getString("nombre");
                 int cupo = rs.getInt("cupo");
                 int precio = rs.getInt("precio");
                 int nota = rs.getInt("nota_aprobacion");
                 String profesorId = rs.getString("profesor_dni");
-
-                Curso curso = new Curso(nombre, cupo, precio, nota, profesorId);
+                Curso curso = new Curso(id, nombre, cupo, precio, nota, profesorId);
                 cursos.add(curso);
             }
         } catch (SQLException e) {
@@ -153,16 +158,15 @@ public class CursoDAOH2Impl implements CursoDAO{
             var rs = ps.executeQuery();
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setId(rs.getString("id"));  // si id es bigint, cambia a rs.getLong y adapta el tipo en Curso
+                curso.setId(rs.getString("id"));
                 curso.setNombre(rs.getString("nombre"));
                 curso.setCupoMaximo(rs.getInt("cupo"));
-                curso.setPrecio(rs.getInt("precio")); // si usas DECIMAL(10,2), usa rs.getDouble o rs.getBigDecimal
+                curso.setPrecio(rs.getInt("precio"));
                 curso.setNotaAprobacion(rs.getInt("nota_aprobacion"));
-                curso.setId(rs.getString("profesor_dni"));
-
+                curso.setProfesorDni(rs.getString("profesor_dni"));
+                curso.setCantidadInscritos(rs.getInt("cantidad_inscritos"));
                 // Guardar cantidad inscritos en una propiedad temporal, o crear método getInscripciones que retorne lista dummy con esa cantidad
                 curso.setCantidadInscritos(rs.getInt("cantidad_inscritos"));
-
                 cursos.add(curso);
             }
         } catch (SQLException e) {
@@ -177,4 +181,39 @@ public class CursoDAOH2Impl implements CursoDAO{
 
         return cursos;
     }
+
+//    public List<Inscripcion> obtenerInscripcionesPorCurso(String cursoId) throws DAOException {
+//        List<Inscripcion> inscripciones = new ArrayList<>();
+//        Connection connection = DBManager.connect();
+//        String sql = """
+//        SELECT i.id, i.alumno_dni, i.curso_id, i.nota_final, u.nombre AS nombre_alumno
+//        FROM INSCRIPCIONES i
+//        JOIN USUARIOS u ON i.alumno_dni = u.dni
+//        WHERE i.curso_id = ?
+//    """;
+//
+//        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setString(1, cursoId);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Inscripcion insc = new Inscripcion();
+//                insc.setId(rs.getString("id"));
+//                insc.setAlumnoDni(rs.getString("alumno_dni"));
+//                insc.setCursoId(rs.getString("curso_id"));
+//                insc.setNotaFinal(rs.getInt("nota_final"));
+//                insc.setNombreAlumno(rs.getString("nombre_alumno")); // opcional si agregas esta propiedad
+//                inscripciones.add(insc);
+//            }
+//        } catch (SQLException e) {
+//            throw new DAOException("Error al obtener inscripciones del curso", e);
+//        } finally {
+//            try {
+//                connection.close();
+//            } catch (SQLException e) {
+//                throw new DAOException("Error al cerrar conexión", e);
+//            }
+//        }
+//        return inscripciones;
+//    }
+
 }
