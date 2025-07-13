@@ -16,6 +16,9 @@ public class ServicioAlumno {
     private final PanelManager panelManager;
     private final InscripcionDAO inscripcionDAO;
 
+    //Chequear el inscripto.
+    private final int maximoInscripto = 3;
+
     public ServicioAlumno(PanelPrincipalAlumno panelPrincipalAlumno, PanelManager panelManager){
         this.panelPrincipalAlumno = panelPrincipalAlumno;
         this.panelManager = panelManager;
@@ -59,10 +62,11 @@ public class ServicioAlumno {
         }
     }
 
+    //Chequear esta funcion porque en realidad yo le paso el limite de inscripcion cuando creo el usuario;
     public boolean puedeInscribirse(Alumno alumno) {
         try {
             int cursosActivos = inscripcionDAO.contarCursosActivosSinAprobar(alumno);
-            return cursosActivos < alumno.getLimiteCursos();
+            return cursosActivos < maximoInscripto;
         } catch (Exception e) {
             return false;
         }
