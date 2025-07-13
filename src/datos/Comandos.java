@@ -14,5 +14,7 @@ public final class Comandos {
     public static final String INSCRIBIRSE = "INSCRIBIRSE";
     public static final String DESINSCRIBIRSE = "DESINSCRIBIRSE";
     public static final String MISINSCRIPCIONES = "MIS INSCRIPCIONES";
+    public static final String ALUMNOS = "ALUMNOS";
+    public static final String GUARDAR = "GUARDAR";
     private Comandos() {}
 }

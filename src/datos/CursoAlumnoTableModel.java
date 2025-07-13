@@ -1,5 +1,9 @@
 package datos;
 
+import datos.DAO.InscripcionDAOH2Impl;
+import datos.Excepcion.DAOException;
+import datos.Excepcion.PresentacionException;
+
 public class CursoAlumnoTableModel extends BaseCursoTableModel {
 
     private static final int COLUMNA_NOMBRE = 0;
@@ -35,7 +39,18 @@ public class CursoAlumnoTableModel extends BaseCursoTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Curso curso = contenido.get(rowIndex);
-        int cantidad = curso.getInscripciones() == null ? 0 : curso.getInscripciones().size();
+        int cantidad = 0;
+
+        if (columnIndex == COLUMNA_ANOTADOS) {
+            try {
+                InscripcionDAOH2Impl dao = new InscripcionDAOH2Impl();
+                cantidad = dao.contarInscripcionesPorCurso(curso);
+            } catch (DAOException e) {
+                e.printStackTrace();
+                throw new PresentacionException(e);
+            }
+        }
+
         return switch (columnIndex) {
             case COLUMNA_NOMBRE -> curso.getNombre();
             case COLUMNA_ANOTADOS -> cantidad;

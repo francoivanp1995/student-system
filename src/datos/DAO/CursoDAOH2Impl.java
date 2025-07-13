@@ -4,6 +4,7 @@ import datos.Curso;
 import datos.DBManager;
 import datos.Excepcion.DAOException;
 import datos.Excepcion.DatabaseException;
+import datos.Inscripcion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -180,4 +181,39 @@ public class CursoDAOH2Impl implements CursoDAO{
 
         return cursos;
     }
+
+//    public List<Inscripcion> obtenerInscripcionesPorCurso(String cursoId) throws DAOException {
+//        List<Inscripcion> inscripciones = new ArrayList<>();
+//        Connection connection = DBManager.connect();
+//        String sql = """
+//        SELECT i.id, i.alumno_dni, i.curso_id, i.nota_final, u.nombre AS nombre_alumno
+//        FROM INSCRIPCIONES i
+//        JOIN USUARIOS u ON i.alumno_dni = u.dni
+//        WHERE i.curso_id = ?
+//    """;
+//
+//        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setString(1, cursoId);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Inscripcion insc = new Inscripcion();
+//                insc.setId(rs.getString("id"));
+//                insc.setAlumnoDni(rs.getString("alumno_dni"));
+//                insc.setCursoId(rs.getString("curso_id"));
+//                insc.setNotaFinal(rs.getInt("nota_final"));
+//                insc.setNombreAlumno(rs.getString("nombre_alumno")); // opcional si agregas esta propiedad
+//                inscripciones.add(insc);
+//            }
+//        } catch (SQLException e) {
+//            throw new DAOException("Error al obtener inscripciones del curso", e);
+//        } finally {
+//            try {
+//                connection.close();
+//            } catch (SQLException e) {
+//                throw new DAOException("Error al cerrar conexión", e);
+//            }
+//        }
+//        return inscripciones;
+//    }
+
 }

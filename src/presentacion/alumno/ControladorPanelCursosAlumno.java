@@ -52,7 +52,6 @@ public class ControladorPanelCursosAlumno implements ActionListener {
             return;
         }
         try {
-            // Suponiendo que el modelo tiene método para obtener curso por fila
             Curso curso = ((CursoAlumnoTableModel) panelCursosAlumno.getTabla().getModel()).getCursoAt(filaSeleccionada);
             servicioAlumno.inscribirACurso(panelManager.getUsuarioLogueado(), curso);
             panelCursosAlumno.mostrarInfo("Inscripción exitosa en el curso: " + curso.getNombre());
@@ -68,7 +67,6 @@ public class ControladorPanelCursosAlumno implements ActionListener {
             return;
         }
         try {
-            // Suponiendo que el modelo tiene método para obtener curso por fila
             Curso curso = ((CursoAlumnoTableModel) panelCursosAlumno.getTabla().getModel()).getCursoAt(filaSeleccionada);
             servicioAlumno.desinscribirDeCurso(panelManager.getUsuarioLogueado(), curso);
             panelCursosAlumno.mostrarInfo("Desinscripcion exitosa en el curso: " + curso.getNombre());

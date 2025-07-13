@@ -8,11 +8,12 @@ public class UsuarioTableModel extends AbstractTableModel {
 
     private static final int COLUMNA_DNI = 0;
     private static final int COLUMNA_NOMBRE = 1;
-    private static final int COLUMNA_EMAIL = 2;
-    private static final int COLUMNA_ROL = 3;
+    private static final int COLUMA_APELLIDO = 2;
+    private static final int COLUMNA_EMAIL = 3;
+    private static final int COLUMNA_ROL = 4;
 
-    private final String[] nombreColumnas = {"DNI", "Nombre", "Email", "Rol"};
-    private final Class<?>[] tipoColumnas = {String.class, String.class, String.class, String.class};
+    private final String[] nombreColumnas = {"DNI", "Nombre", "Apellido","Email", "Rol"};
+    private final Class<?>[] tipoColumnas = {String.class, String.class,String.class, String.class, String.class};
 
     private List<Usuario> contenido;
 
@@ -50,6 +51,7 @@ public class UsuarioTableModel extends AbstractTableModel {
         return switch (columnIndex) {
             case COLUMNA_DNI -> usuario.getId();
             case COLUMNA_NOMBRE -> usuario.getNombre();
+            case COLUMA_APELLIDO -> usuario.getApellido();
             case COLUMNA_EMAIL -> usuario.getEmail();
             case COLUMNA_ROL -> usuario.getRol().name();
             default -> "";

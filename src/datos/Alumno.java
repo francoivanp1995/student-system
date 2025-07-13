@@ -9,6 +9,10 @@ public class Alumno extends Usuario{
 		// TODO Auto-generated constructor stub
 	}
 
+	public Alumno(String dni, String nombre, String apellido){
+		super(dni,nombre,apellido);
+	}
+
 	public int getLimiteCursos() {
 		return limiteCursos;
 	}

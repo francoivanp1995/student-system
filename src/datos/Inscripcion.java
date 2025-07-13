@@ -2,17 +2,17 @@ package datos;
 
 public class Inscripcion {
 
-    private Usuario alumno;
+    private Alumno alumno;
     private Curso curso;
     private Integer notaFinal;
 
-    public Inscripcion(Usuario alumno, Curso curso) {
+    public Inscripcion(Alumno alumno, Curso curso) {
         this.alumno = alumno;
         this.curso = curso;
         this.notaFinal = null;
     }
 
-    public Usuario getAlumno() {
+    public Alumno getAlumno() {
         return alumno;
     }
 

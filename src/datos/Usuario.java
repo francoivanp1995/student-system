@@ -9,11 +9,15 @@ public abstract class Usuario {
 	protected RolUsuario rol;
 	protected String nombreUsuario;
 	protected String contrasenia;
-	
+
 	public Usuario() {
-		
+
 	}
-	
+	public Usuario(String id, String nombre, String apellido) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+	}
 	public Usuario(String id, String nombre, String apellido, String email, RolUsuario rol, String nombreUsuario, String contrasenia) {
 		this.id = id;
 		this.nombre = nombre;
@@ -23,7 +27,7 @@ public abstract class Usuario {
 		this.nombreUsuario = nombreUsuario;
 		this.contrasenia = contrasenia;
 	}
-	
+
 	public String getId() {
 		return id;
 	};
@@ -33,7 +37,7 @@ public abstract class Usuario {
 	};
 
 	public String getApellido() {
-		return nombre;
+		return apellido;
 	};
 
 	public String getEmail() {
@@ -47,11 +51,11 @@ public abstract class Usuario {
 	public String getContrasenia() {
 		return contrasenia;
 	};
-	
+
 	public void setId(String id) {
 		this.id = id;
 	};
-	
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	};
@@ -72,7 +76,7 @@ public abstract class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	};
 
-	public void setContrasenia() {
+	public void setContrasenia(String contrasenia ) {
 		this.contrasenia = contrasenia;
 	};
 }

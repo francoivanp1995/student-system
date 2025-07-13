@@ -30,6 +30,12 @@ public class Curso {
         this.profesorDni = profesorDni;
     }
 
+    public Curso(String id, String nombre, int notaAprobacion){
+        this.id = id;
+        this.nombre = nombre;
+        this.notaAprobacion = notaAprobacion;
+    }
+
     public Curso(){
 
     }

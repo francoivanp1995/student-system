@@ -49,7 +49,7 @@ public class ControladorPanelPrincipalAlumno implements ActionListener {
             }
             case REGRESAR:
                 try {
-                    panelManager.mostrarPanelPorRol(RolUsuario.ADMINISTRADOR);
+                    panelManager.mostrarPanelPorRol(RolUsuario.ALUMNO);
                 } catch (PanelException ex) {
                     ex.printStackTrace();
                     panelPrincipalAlumno.mostrarError("Error al regresar: " + ex.getMessage());
