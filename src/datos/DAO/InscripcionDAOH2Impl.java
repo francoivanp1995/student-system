@@ -230,7 +230,7 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
     public List<Inscripcion> obtenerInscripcionesPorCurso(String cursoId) throws DAOException {
         List<Inscripcion> inscripciones = new ArrayList<>();
-        Connection connection = DBManager.connect()
+        Connection connection = DBManager.connect();
         String sql = """
                 SELECT
                     i.nota_final,
