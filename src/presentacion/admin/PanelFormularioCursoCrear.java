@@ -1,5 +1,6 @@
 package presentacion.admin;
 
+import Servicios.ServicioCurso;
 import datos.Curso;
 import datos.Excepcion.CursoException;
 import presentacion.PanelCampoFormulario;
@@ -46,22 +47,13 @@ public class PanelFormularioCursoCrear extends PanelFormularioBase<Curso> {
 
     @Override
     public Curso construirUIForm() {
-        String nombre = campoNombre.getTexto().trim().toUpperCase();
-        String textoCupo = campoCupo.getTexto().trim().toUpperCase();
-        String textoPrecio = campoPrecio.getTexto().trim().toUpperCase();
-        String textoNota = campoNotaAprobacion.getTexto().trim().toUpperCase();
-        String profesorDni = campoProfesor.getTexto().trim().toUpperCase();
-
-        if (nombre.isEmpty() || textoCupo.isEmpty() || textoPrecio.isEmpty() || textoNota.isEmpty() || profesorDni.isEmpty()) {
-            throw new CursoException("Todos los campos deben estar completos.");
-        }
-        try {
-            int cupo = Integer.parseInt(textoCupo);
-            int precio = Integer.parseInt(textoPrecio);
-            int notaAprobacion = Integer.parseInt(textoNota);
-            return new Curso(nombre, cupo, precio, notaAprobacion, profesorDni);
-        } catch (NumberFormatException e) {
-            throw new CursoException("Cupo, precio y nota deben ser números válidos.");
-        }
+        ServicioCurso servicioCurso = new ServicioCurso();
+        return servicioCurso.crearCurso(
+                campoNombre.getTexto().trim().toUpperCase(),
+                campoCupo.getTexto().trim().toUpperCase(),
+                campoPrecio.getTexto().trim().toUpperCase(),
+                campoNotaAprobacion.getTexto().trim().toUpperCase(),
+                campoProfesor.getTexto().trim().toUpperCase()
+        );
     }
 }

@@ -14,7 +14,6 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
     public void inscribirAlumno(Usuario alumno, Curso curso) throws DAOException {
         Connection connection = DBManager.connect();
-        System.out.println("Inscribiendo alumno al curso ID: " + curso.getId());
         String sql = "INSERT INTO INSCRIPCIONES (alumno_dni, curso_id, nota_final) VALUES (?, ?, NULL)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -137,7 +136,6 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
     @Override
     public void actualizarNota(String idAlumno, String idCurso, int nota) throws DAOException {
-        System.out.println("En el actualizar Nota del DAO");
         Connection connection = DBManager.connect();
         String sql = """
         UPDATE INSCRIPCIONES 
@@ -222,11 +220,6 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
                             rs.getString("alumno_nombre"),
                             rs.getString("alumno_apellido")
                     );
-                    System.out.println("DNI: " + rs.getString("alumno_dni") +
-                            ", Nombre: " + rs.getString("alumno_nombre") +
-                            ", Apellido: " + rs.getString("alumno_apellido"));
-
-
                     Curso curso = new Curso(
                             rs.getString("curso_id"),
                             rs.getString("curso_nombre"),

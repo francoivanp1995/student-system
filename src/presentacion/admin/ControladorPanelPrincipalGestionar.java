@@ -153,7 +153,6 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
             if (nuevoUsuario != null) {
                 servicioUsuario.validarUsuario(nuevoUsuario);
                 servicioAdmin.crearUsuario(nuevoUsuario);
-                panel.mostrarInfo("Usuario creado exitosamente.");
             }
         } catch (ServicioException e) {
             panel.mostrarError("Error al guardar el Usuario." + e.getMessage());

@@ -31,6 +31,7 @@ public class ServicioProfesor {
             InscripcionDAO dao = new InscripcionDAOH2Impl();
             dao.actualizarNota(alumno.getId(), curso.getId(), nota);
         } catch (DAOException e) {
+            e.printStackTrace();
             throw new ServicioException("No se pudo asignar la nota", e);
         }
     }

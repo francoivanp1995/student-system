@@ -1,4 +1,4 @@
-package Servicios.Validacion;
+package datos.Validacion;
 
 import datos.Excepcion.ValidacionException;
 import datos.RolUsuario;

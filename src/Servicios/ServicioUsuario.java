@@ -1,19 +1,11 @@
 package Servicios;
 
-import Servicios.Validacion.ValidarCurso;
-import Servicios.Validacion.ValidarUsuario;
+import datos.Validacion.ValidarUsuario;
 import datos.*;
-import datos.DAO.UsuarioDAO;
 import datos.DAO.UsuarioDAOH2Impl;
 import datos.Excepcion.*;
-import datos.interfaz.VistaLogin;
 import presentacion.PanelInicio;
 import presentacion.PanelManager;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ServicioUsuario {
 

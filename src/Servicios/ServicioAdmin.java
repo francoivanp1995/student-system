@@ -4,14 +4,11 @@ import datos.DAO.CursoDAOH2Impl;
 import datos.DAO.UsuarioDAOH2Impl;
 import datos.Excepcion.*;
 import datos.Usuario;
-import Servicios.Validacion.ValidarCurso;
-import Servicios.Validacion.ValidarUsuario;
+import datos.Validacion.ValidarCurso;
 import presentacion.PanelManager;
 import presentacion.admin.PanelPrincipalAdmin;
 import datos.Curso;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class ServicioAdmin {
