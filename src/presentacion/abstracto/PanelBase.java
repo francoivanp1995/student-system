@@ -24,10 +24,11 @@ public abstract class PanelBase extends JPanel implements InterfacePanelBase {
 
 	}
 
-	public PanelBase(PanelManager panelManager,LayoutManager layout) {
-		this.panelManager = panelManager;
-		setLayout(layout);
-	}
+	//Lo habia usado para un caso, luego me deshice del caso. Chequear si es posible eliminar
+//	public PanelBase(PanelManager panelManager,LayoutManager layout) {
+//		this.panelManager = panelManager;
+//		setLayout(layout);
+//	}
 	
 	protected void setBotoneraEnPanel(PanelBotonera panelBotonera) {
 		this.panelBotonera = panelBotonera;

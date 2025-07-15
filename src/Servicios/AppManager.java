@@ -1,6 +1,5 @@
 package Servicios;
 
-import datos.DBInit;
 import datos.DBManager;
 import datos.Excepcion.*;
 import datos.TableCreator;
