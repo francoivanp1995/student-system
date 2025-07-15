@@ -24,7 +24,13 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
         } catch (SQLException e){
             e.printStackTrace();
             throw new DAOException(e);
-        } //agregar finally
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
+        }
     }
 
     public boolean estaInscripto(Usuario alumno, Curso curso) throws DAOException {
@@ -39,6 +45,12 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -54,6 +66,12 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -70,6 +88,12 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -95,6 +119,12 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DAOException("Error al eliminar la inscripción: " + e.getMessage(), e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -124,6 +154,12 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
 
         return cursos;
@@ -194,6 +230,7 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
     public List<Inscripcion> obtenerInscripcionesPorCurso(String cursoId) throws DAOException {
         List<Inscripcion> inscripciones = new ArrayList<>();
+        Connection connection = DBManager.connect()
         String sql = """
                 SELECT
                     i.nota_final,
@@ -208,8 +245,7 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
                 JOIN CURSOS c ON i.curso_id = c.id
                 WHERE i.curso_id = ? """;
 
-        try (Connection connection = DBManager.connect();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, cursoId);
 
@@ -239,8 +275,13 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
 
         } catch (SQLException e) {
             throw new DAOException("Error al obtener inscripciones del curso", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
-
         return inscripciones;
     }
 }
