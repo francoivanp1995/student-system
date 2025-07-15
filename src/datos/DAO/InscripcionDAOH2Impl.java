@@ -174,8 +174,8 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
     public void actualizarNota(String idAlumno, String idCurso, int nota) throws DAOException {
         Connection connection = DBManager.connect();
         String sql = """
-        UPDATE INSCRIPCIONES 
-        SET nota_final = ? 
+        UPDATE INSCRIPCIONES
+        SET nota_final = ?
         WHERE alumno_dni = ? AND curso_id = ?
     """;
 
@@ -262,7 +262,7 @@ public class InscripcionDAOH2Impl implements InscripcionDAO{
                             rs.getInt("nota_aprobacion")
                     );
 
-                    Inscripcion insc = new Inscripcion((Alumno) alumno, curso);
+                    Inscripcion insc = new Inscripcion(alumno, curso);
 
                     int nota = rs.getInt("nota_final");
                     if (!rs.wasNull()) {
