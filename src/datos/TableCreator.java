@@ -8,7 +8,11 @@ import java.sql.Statement;
 
 public class TableCreator {
 
-    public void crearTabla(Connection c) throws DatabaseException {
+    private TableCreator(){
+
+    }
+
+    public static void crearTabla(Connection c) throws DatabaseException {
         try {
             crearTablaUsuarios(c);
             crearTablaCursos(c);
@@ -18,7 +22,7 @@ public class TableCreator {
         }
     }
 
-    private void crearTablaUsuarios(Connection c) throws DatabaseException {
+    private static void crearTablaUsuarios(Connection c) throws DatabaseException {
         String sql = """
             CREATE TABLE IF NOT EXISTS USUARIOS (
                 dni VARCHAR(20) PRIMARY KEY,
@@ -35,7 +39,7 @@ public class TableCreator {
         ejecutar(c, sql, "USUARIOS");
     }
 
-    private void crearTablaCursos(Connection c) throws DatabaseException {
+    private static void crearTablaCursos(Connection c) throws DatabaseException {
         String sql = """
             CREATE TABLE IF NOT EXISTS CURSOS (
                 id IDENTITY PRIMARY KEY,
@@ -51,7 +55,7 @@ public class TableCreator {
         ejecutar(c, sql, "CURSOS");
     }
 
-    private void crearTablaInscripciones(Connection c) throws DatabaseException {
+    private static void crearTablaInscripciones(Connection c) throws DatabaseException {
         String sql = """
             CREATE TABLE IF NOT EXISTS INSCRIPCIONES (
                 id IDENTITY PRIMARY KEY,
@@ -68,7 +72,7 @@ public class TableCreator {
         ejecutar(c, sql, "INSCRIPCIONES");
     }
 
-    private void ejecutar(Connection c, String sql, String tabla) throws DatabaseException {
+    private static void ejecutar(Connection c, String sql, String tabla) throws DatabaseException {
         try (Statement s = c.createStatement()) {
             s.execute(sql);
         } catch (SQLException e) {
