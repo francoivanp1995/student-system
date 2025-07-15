@@ -13,8 +13,11 @@ public class AppManager {
 
     private final TableCreator tableCreator;
 
-    public AppManager() throws TablaException, UIException {
+    public AppManager() {
         this.tableCreator = new TableCreator();
+    }
+
+    public void iniciarAplicacion() throws TablaException, UIException {
         iniciarCreacionTablas();
         iniciarPanelManager();
     }

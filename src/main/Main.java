@@ -9,6 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			AppManager app = new AppManager();
+			app.iniciarAplicacion();
 		} catch (Exception e) {
 			//Printeo para la consola tambien
 			e.printStackTrace();
