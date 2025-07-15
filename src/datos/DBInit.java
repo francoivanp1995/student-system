@@ -1,9 +1,7 @@
-package Servicios;
+package datos;
 
-import datos.DBManager;
 import datos.Excepcion.DatabaseException;
 import datos.Excepcion.TablaException;
-import datos.TableCreator;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +13,7 @@ public class DBInit {
         try {
             TableCreator.crearTabla(connection);
             connection.commit();
+            //tambien tengo que catchear el error de sql, che!
         } catch (DatabaseException e) {
             throw new TablaException("Error al crear la base de datos", e);
         } catch (Exception e) {
