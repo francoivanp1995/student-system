@@ -1,5 +1,7 @@
 package main;
 
+import Servicios.AppManager;
+
 import javax.swing.*;
 
 public class Main {

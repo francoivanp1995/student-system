@@ -1,15 +1,13 @@
-package main;
+package Servicios;
 
 import datos.DBInit;
 import datos.DBManager;
-import datos.Excepcion.DatabaseException;
-import datos.Excepcion.TablaException;
-import datos.Excepcion.UIException;
-import datos.Excepcion.PanelException;
+import datos.Excepcion.*;
 import datos.TableCreator;
 import presentacion.UIIniciador;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class AppManager {
 
@@ -22,15 +20,22 @@ public class AppManager {
     }
 
     public void iniciarCreacionTablas() throws TablaException {
-        try (Connection c = DBManager.connect()) {
+        Connection connection = DBManager.connect();
+        try {
             DBInit db = new DBInit(tableCreator);
-            db.crearTabla(c);
-            c.commit();
+            db.crearTabla(connection);
+            connection.commit();
         } catch (DatabaseException e) {
             e.printStackTrace();
             throw new TablaException("Error al crear la base de datos.",e);
         } catch (Exception e) {
             throw new TablaException("Error inesperado desde el iniciador de Creacion Tablas",e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new TablaException("Error al cerrar conexión: " + e.getMessage(), e);
+            }
         }
     }
 
