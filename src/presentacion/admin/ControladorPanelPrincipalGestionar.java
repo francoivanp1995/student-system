@@ -173,9 +173,9 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
                 panel.mostrarError("Debe seleccionar un usuario para eliminar.");
             }
         } catch (ServicioException e) {
-            panel.mostrarError("Error al eliminar el curso: " + e.getMessage());
+            panel.mostrarError("Error al eliminar el usuario ");
         } catch (Exception e) {
-            panel.mostrarError("Error inesperado: " + e.getMessage());
+            panel.mostrarError("Error inesperado ");
         }
     }
 

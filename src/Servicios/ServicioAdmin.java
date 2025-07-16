@@ -5,6 +5,7 @@ import datos.DAO.UsuarioDAOH2Impl;
 import datos.Excepcion.*;
 import datos.Usuario;
 import datos.Validacion.ValidarCurso;
+import datos.Validacion.ValidarUsuario;
 import presentacion.PanelManager;
 import presentacion.admin.PanelPrincipalAdmin;
 import datos.Curso;
@@ -17,7 +18,7 @@ public class ServicioAdmin {
     private final PanelManager panelManager;
     private final CursoDAOH2Impl cursoDAO = new CursoDAOH2Impl();
     private final UsuarioDAOH2Impl usuarioDAO = new UsuarioDAOH2Impl();
-    private ValidarCurso validadorCurso;
+//    private ValidarCurso validadorCurso;
 
     public ServicioAdmin(PanelPrincipalAdmin panelPrincipalAdmin, PanelManager panelManager) {
         this.panelPrincipalAdmin = panelPrincipalAdmin;
@@ -35,6 +36,7 @@ public class ServicioAdmin {
 
     public void crearCurso(Curso curso) throws ServicioException {
         try {
+            ValidarCurso.validar(curso);
             cursoDAO.crearCurso(curso);
         } catch (DAOException e) {
             e.printStackTrace();
@@ -62,7 +64,7 @@ public class ServicioAdmin {
 
     public void validarCurso(Curso nuevoCurso) throws ServicioException {
         try {
-            validadorCurso.validar(nuevoCurso);
+            ValidarCurso.validar(nuevoCurso);
         } catch (CursoException e) {
             e.printStackTrace();
             throw new ServicioException(e.getMessage());
@@ -80,8 +82,10 @@ public class ServicioAdmin {
 
     public void crearUsuario(Usuario usuario) throws ServicioException{
         try {
+            ValidarUsuario.validar(usuario);
             usuarioDAO.crearUsuario(usuario);
-        } catch (DAOException e) {
+            //Esta mal o bien si pongo en el catch ó? para catchear el error?
+        } catch (DAOException | ValidacionException e) {
             e.printStackTrace();
             throw new ServicioException(e.getMessage());
         }

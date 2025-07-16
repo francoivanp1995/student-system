@@ -1,5 +1,6 @@
 package datos.Validacion;
 
+import Servicios.LibreriaValidaciones;
 import datos.Curso;
 import datos.Excepcion.CursoException;
 
