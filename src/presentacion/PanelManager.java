@@ -66,17 +66,19 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
 					servicioAdmin = new ServicioAdmin(panelPrincipalAdmin, this);
 					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
+					//Aca chequeo el usuario y contrasenia, deberia ir en otro lado?
 					servicioUsuario = new ServicioUsuario(panelInicio, this);
 					panelPrincipalAdmin.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalAdmin);
 			}
 			case PROFESOR -> {
-				if (panelPrincipalProfesor == null)
+				if (panelPrincipalProfesor == null) {
 					panelPrincipalProfesor = new PanelPrincipalProfesor(this);
-					servicioProfesor = new ServicioProfesor(panelPrincipalProfesor,this);
-					ControladorPanelPrincipalProfesor controlador = new ControladorPanelPrincipalProfesor(panelPrincipalProfesor,this);
+					servicioProfesor = new ServicioProfesor(panelPrincipalProfesor, this);
+					ControladorPanelPrincipalProfesor controlador = new ControladorPanelPrincipalProfesor(panelPrincipalProfesor, this);
 					panelPrincipalProfesor.setListener(controlador);
+				}
 				mostrarPanel(panelPrincipalProfesor);
 			}
 			case ALUMNO -> {
@@ -113,6 +115,7 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelCursosAlumno() throws PanelException {
+		//Deberia chequear si el panelPrincipalAdmin se inicializó. Crear validación y poner en libreria!!
 		servicioAdmin = new ServicioAdmin(panelPrincipalAdmin,this);
 		List<Curso> cursos = servicioAdmin.obtenerTodosLosCursos();
 		AbstractTableModel modelo = new CursoAlumnoTableModel(cursos);
@@ -138,6 +141,7 @@ public class PanelManager implements ObtenerPanel {
 	}
 
 	public void mostrarPanelCursosProfesor() throws PanelException {
+		//Deberia chequear si el panelPrincipalAdmin se inicializó. Crear validación y poner en libreria.
 		servicioAdmin = new ServicioAdmin(panelPrincipalAdmin,this);
 		List<Curso> cursos = servicioProfesor.obtenerMisCursos(usuarioLogueado.getId());
 		AbstractTableModel modelo = new CursoProfesorTableModel(cursos);
@@ -172,12 +176,12 @@ public class PanelManager implements ObtenerPanel {
 
 	@Override
 	public PanelPrincipalGestionar getPanelGestionarCurso() {
-		return null;
+		return panelPrincipalGestionarCurso;
 	}
 
 	@Override
 	public PanelPrincipalGestionar getPanelGestionarUsuario() {
-		return null;
+		return panelGestionarUsuario;
 	}
 
 	public Usuario getUsuarioLogueado() {

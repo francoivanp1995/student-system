@@ -13,6 +13,7 @@ public class Main {
 		try {
 			app.iniciarAplicacion();
 		}catch (TablaException e) {
+			//Printeo para la consola tambien.
 			e.printStackTrace();
 			System.err.println("Error al inicializar la base de datos: " + e.getMessage());
 		} catch (UIException e) {

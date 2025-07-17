@@ -14,7 +14,7 @@ public class DBInit {
             TableCreator.crearTabla(connection);
             connection.commit();
             //tambien tengo que catchear el error de sql, che!
-        } catch (DatabaseException e) {
+        } catch (DatabaseException  e) {
             throw new TablaException("Error al crear la base de datos", e);
         } catch (Exception e) {
             throw new TablaException("Error inesperado al inicializar la base de datos", e);
