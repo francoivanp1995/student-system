@@ -15,7 +15,18 @@ public class AppManager {
     }
 
     public void iniciarAplicacion() throws TablaException, UIException {
-        dbIniciador.inicializarBaseDeDatos();
-        uiIniciador.iniciarFrame();
+        try {
+            dbIniciador.inicializarBaseDeDatos();
+            uiIniciador.iniciarFrame();
+        } catch (TablaException e) {
+            e.printStackTrace();
+            //Subo la excepcion hasta el main.
+            throw e;
+        } catch (UIException e) {
+            e.printStackTrace();
+            //Subo la excepcion hasta el main.
+            throw e;
+        }
     }
+
 }
