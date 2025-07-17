@@ -203,7 +203,7 @@ public class ControladorPanelPrincipalGestionar implements ActionListener {
 
     private void exportarCurso() {
         try {
-            // Pedir archivo al usuario
+            // aca le pido el archivo al usuario
             JFileChooser fileChooser = new JFileChooser();
             int opcion = fileChooser.showSaveDialog(panel);
             if (opcion == JFileChooser.APPROVE_OPTION) {

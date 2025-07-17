@@ -15,12 +15,12 @@ public class Main {
 		} catch (TablaException e) {
 			e.printStackTrace();
 		JOptionPane.showMessageDialog(null, "Error al inicializar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-	} catch (UIException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error al iniciar la interfaz de usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-	} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error inesperado abriendo la apliaccion. " , "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (UIException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error al iniciar la interfaz de usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error inesperado abriendo la apliaccion. " , "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
