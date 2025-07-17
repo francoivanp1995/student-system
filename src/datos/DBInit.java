@@ -22,7 +22,7 @@ public class DBInit {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new TablaException("Error al cerrar conexión: " + e);
+                throw new TablaException("Error al cerrar conexión: ", e);
             }
         }
     }

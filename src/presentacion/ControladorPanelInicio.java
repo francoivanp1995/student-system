@@ -30,7 +30,8 @@ public class ControladorPanelInicio implements ActionListener {
                 String contrasenia = new String(panelInicio.getContrasena());
                 try {
                     Usuario u = servicioUsuario.login(usuario, contrasenia);
-                    //No me gusta eso de arrojar aca el mensaje. Deberia ir en otro lado?
+                    //No me gusta eso de arrojar aca el mensaje. Tampoco deberia ir en panel Manager. Aunque maneja mi logica
+                    // de presentar paneles dependiendo del tipo de usuario que eso.
                     if (u == null) {
                         panelInicio.mostrarError("Credenciales inválidas. Por favor, intente de nuevo.");
                     } else {

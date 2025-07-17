@@ -66,8 +66,9 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalAdmin = new PanelPrincipalAdmin(this);
 					servicioAdmin = new ServicioAdmin(panelPrincipalAdmin, this);
 					ControladorPanelPrincipalAdmin controlador = new ControladorPanelPrincipalAdmin(panelPrincipalAdmin,this);
-					//Aca chequeo el usuario y contrasenia, deberia ir en otro lado?
+					//Aca debería chequear el usuario y contrasenia, esto no esta chequeando, lo estoy probando desde controlador. Eso no me gusta
 					servicioUsuario = new ServicioUsuario(panelInicio, this);
+					servicioUsuario.validarUsuario(getUsuarioLogueado());
 					panelPrincipalAdmin.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalAdmin);
@@ -77,6 +78,9 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalProfesor = new PanelPrincipalProfesor(this);
 					servicioProfesor = new ServicioProfesor(panelPrincipalProfesor, this);
 					ControladorPanelPrincipalProfesor controlador = new ControladorPanelPrincipalProfesor(panelPrincipalProfesor, this);
+					//Aca debería chequear el usuario y contrasenia, esto no esta chequeando, lo estoy probando desde controlador. Eso no me gusta
+					servicioUsuario = new ServicioUsuario(panelInicio, this);
+					servicioUsuario.validarUsuario(getUsuarioLogueado());
 					panelPrincipalProfesor.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalProfesor);
@@ -86,6 +90,9 @@ public class PanelManager implements ObtenerPanel {
 					panelPrincipalAlumno = new PanelPrincipalAlumno(this);
 					servicioAlumno = new ServicioAlumno(panelPrincipalAlumno, this);
 					ControladorPanelPrincipalAlumno controlador = new ControladorPanelPrincipalAlumno(panelPrincipalAlumno, this);
+					//Aca debería chequear el usuario y contrasenia, esto no esta chequeando, lo estoy probando desde controlador. Eso no me gusta
+					servicioUsuario = new ServicioUsuario(panelInicio, this);
+					servicioUsuario.validarUsuario(getUsuarioLogueado());
 					panelPrincipalAlumno.setListener(controlador);
 				}
 				mostrarPanel(panelPrincipalAlumno);

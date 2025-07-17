@@ -4,8 +4,6 @@ import Servicios.AppManager;
 import datos.Excepcion.TablaException;
 import datos.Excepcion.UIException;
 
-import javax.swing.*;
-
 public class Main {
 
 	public static void main(String[] args) {
