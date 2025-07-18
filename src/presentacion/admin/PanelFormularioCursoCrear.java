@@ -27,7 +27,7 @@ public class PanelFormularioCursoCrear extends PanelFormularioBase<Curso> {
         campoCupo = new PanelCampoFormulario("Cupo:");
         campoPrecio = new PanelCampoFormulario("Precio:");
         campoNotaAprobacion = new PanelCampoFormulario("Nota de Aprobación:");
-        campoProfesor = new PanelCampoFormulario("Profesor:");
+        campoProfesor = new PanelCampoFormulario("Profesor DNI:");
 
         add(campoNombre);
         add(campoCupo);
