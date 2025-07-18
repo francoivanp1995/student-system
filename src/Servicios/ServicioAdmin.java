@@ -25,6 +25,9 @@ public class ServicioAdmin {
         this.panelManager = panelManager;
     }
 
+    //ToDO
+    //Usar SwingWorker doInBackground para consultas a la DB.
+
     public List<Curso> obtenerTodosLosCursos() throws ServicioException{
         try {
            return cursoDAO.listaTodosLosCursos();
